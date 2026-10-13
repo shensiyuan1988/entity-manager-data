@@ -371,16 +371,30 @@ function saveEditToSupabase(itemCode,editData){
     'apikey':SUPA_KEY,
     'Content-Type':'application/json',
     'Authorization':'Bearer '+SUPA_KEY,
-    'Prefer':'resolution=merge-duplicates'
+    'Prefer':'return=minimal'
   };
-  return fetch(SUPA_URL+'/rest/v1/item_edits',{
-    method:'POST',
+  // 先尝试更新，如果不存在则插入
+  return fetch(SUPA_URL+'/rest/v1/item_edits?item_code=eq.'+encodeURIComponent(itemCode),{
+    method:'PATCH',
     headers:headers,
     body:JSON.stringify({
-      item_code:itemCode,
       edit_data:editData,
       updated_at:new Date().toISOString()
     })
+  }).then(function(r){
+    if(r.status===406||r.status===404){
+      // 不存在，插入新记录
+      return fetch(SUPA_URL+'/rest/v1/item_edits',{
+        method:'POST',
+        headers:headers,
+        body:JSON.stringify({
+          item_code:itemCode,
+          edit_data:editData,
+          updated_at:new Date().toISOString()
+        })
+      });
+    }
+    return r;
   }).then(function(r){
     if(!r.ok){
       console.warn('Supabase保存失败:',r.status,r.statusText);
