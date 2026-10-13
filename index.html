@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>事项数据管理系统</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pri:#1a73e8;--pri-l:#e8f0fe;--pri-d:#1557b0;
+  --bg:#f5f7fa;--card:#fff;--border:#dfe3e8;
+  --t1:#202124;--t2:#5f6368;--t3:#9aa0a6;
+  --ok:#34a853;--warn:#f9ab00;--err:#ea4335;
+  --r:8px;--shadow:0 1px 3px rgba(0,0,0,.08);
+  --sidebar-w:320px;
+}
+html{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--t1);height:100%;display:flex;flex-direction:column;overflow:hidden;line-height:1.5}
+a{color:var(--pri);text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* === Header === */
+.app-header{background:var(--pri);color:#fff;padding:10px 20px;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.app-header h1{font-size:17px;font-weight:600;white-space:nowrap}
+.app-header .stats{font-size:12px;opacity:.85;margin-left:auto;white-space:nowrap}
+
+/* === Layout === */
+.app-body{display:flex;flex:1;overflow:hidden}
+
+/* === Sidebar === */
+.sidebar{width:var(--sidebar-w);min-width:var(--sidebar-w);background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+.search-box{padding:10px 12px;border-bottom:1px solid var(--border)}
+.search-box{position:relative}
+.search-box::before{content:'🔍';position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:13px;pointer-events:none;opacity:.5}
+.search-box input{width:100%;padding:7px 12px 7px 32px;border:1px solid var(--border);border-radius:20px;font-size:13px;outline:none;background:var(--bg);transition:border-color .2s}
+.search-box input:focus{border-color:var(--pri);background-color:#fff}
+.filter-bar{display:flex;gap:4px;padding:6px 12px;border-bottom:1px solid var(--border);flex-wrap:wrap}
+.fbtn{padding:3px 10px;border:1px solid var(--border);border-radius:12px;font-size:11px;background:#fff;cursor:pointer;color:var(--t2);transition:all .15s;white-space:nowrap}
+.fbtn:hover{border-color:var(--pri);color:var(--pri)}
+.fbtn.on{background:var(--pri);color:#fff;border-color:var(--pri)}
+.item-list{flex:1;overflow-y:auto;overflow-x:hidden}
+.item-row{padding:8px 14px;cursor:pointer;border-bottom:1px solid #f2f2f2;transition:background .12s}
+.item-row:hover{background:var(--pri-l)}
+.item-row.sel{background:var(--pri-l);border-left:3px solid var(--pri);padding-left:11px}
+.item-row .iname{font-size:13px;font-weight:500;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.item-row .imeta{font-size:11px;color:var(--t3);margin-top:3px;display:flex;gap:8px}
+.item-row .imeta .has{color:var(--ok)}
+.pag{padding:6px 12px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:center;gap:2px;flex-shrink:0}
+.pag button{padding:3px 7px;border:1px solid var(--border);border-radius:4px;background:#fff;cursor:pointer;font-size:11px;color:var(--t2)}
+.pag button:hover{background:var(--pri-l)}
+.pag button.cur{background:var(--pri);color:#fff;border-color:var(--pri)}
+.pag button:disabled{opacity:.35;cursor:default}
+
+/* === Content === */
+.content{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.cnt-header{padding:14px 20px 0;background:var(--card);border-bottom:1px solid var(--border);flex-shrink:0}
+.cnt-title{font-size:15px;font-weight:600;line-height:1.4;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cnt-sub{font-size:12px;color:var(--t2);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tabs{display:flex;gap:0;margin-top:10px}
+.tab{padding:7px 18px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:var(--t2);transition:all .12s;white-space:nowrap;display:flex;align-items:center;gap:4px}
+.tab:hover{color:var(--pri)}
+.tab.on{color:var(--pri);border-bottom-color:var(--pri);font-weight:500}
+.tab .bdg{display:inline-flex;align-items:center;justify-content:center;min-width:18px;height:18px;border-radius:9px;font-size:10px;font-weight:600;padding:0 5px}
+.bdg-y{background:var(--pri-l);color:var(--pri)}
+.bdg-n{background:#f0f0f0;color:var(--t3)}
+.tab-body{flex:1;overflow-y:auto;overflow-x:hidden;background:var(--card);padding:16px 20px}
+
+/* === Action Bar === */
+.act-bar{padding:10px 20px;background:var(--card);border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end;flex-shrink:0}
+.btn{padding:6px 14px;border-radius:var(--r);font-size:12px;cursor:pointer;border:1px solid var(--border);background:#fff;color:var(--t1);transition:all .15s;display:inline-flex;align-items:center;gap:4px}
+.btn:hover{background:#f5f5f5}
+.btn-p{background:var(--pri);color:#fff;border-color:var(--pri)}
+.btn-p:hover{background:var(--pri-d)}
+.btn:disabled{opacity:.5;cursor:default}
+
+/* === Empty === */
+.empty{text-align:center;padding:60px 20px;color:var(--t3)}
+.empty .ei{font-size:40px;margin-bottom:12px;opacity:.5}
+.empty .et{font-size:13px}
+
+/* === 受理条件 === */
+.cond-orig{margin-bottom:14px;padding:10px 14px;background:#f0f4f8;border-radius:var(--r);border-left:3px solid var(--pri)}
+.cond-orig-label{font-size:11px;color:var(--t3);margin-bottom:2px}
+.cond-orig-text{font-size:13px;line-height:1.6}
+.cond-meta{margin-bottom:10px;padding:8px 12px;background:#f8fafc;border-radius:var(--r);display:flex;gap:8px;align-items:baseline;font-size:12px}
+.cm-label{color:var(--t3);font-weight:500;white-space:nowrap}
+.cm-val{color:var(--t1);line-height:1.5}
+.sc-stats{padding:8px 12px;background:#fafbfc;border-bottom:1px solid #f0f0f0;display:flex;gap:12px;flex-wrap:wrap;font-size:11px}
+.sc-stat{color:var(--t2);display:flex;align-items:center;gap:3px}
+.sc-stat b{color:var(--t1);font-weight:600}
+.sc-stat.dr b{color:#0d7a3e}
+.sc-stat.mj b{color:#b35c00}
+.sc-stat.rel{margin-left:auto;color:var(--t3)}
+.sc-stat.rel b{color:var(--pri);font-size:12px}
+.sc-logic{padding:8px 12px;margin:0;background:#f5f8fb;border-top:1px solid #f0f0f0;font-size:12px;display:flex;gap:8px;align-items:baseline}
+.sl-label{color:var(--t3);font-weight:500;white-space:nowrap}
+.sl-val{font-family:'Menlo','Consolas',monospace;font-size:12px;color:var(--pri);font-weight:500}
+.sc-action{padding:8px 12px;background:#e8f5e9;border-top:1px solid #c8e6c9;font-size:12px;display:flex;gap:8px;align-items:baseline}
+.sa-label{color:#2e7d32;font-weight:500;white-space:nowrap}
+.sa-val{color:#1b5e20;font-weight:600}
+.sc-card{border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.sc-hd{padding:10px 14px;background:#f5f8fb;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.sc-name{font-size:13px;font-weight:500}
+.sc-tog{font-size:11px;color:var(--t3);cursor:pointer;user-select:none}
+.sc-tog:hover{color:var(--pri)}
+.cd-row{padding:8px 14px;display:flex;align-items:flex-start;gap:10px;border-bottom:1px solid #f5f5f5}
+.cd-row:last-child{border-bottom:none}
+.cd-idx{width:22px;height:22px;border-radius:50%;background:var(--pri-l);color:var(--pri);font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.cd-body{flex:1;min-width:0}
+.cd-desc{font-size:13px;line-height:1.5}
+.cd-tags{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.cd-tag{font-size:11px;padding:1px 7px;border-radius:10px;white-space:nowrap}
+.cd-tag.dr{background:#e6f4ea;color:#137333}
+.cd-tag.nd{background:#fce8e6;color:#c5221f}
+.cd-tag.info{background:#f0f0f0;color:var(--t2)}
+.cd-tag.note{background:#fff3e0;color:#e65100}
+.cd-notes-display{margin-top:6px;padding:6px 10px;background:#fff8e1;border-left:3px solid #ffb300;border-radius:4px;font-size:12px;color:#5d4037;line-height:1.6;white-space:pre-wrap;word-break:break-word}
+.cnt-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.cnt-tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;background:var(--pri-l);color:var(--pri);font-weight:500}
+.mat-tbl,.res-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+.mat-tbl th,.mat-tbl td,.res-tbl th,.res-tbl td{padding:8px 10px;text-align:left;border-bottom:1px solid var(--border)}
+.mat-tbl th,.res-tbl th{background:#f8f9fa;font-weight:600;color:var(--t2);font-size:11px;white-space:nowrap;position:sticky;top:0}
+.mat-tbl tr:hover,.res-tbl tr:hover{background:#f8f9fa}
+.mat-type{display:inline-block;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:500}
+.mat-type-necessary{background:#fce4ec;color:#c62828}
+.mat-type-optional{background:#e8f5e9;color:#2e7d32}
+.res-type{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;background:#e3f2fd;color:#1565c0}
+.info-card{background:#f8f9fa;border-radius:var(--r);padding:12px 16px;margin-bottom:16px;border:1px solid var(--border)}
+.info-card-row{display:flex;gap:12px;margin-bottom:6px;font-size:12px;line-height:1.5}
+.info-card-row:last-child{margin-bottom:0}
+.info-card-label{color:var(--t2);min-width:80px;flex-shrink:0}
+.info-card-value{color:var(--t1);word-break:break-word}
+.cd-row.cd-edit{border:1px solid #e8e8e8;border-radius:8px;padding:12px 14px;margin-bottom:8px;background:#fafbfc}
+.cd-edit-row{margin-bottom:6px}
+.cd-edit-row label{display:block;font-size:11px;color:var(--t3);margin-bottom:3px;font-weight:500}
+.cd-edit-row textarea{width:100%;border:1px solid #d9d9d9;border-radius:6px;padding:6px 8px;font-size:13px;line-height:1.5;resize:vertical;font-family:inherit;box-sizing:border-box}
+.cd-edit-row textarea:focus,.cd-edit-row input:focus{outline:none;border-color:var(--pri)}
+.cd-edit-row input[type="text"]{width:100%;border:1px solid #d9d9d9;border-radius:6px;padding:5px 8px;font-size:12px;box-sizing:border-box}
+.cd-edit-inline{display:flex;gap:12px;align-items:center}
+.cd-edit-inline label{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--t2);margin-bottom:0}
+.cd-edit-inline input[type="checkbox"]{accent-color:var(--pri)}
+.cd-edit-inline input[type="text"]{flex:1}
+.btn-del{background:#fff1f0;color:#cf1322;border:1px solid #ffa39e;font-size:11px;padding:2px 10px;border-radius:6px;cursor:pointer}
+.btn-del:hover{background:#cf1322;color:#fff}
+
+/* === 政策依据 === */
+.reg-intro{font-size:12px;color:var(--t2);margin-bottom:10px}
+.reg-card{border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
+.reg-hd{padding:10px 14px;background:#fff;border-bottom:1px solid #f0f0f0;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .12s;flex-wrap:wrap}
+.reg-hd:hover{background:#fafbfc}
+.reg-hd .rn{font-size:13px;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.reg-hd .rd{font-size:11px;color:var(--t3);flex-shrink:0}
+.reg-hd .ra{font-size:12px;color:var(--t3);transition:transform .2s;flex-shrink:0}
+.reg-hd .ra.open{transform:rotate(90deg)}
+.reg-status{display:inline-block;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:500}
+.reg-status.valid{background:#e6f4ea;color:#137333}
+.reg-status.other{background:#f0f0f0;color:var(--t2)}
+.reg-bd{display:none;padding:0;border-top:1px solid #f0f0f0;background:#fafbfc}
+.reg-bd.open{display:block}
+.reg-meta-bar{padding:10px 14px;display:flex;gap:12px;flex-wrap:wrap;border-bottom:1px solid #eee;background:#f8fafc}
+.reg-meta-item{font-size:11px;color:var(--t2);display:flex;align-items:center;gap:3px}
+.reg-meta-item strong{color:var(--t1);font-weight:500}
+.reg-section{padding:10px 14px}
+.reg-section-title{font-size:12px;font-weight:600;color:var(--pri);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.reg-section-title::before{content:'';display:inline-block;width:3px;height:12px;background:var(--pri);border-radius:2px}
+.ref-clause{padding:8px 10px;background:#fff;border-radius:6px;margin-bottom:6px;border-left:3px solid var(--pri)}
+.ref-clause-num{font-size:11px;font-weight:600;color:var(--pri);margin-bottom:2px}
+.ref-clause-content{font-size:13px;line-height:1.6;color:var(--t1)}
+.ref-clause-edit{padding:10px 12px;background:#f8f9ff;border:1px solid #e0e4f0;border-radius:8px;margin-bottom:8px}
+.ref-clause-edit-row{display:grid;grid-template-columns:60px 1fr 70px 1fr;gap:6px;align-items:center}
+.ref-clause-edit-row label{font-size:11px;color:var(--t3);font-weight:500}
+.reg-inp-cn,.reg-inp-cc{border:1px solid #d9d9d9;border-radius:5px;padding:4px 8px;font-size:12px;width:100%;box-sizing:border-box}
+.reg-inp-cn:focus,.reg-inp-cc:focus{outline:none;border-color:var(--pri)}
+.reg-article{padding:8px 10px;border-bottom:1px solid #f0f0f0}
+.reg-article:last-child{border-bottom:none}
+.reg-article.highlight{background:#fffbe6;border-left:3px solid var(--warn)}
+.reg-json-block{margin:0 14px 14px;padding:12px;background:#1e1e2e;color:#cdd6f4;border-radius:8px;font-family:'Menlo','Consolas','Courier New',monospace;font-size:11px;line-height:1.5;overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:500px;overflow-y:auto}
+.reg-json-block .json-key{color:#89b4fa}
+.reg-json-block .json-str{color:#a6e3a1}
+.reg-json-block .json-num{color:#fab387}
+.reg-json-block .json-bool{color:#cba6f7}
+.reg-json-block .json-null{color:#6c7086}
+.reg-json-block .json-highlight{background:rgba(250,204,21,0.15);display:inline}
+.reg-article-title{font-size:12px;color:var(--t1);margin-bottom:2px}
+.reg-article-content{font-size:12px;line-height:1.5;color:var(--t2)}
+.reg-article-type{display:inline-block;padding:0 5px;border-radius:6px;font-size:10px;background:#f0f0f0;color:var(--t2);margin-left:6px}
+.reg-article-note{margin-top:4px;padding:6px 8px;background:#f5f5f5;border-radius:4px;font-size:11px;color:var(--t2);line-height:1.5}
+.reg-toggle-articles{padding:8px 14px;text-align:center;cursor:pointer;font-size:12px;color:var(--pri);border-top:1px solid #f0f0f0}
+.reg-toggle-articles:hover{background:var(--pri-l)}
+.reg-source-link{font-size:11px;color:var(--pri)}
+
+/* === 申请表 === */
+.fm-info{display:flex;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.fm-info span{font-size:12px;color:var(--t2)}
+.fm-info strong{color:var(--t1);font-weight:500}
+.fm-note{display:flex;align-items:flex-start;gap:8px;padding:10px 14px;background:#fff8e1;border:1px solid #ffe082;border-radius:8px;margin-bottom:14px;font-size:13px;color:#5d4037;line-height:1.5}
+.fm-note.empty{background:#f5f5f5;border-color:#e0e0e0;color:var(--t3)}
+.fm-note-icon{font-size:16px;flex-shrink:0;line-height:1.3}
+.fm-note-text{flex:1;white-space:pre-wrap;word-break:break-word}
+.fm-note-edit{flex-shrink:0;padding:2px 10px;font-size:11px;background:#fff;border:1px solid #ffe082;border-radius:4px;color:#f57c00;cursor:pointer;transition:all .15s}
+.fm-note-edit:hover{background:#fff3e0;border-color:#ffb74d}
+.note-wrap{padding:8px 0;max-width:780px;margin:0 auto}
+.note-section{margin-bottom:16px;border:1px solid #e5e7eb;border-radius:10px;overflow:hidden}
+.note-section-hd{display:flex;align-items:center;gap:8px;padding:10px 16px;font-size:13px;font-weight:600;color:#fff}
+.note-section-hd.pre{background:#6366f1}
+.note-section-hd.post{background:#059669}
+.note-section-hd.form-tip{background:#d97706}
+.note-section-hd.other{background:#6b7280}
+.note-section-body{padding:12px 16px;font-size:13px;line-height:1.8;color:var(--t2);white-space:pre-wrap;word-break:break-word;background:#fafafa}
+.note-section-body.empty-hint{color:var(--t3);font-style:italic}
+.note-edit-section{margin-bottom:14px}
+.note-edit-section label{display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:4px}
+.note-edit-section textarea{width:100%;border:1px solid #d1d5db;border-radius:6px;padding:8px 10px;font-size:13px;line-height:1.6;resize:vertical;font-family:inherit}
+.field-filter-bar{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px;padding:8px 12px;background:#f8f9fa;border-radius:8px;border:1px solid #e9ecef}
+.field-filter-group{display:flex;align-items:center;gap:4px}
+.field-filter-group label{font-size:11px;color:var(--t2);white-space:nowrap;font-weight:500}
+.field-filter-group select{border:1px solid #d0d5dd;border-radius:5px;padding:3px 6px;font-size:11px;background:#fff;color:var(--t1);max-width:140px;cursor:pointer}
+.field-filter-group select:focus{outline:none;border-color:var(--pri)}
+.field-filter-reset{font-size:11px;padding:3px 10px;border:1px solid #d0d5dd;border-radius:5px;background:#fff;color:var(--t2);cursor:pointer}
+.field-filter-reset:hover{background:#f0f0f0}
+.ftbl-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table.ftbl{width:100%;border-collapse:collapse;font-size:12px;min-width:700px}
+.ftbl th{background:#f0f4f8;padding:7px 10px;text-align:left;font-weight:500;color:var(--t2);border-bottom:2px solid var(--border);position:sticky;top:0;z-index:1;white-space:nowrap}
+.ftbl td{padding:7px 10px;border-bottom:1px solid #f0f0f0;vertical-align:top}
+.ftbl tr:hover td{background:#fafbfc}
+.ftbl .fn{font-weight:500}
+.ttag{display:inline-block;padding:1px 7px;border-radius:10px;font-size:11px;font-weight:500;white-space:nowrap}
+.ttag.text{background:#e8f0fe;color:#1a73e8}
+.ttag.number{background:#e6f4ea;color:#137333}
+.ttag.date{background:#fef7e0;color:#b06000}
+.ttag.select{background:#f3e8fd;color:#7627bb}
+.ttag.textarea{background:#e8f0fe;color:#1a73e8}
+.ttag.attachment{background:#fce8e6;color:#c5221f}
+.ttag.signature{background:#fff3e0;color:#e65100}
+.ttag.image{background:#e0f7fa;color:#00838f}
+.req-y{color:var(--err);font-weight:500}
+.req-n{color:var(--t3)}
+
+/* === Dimension Tags === */
+.dtag{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;white-space:nowrap;margin:2px 1px;line-height:1.4;cursor:default;border:1px solid transparent}
+.dtag.主体{background:#e8f0fe;color:#1a73e8;border-color:#1a73e830}
+.dtag.客体{background:#e6f4ea;color:#0d7a3e;border-color:#0d7a3e30}
+.dtag.空间{background:#e0f7fa;color:#00708a;border-color:#00708a30}
+.dtag.凭证{background:#fff3e0;color:#b35c00;border-color:#b35c0030}
+.dtag.载体{background:#f3e8fd;color:#7b1fa2;border-color:#7b1fa230}
+.dtag .di{font-size:11px;line-height:1}
+#dim-tip{position:fixed;background:linear-gradient(135deg,#1a1a2e,#16213e);color:#fff;padding:10px 16px;border-radius:10px;font-size:12px;font-weight:400;pointer-events:none;opacity:0;transition:opacity .15s;z-index:99999;max-width:300px;line-height:1.7;box-shadow:0 8px 24px rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08)}
+#dim-tip .dt-title{font-weight:600;font-size:13px;margin-bottom:2px}
+#dim-tip .dt-desc{opacity:.85;font-size:11px}
+#dim-tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#16213e}
+.dim-cell{display:flex;flex-wrap:wrap;align-items:center;gap:2px;min-width:90px}
+
+/* === Modal === */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;display:none;align-items:center;justify-content:center}
+.modal-bg.show{display:flex}
+.modal{background:#fff;border-radius:12px;width:520px;max-width:92vw;max-height:82vh;display:flex;flex-direction:column;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.modal-hd{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-hd h3{font-size:14px;font-weight:600}
+.modal-x{width:26px;height:26px;border:none;background:none;font-size:17px;cursor:pointer;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--t2)}
+.modal-x:hover{background:#f0f0f0}
+.modal-bd{padding:16px 18px;overflow-y:auto;flex:1}
+.fg{margin-bottom:12px}
+.fg label{display:block;font-size:12px;font-weight:500;color:var(--t2);margin-bottom:3px}
+.fg input,.fg select,.fg textarea{width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;outline:none;font-family:inherit}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--pri)}
+.modal-ft{padding:10px 18px;border-top:1px solid var(--border);display:flex;gap:6px;justify-content:flex-end}
+
+/* === Toast === */
+.toast{position:fixed;top:16px;right:16px;padding:10px 18px;background:#323232;color:#fff;border-radius:var(--r);font-size:13px;z-index:9999;opacity:0;transform:translateY(-8px);transition:opacity .25s,transform .25s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.ok{background:var(--ok)}
+.toast.err{background:var(--err)}
+
+/* === Responsive === */
+@media(max-width:768px){
+  .sidebar{width:100%;min-width:0;max-height:40vh;border-right:none;border-bottom:1px solid var(--border)}
+  .app-body{flex-direction:column}
+  .cnt-title{font-size:14px}
+  .tab{padding:6px 12px;font-size:12px}
+}
+
+/* === Print === */
+@media print{
+  .sidebar,.search-box,.filter-bar,.pag,.act-bar,.tabs,.modal-bg,.toast{display:none!important}
+  .app-body{display:block}
+  .content{overflow:visible}
+  .tab-body{overflow:visible;padding:0}
+  .sc-bd,.reg-bd{display:block!important}
+  body{background:#fff}
+}
+</style>
+</head>
+<body>
+<div id="dim-tip"></div>
+<header class="app-header">
+<h1>📋 事项数据管理系统</h1>
+<span class="stats" id="hStats">加载中…</span>
+</header>
+
+<div class="app-body">
+<nav class="sidebar" aria-label="事项列表">
+<div class="search-box"><input type="search" id="sInput" placeholder="搜索事项名称、部门、编码…" aria-label="搜索事项"></div>
+<div class="filter-bar" id="fBar">
+<button class="fbtn on" data-f="all">全部</button>
+<button class="fbtn" data-f="cond">有受理条件</button>
+<button class="fbtn" data-f="reg">有法规</button>
+<button class="fbtn" data-f="fld">有表单</button>
+</div>
+<div style="padding:4px 12px;border-bottom:1px solid var(--border);display:flex;gap:6px;align-items:center">
+<select id="areaFilter" style="flex:1;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;background:#fff;color:var(--t2);outline:none;cursor:pointer">
+<option value="">全部区域</option>
+</select>
+<select id="typeFilter" style="flex:1;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-size:11px;background:#fff;color:var(--t2);outline:none;cursor:pointer">
+<option value="">全部类型</option>
+</select>
+</div>
+<div class="item-list" id="iList" role="listbox" aria-label="事项列表"></div>
+<div class="pag" id="pag"></div>
+</nav>
+
+<main class="content" id="mainArea">
+<div class="empty"><div class="ei">📋</div><div class="et">请从左侧列表选择一个事项</div></div>
+</main>
+</div>
+
+<div class="toast" id="toast"></div>
+<div class="modal-bg" id="mBg" onclick="if(event.target===this)closeM()"><div class="modal" id="mBox"></div></div>
+
+<script>
+(function(){
+'use strict';
+var SUPA_URL='https://yhoiagabsftraufbinpa.supabase.co';
+var SUPA_KEY='sb_publishable_ngi2NNLWbWH92hTD_kLLJA_lTJQC3d9';
+var PS=30;
+var TM={text:'文本',number:'数字',date:'日期',select:'下拉选择',textarea:'多行文本',attachment:'附件上传',signature:'签名',image:'图片'};
+var EM={'自然人':'自然人','法人/企业':'法人/企业','社会组织':'社会组织','事业单位':'事业单位','其他':'其他','表单/申请':'表单/申请','空间/地址':'空间/地址','项目/事项':'项目/事项','证照/许可':'证照/许可','凭证':'凭证'};
+var EM_KEYS=['自然人','法人/企业','社会组织','事业单位','其他','表单/申请','空间/地址','项目/事项','证照/许可','凭证'];
+var EM_COLORS={'自然人':'#1a73e8','法人/企业':'#e8710a','社会组织':'#9c27b0','事业单位':'#00897b','其他':'#78909c','表单/申请':'#6d4c9f','空间/地址':'#0d8050','项目/事项':'#c5221f','证照/许可':'#1a9da0','凭证':'#b35c00'};
+var items=[],filtered=[],cur=null,curTab=0,curF='all',page=1;
+var fieldFilter={type:'',std:'',ent:'',dim:''};
+window.fieldFilter=fieldFilter;
+var localEdits={};
+var STORAGE_KEY='entity_mgr_edits_v1';
+var useSupabase=true; // 尝试使用Supabase存储
+
+// 从Supabase加载编辑数据
+function loadEditsFromSupabase(){
+  if(!useSupabase||!SUPA_KEY)return Promise.resolve({});
+  return fetch(SUPA_URL+'/rest/v1/item_edits?select=item_code,edit_data',{
+    headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}
+  }).then(function(r){
+    if(!r.ok)throw new Error('Supabase查询失败');
+    return r.json();
+  }).then(function(rows){
+    var edits={};
+    for(var i=0;i<rows.length;i++){
+      edits[rows[i].item_code]=rows[i].edit_data;
+    }
+    return edits;
+  }).catch(function(e){
+    console.warn('Supabase加载失败，使用localStorage:',e.message);
+    useSupabase=false;
+    return loadLocalEdits();
+  });
+}
+
+// 保存编辑到Supabase
+function saveEditToSupabase(itemCode,editData){
+  if(!useSupabase||!SUPA_KEY)return Promise.resolve();
+  var headers={'apikey':SUPA_KEY,'Content-Type':'application/json','Authorization':'Bearer '+SUPA_KEY};
+  return fetch(SUPA_URL+'/rest/v1/item_edits',{
+    method:'POST',
+    headers:headers,
+    body:JSON.stringify({
+      item_code:itemCode,
+      edit_data:editData,
+      updated_at:new Date().toISOString()
+    })
+  }).then(function(r){
+    if(r.status===409){
+      // 已存在，更新
+      return fetch(SUPA_URL+'/rest/v1/item_edits?item_code=eq.'+encodeURIComponent(itemCode),{
+        method:'PATCH',
+        headers:headers,
+        body:JSON.stringify({
+          edit_data:editData,
+          updated_at:new Date().toISOString()
+        })
+      });
+    }
+    return r;
+  }).catch(function(e){
+    console.warn('Supabase保存失败:',e.message);
+    useSupabase=false;
+  });
+}
+
+function loadLocalEdits(){
+  try{var s=localStorage.getItem(STORAGE_KEY);if(s)return JSON.parse(s);}catch(e){}
+  return {};
+}
+function saveLocalEdits(edits){
+  try{localStorage.setItem(STORAGE_KEY,JSON.stringify(edits));}catch(e){}
+}
+function persistItem(it){
+  var editData=JSON.parse(JSON.stringify(it));
+  // 同时保存到localStorage和Supabase
+  var edits=loadLocalEdits();
+  edits[it.c]=editData;
+  saveLocalEdits(edits);
+  // 异步保存到Supabase
+  saveEditToSupabase(it.c,editData);
+}
+function clearLocalEdits(){
+  localStorage.removeItem(STORAGE_KEY);
+  // 清除Supabase数据
+  if(useSupabase&&SUPA_KEY){
+    fetch(SUPA_URL+'/rest/v1/item_edits',{
+      method:'DELETE',
+      headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}
+    }).catch(function(e){console.warn('Supabase清除失败:',e.message);});
+  }
+  toast('本地缓存已清除，重新加载原始数据','ok');
+  loadData();
+}
+window.clearLocalEdits=clearLocalEdits;
+
+function esc(s){if(!s)return '';var d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+function toast(m,t){var e=document.getElementById('toast');e.textContent=m;e.className='toast show'+(t?' '+t:'');setTimeout(function(){e.className='toast';},2500);}
+
+function getRegs(it){return it.regs||it.r||[];}
+function getRegCount(it){var r=getRegs(it);return r?r.length:0;}
+
+function loadData(){
+  fetch('items_data.json').then(function(r){return r.json();}).then(function(d){
+    // 异步加载编辑数据（优先Supabase，失败则localStorage）
+    loadEditsFromSupabase().then(function(edits){
+      var editCount=0;
+      if(edits&&typeof edits==='object'){
+        for(var i=0;i<d.length;i++){
+          if(edits[d[i].c]){
+            var keys=Object.keys(edits[d[i].c]);
+            for(var k=0;k<keys.length;k++){
+              if(keys[k]!=='c'&&keys[k]!=='n')d[i][keys[k]]=edits[d[i].c][keys[k]];
+            }
+            editCount++;
+          }
+        }
+      }
+      items=d;filtered=d.slice();
+      var wc=0,wr=0,wf=0;
+      for(var i=0;i<d.length;i++){
+        if(d[i].sc&&d[i].sc.length)wc++;
+        if(getRegCount(d[i])>0)wr++;
+        if(d[i].f&&d[i].f.length)wf++;
+      }
+      document.getElementById('hStats').textContent='共 '+d.length+' 个事项 · 条件 '+wc+' · 法规 '+wr+' · 表单 '+wf+' · 材料 '+(d.reduce(function(s,i){return s+(i.materials?i.materials.length:0)},0));
+      renderList();
+      populateFilters();
+      if(editCount>0) toast('已恢复 '+editCount+' 个事项的编辑数据'+(useSupabase?' (云端)':' (本地)'),'ok');
+    }).catch(function(e){
+      // 加载编辑数据失败，仍然加载原始数据
+      items=d;filtered=d.slice();
+      renderList();
+      populateFilters();
+    });
+  }).catch(function(e){
+    document.getElementById('iList').innerHTML='<div class="empty"><div class="et">数据加载失败: '+esc(e.message)+'</div></div>';
+  });
+}
+
+function renderList(){
+  var s=(page-1)*PS,e=s+PS,sub=filtered.slice(s,e);
+  var h='';
+  for(var i=0;i<sub.length;i++){
+    var it=sub[i],gi=s+i;
+    var hc=it.sc&&it.sc.length>0, hr=getRegCount(it)>0, hf=it.f&&it.f.length>0;
+    var rc=getRegCount(it);
+    var matC=it.materials?it.materials.length:0;
+    var typeTag=it.item_type?'<span style="font-size:10px;padding:1px 5px;border-radius:8px;background:'+(it.item_type==='行政许可'?'#e3f2fd;color:#1565c0':it.item_type==='公共服务'?'#e8f5e9;color:#2e7d32':it.item_type==='行政给付'?'#fce4ec;color:#c62828':'#f3e5f5;color:#7b1fa2')+'">'+esc(it.item_type)+'</span>':'';
+    h+='<div class="item-row'+(cur&&cur.c===it.c?' sel':'')+'" data-i="'+gi+'" role="option" onclick="sel('+gi+')">'
+      +'<div class="iname">'+(typeTag?typeTag+' ':'')+esc(it.n)+'</div>'
+      +'<div class="imeta">'
+      +'<span class="'+(hc?'has':'')+'">'+(hc?'✓':'○')+' 条件'+(it.sc?it.sc.length:0)+'</span>'
+      +'<span class="'+(hr?'has':'')+'">'+(hr?'✓':'○')+' 法规'+rc+'</span>'
+      +'<span class="'+(matC?'has':'')+'">📄'+matC+'</span>'
+      +'</div></div>';
+  }
+  document.getElementById('iList').innerHTML=h||'<div class="empty"><div class="et">无匹配事项</div></div>';
+  renderPag();
+}
+
+function renderPag(){
+  var t=filtered.length,p=Math.ceil(t/PS);
+  if(p<=1){document.getElementById('pag').innerHTML='';return;}
+  var h='<button '+(page<=1?'disabled':'')+' onclick="gp('+(page-1)+')">‹</button>';
+  var rng=pRange(page,p);
+  for(var i=0;i<rng.length;i++){
+    if(rng[i]==='…')h+='<span style="padding:0 3px;font-size:11px">…</span>';
+    else h+='<button class="'+(rng[i]===page?'cur':'')+'" onclick="gp('+rng[i]+')">'+rng[i]+'</button>';
+  }
+  h+='<button '+(page>=p?'disabled':'')+' onclick="gp('+(page+1)+')">›</button>';
+  document.getElementById('pag').innerHTML=h;
+}
+
+function pRange(c,t){
+  if(t<=7){var r=[];for(var i=1;i<=t;i++)r.push(i);return r;}
+  var r=[1];if(c>3)r.push('…');
+  for(var i=Math.max(2,c-1);i<=Math.min(t-1,c+1);i++)r.push(i);
+  if(c<t-2)r.push('…');r.push(t);return r;
+}
+
+window.gp=function(p){page=p;renderList();};
+
+function applyFilter(){
+  var q=document.getElementById('sInput').value.trim().toLowerCase();
+  var areaVal=document.getElementById('areaFilter').value;
+  var typeVal=document.getElementById('typeFilter').value;
+  filtered=[];
+  for(var i=0;i<items.length;i++){
+    var it=items[i];
+    if(q&&it.n.toLowerCase().indexOf(q)<0&&(it.d||'').toLowerCase().indexOf(q)<0&&(it.c||'').toLowerCase().indexOf(q)<0&&(it.official_code||'').toLowerCase().indexOf(q)<0)continue;
+    if(curF==='cond'&&(!it.sc||!it.sc.length))continue;
+    if(curF==='reg'&&getRegCount(it)===0)continue;
+    if(curF==='fld'&&(!it.f||!it.f.length))continue;
+    if(areaVal&&it.area_name&&it.area_name.indexOf(areaVal)<0)continue;
+    if(typeVal&&it.item_type!==typeVal&&it.item_type_full!==typeVal)continue;
+    filtered.push(it);
+  }
+  page=1;renderList();
+}
+
+function populateFilters(){
+  var areas={},types={};
+  for(var i=0;i<items.length;i++){
+    var it=items[i];
+    // Extract district from area_name
+    var area=it.area_name||'';
+    var district='';
+    if(area.indexOf('南山区')>=0) district='南山区';
+    else if(area.indexOf('福田区')>=0) district='福田区';
+    else if(area.indexOf('罗湖区')>=0) district='罗湖区';
+    else if(area.indexOf('宝安区')>=0) district='宝安区';
+    else if(area.indexOf('龙岗区')>=0) district='龙岗区';
+    else if(area.indexOf('龙华区')>=0) district='龙华区';
+    else if(area.indexOf('盐田区')>=0) district='盐田区';
+    else if(area.indexOf('光明区')>=0) district='光明区';
+    else if(area.indexOf('坪山区')>=0) district='坪山区';
+    else if(area.indexOf('大鹏')>=0) district='大鹏新区';
+    else if(area.indexOf('深汕')>=0) district='深汕合作区';
+    else if(area.indexOf('前海')>=0) district='前海合作区';
+    else if(area.indexOf('深圳市')>=0&&area.indexOf('区')<0) district='市本级';
+    else district='其他';
+    if(district) areas[district]=(areas[district]||0)+1;
+    // Item type
+    var tp=it.item_type||it.item_type_full||'';
+    if(tp) types[tp]=(types[tp]||0)+1;
+  }
+  // Populate area dropdown
+  var areaSel=document.getElementById('areaFilter');
+  var areaOrder=['全部','市本级','南山区','福田区','罗湖区','宝安区','龙岗区','龙华区','盐田区','光明区','坪山区','大鹏新区','深汕合作区','前海合作区','其他'];
+  // Remove existing options except first
+  while(areaSel.options.length>1) areaSel.remove(1);
+  for(var i=1;i<areaOrder.length;i++){
+    var a=areaOrder[i];
+    if(a==='全部') continue;
+    if(areas[a]){
+      var opt=document.createElement('option');
+      opt.value=a;
+      opt.textContent=a+' ('+areas[a]+')';
+      areaSel.appendChild(opt);
+    }
+  }
+  // Sort remaining by count
+  var typeArr=Object.keys(types).sort(function(a,b){return types[b]-types[a];});
+  var typeSel=document.getElementById('typeFilter');
+  while(typeSel.options.length>1) typeSel.remove(1);
+  for(var i=0;i<typeArr.length;i++){
+    var opt=document.createElement('option');
+    opt.value=typeArr[i];
+    opt.textContent=typeArr[i]+' ('+types[typeArr[i]]+')';
+    typeSel.appendChild(opt);
+  }
+}
+
+document.getElementById('sInput').addEventListener('input',applyFilter);
+document.getElementById('areaFilter').addEventListener('change',applyFilter);
+document.getElementById('typeFilter').addEventListener('change',applyFilter);
+var fBtns=document.querySelectorAll('.fbtn');
+for(var i=0;i<fBtns.length;i++){
+  fBtns[i].addEventListener('click',function(){
+    for(var j=0;j<fBtns.length;j++)fBtns[j].classList.remove('on');
+    this.classList.add('on');
+    curF=this.getAttribute('data-f');
+    applyFilter();
+  });
+}
+
+window.sel=function(idx){
+  cur=filtered[idx];curTab=0;
+  for(var j=0;j<document.querySelectorAll('.item-row').length;j++){
+    var el=document.querySelectorAll('.item-row')[j];
+    el.classList.toggle('sel',parseInt(el.getAttribute('data-i'))===idx);
+  }
+  renderContent();
+};
+
+function renderContent(){
+  if(!cur)return;
+  var m=document.getElementById('mainArea');
+  var sc=cur.sc?cur.sc.length:0, rc=getRegCount(cur), fc=cur.f?cur.f.length:0;
+  var _nObj=cur.note?(typeof cur.note==='object'?cur.note:{other:cur.note}):{};
+  var hasNote=!!(_nObj.pre||_nObj.post||_nObj.form_tip||_nObj.other);
+  var matCnt=cur.materials?cur.materials.length:0;
+  var resCnt=cur.results?cur.results.length:0;
+  // Build info tags
+  var infoTags=[];
+  if(cur.item_type) infoTags.push(cur.item_type);
+  if(cur.online_service==='是') infoTags.push('🌐 可网办');
+  if(cur.exercise_level) infoTags.push('📍 '+cur.exercise_level);
+  if(cur.is_cross_area==='是') infoTags.push('🔄 通办');
+  var infoHtml=infoTags.length?'<div class="cnt-tags">'+infoTags.map(function(t){return '<span class="cnt-tag">'+esc(t)+'</span>';}).join('')+'</div>':'';
+  var h='<div class="cnt-header">'
+    +'<div class="cnt-title">'+esc(cur.n)+'</div>'
+    +'<div class="cnt-sub">'+esc(cur.d||'未知部门')+(cur.s?' · '+esc(cur.s):'')+' · '+esc(cur.c)+'</div>'
+    +infoHtml
+    +'<div class="tabs">'
+    +'<div class="tab'+(curTab===0?' on':'')+'" onclick="st(0)">基本信息</div>'
+    +'<div class="tab'+(curTab===1?' on':'')+'" onclick="st(1)">受理条件<span class="bdg '+(sc?'bdg-y':'bdg-n')+'">'+sc+'</span></div>'
+    +'<div class="tab'+(curTab===2?' on':'')+'" onclick="st(2)">政策依据<span class="bdg '+(rc?'bdg-y':'bdg-n')+'">'+rc+'</span></div>'
+    +'<div class="tab'+(curTab===3?' on':'')+'" onclick="st(3)">申请表<span class="bdg '+(fc?'bdg-y':'bdg-n')+'">'+fc+'</span></div>'
+    +'<div class="tab'+(curTab===4?' on':'')+'" onclick="st(4)">办事须知<span class="bdg '+(hasNote?'bdg-y':'bdg-n')+'">'+(hasNote?1:0)+'</span></div>'
+    +'<div class="tab'+(curTab===5?' on':'')+'" onclick="st(5)">材料清单<span class="bdg '+(matCnt?'bdg-y':'bdg-n')+'">'+matCnt+'</span></div>'
+    +'<div class="tab'+(curTab===6?' on':'')+'" onclick="st(6)">办事结果<span class="bdg '+(resCnt?'bdg-y':'bdg-n')+'">'+resCnt+'</span></div>'
+    +'</div></div>';
+  h+='<div class="tab-body">';
+  if(curTab===0)h+=renderBasicInfo();
+  else if(curTab===1)h+=renderCond();
+  else if(curTab===2)h+=renderReg();
+  else if(curTab===3)h+=renderFields();
+  else if(curTab===4)h+=renderNote();
+  else if(curTab===5)h+=renderMaterials();
+  else h+=renderResults();
+  h+='</div>';
+  if(curTab===0||curTab===1||curTab===2||curTab===3||curTab===4){
+    h+='<div class="act-bar">'
+      +'<button class="btn" onclick="clearLocalEdits()">🗑️ 清除本地缓存</button>'
+      +'<button class="btn" onclick="doExport()">📥 导出变更</button>'
+      +'<button class="btn btn-p" onclick="doSave()">💾 保存到数据库</button>'
+      +'</div>';
+  }
+  m.innerHTML=h;
+}
+window.renderContent=renderContent;
+
+window.st=function(t){curTab=t;renderContent();};
+
+/* === Tab 0: 基本信息 === */
+function renderBasicInfo(){
+  var it=cur;
+  if(!it) return '';
+  var h='';
+  // 编辑模式按钮
+  h+='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px">'
+    +'<button class="btn'+(basicInfoEditMode?' btn-p':'')+'" onclick="toggleBasicInfoEdit()">'+(basicInfoEditMode?'✅ 完成编辑':'✏️ 编辑基本信息')+'</button>'
+    +'</div>';
+  var groups=[
+    {title:'📋 事项标识', rows:[
+      ['行政区划', 'area_name', it.area_name],
+      ['实施部门', 'dept_full_name', it.dept_full_name],
+      ['主项名称', 'parent_item_name', it.parent_item_name],
+      ['子项名称', 'sub_item_name', it.sub_item_name],
+      ['实施清单名称', 'impl_list_name', it.impl_list_name],
+      ['事项类型', 'item_type_full', it.item_type_full],
+      ['实施编码', 'official_code', it.official_code],
+      ['基本编码', 'basic_code', it.basic_code]
+    ]},
+    {title:'⏱️ 办理时限', rows:[
+      ['法定时限', 'legal_time_limit', it.legal_time_limit],
+      ['承诺时限', 'promise_time_limit', it.promise_time_limit],
+      ['申请时限', 'apply_time_limit', it.apply_time_limit],
+      ['受理时限', 'accept_time_limit', it.accept_time_limit]
+    ]},
+    {title:'🏢 窗口与渠道', rows:[
+      ['在线申办网址', 'online_url', it.online_url],
+      ['到现场次数', 'onsite_visits', it.onsite_visits],
+      ['必须现场办理原因', 'onsite_reason', it.onsite_reason],
+      ['纳入一窗办理', 'is_one_window', it.is_one_window],
+      ['纳入综合窗办理', 'is_comprehensive_window', it.is_comprehensive_window],
+      ['进驻政务大厅', 'is_in_hall', it.is_in_hall]
+    ]},
+    {title:'🔗 关联事项', rows:[
+      ['有无前置许可', 'has_pre_license', it.has_pre_license],
+      ['前置许可事项', 'pre_license_items', it.pre_license_items],
+      ['涉及中介服务', 'has_intermediary', it.has_intermediary],
+      ['中介服务编码', 'intermediary_code', it.intermediary_code],
+      ['中介服务名称', 'intermediary_name', it.intermediary_name]
+    ]}
+  ];
+  for(var g=0;g<groups.length;g++){
+    var grp=groups[g];
+    h+='<div style="margin-bottom:20px">';
+    h+='<div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--pri)">'+grp.title+'</div>';
+    h+='<div class="info-card" style="margin-bottom:0">';
+    for(var i=0;i<grp.rows.length;i++){
+      var r=grp.rows[i];
+      var label=r[0], field=r[1], val=r[2];
+      if(basicInfoEditMode){
+        // 编辑模式：显示输入框
+        var inputType='text';
+        var inputTag='input';
+        if(field==='online_url'){
+          h+='<div class="info-card-row"><span class="info-card-label">'+esc(label)+'</span><span class="info-card-value"><input type="url" id="bi_'+field+'" value="'+esc(val||'')+'" style="width:100%;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px;font-size:12px;box-sizing:border-box"></span></div>';
+        } else if(field==='onsite_reason'||field==='pre_license_items'||field==='intermediary_name'){
+          h+='<div class="info-card-row"><span class="info-card-label">'+esc(label)+'</span><span class="info-card-value"><textarea id="bi_'+field+'" style="width:100%;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px;font-size:12px;resize:vertical;min-height:60px;box-sizing:border-box">'+esc(val||'')+'</textarea></span></div>';
+        } else {
+          h+='<div class="info-card-row"><span class="info-card-label">'+esc(label)+'</span><span class="info-card-value"><input type="text" id="bi_'+field+'" value="'+esc(val||'')+'" style="width:100%;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px;font-size:12px;box-sizing:border-box"></span></div>';
+        }
+      } else {
+        // 查看模式：显示文本
+        var displayVal=val&&val!=='-'&&val!=='None'&&val!=='nan'&&val!=='null'?String(val):'';
+        if(!displayVal) continue;
+        if(field==='online_url'&&displayVal&&(displayVal.startsWith('http://')||displayVal.startsWith('https://'))){
+          h+='<div class="info-card-row"><span class="info-card-label">'+esc(label)+'</span><span class="info-card-value"><a href="'+esc(displayVal)+'" target="_blank">'+esc(displayVal)+'</a></span></div>';
+        } else {
+          h+='<div class="info-card-row"><span class="info-card-label">'+esc(label)+'</span><span class="info-card-value">'+esc(displayVal)+'</span></div>';
+        }
+      }
+    }
+    h+='</div></div>';
+  }
+  if(!basicInfoEditMode){
+    // 检查是否有内容
+    var hasContent=false;
+    for(var g=0;g<groups.length;g++){
+      for(var i=0;i<groups[g].rows.length;i++){
+        var v=groups[g].rows[i][2];
+        if(v&&v!=='-'&&v!=='None'&&v!=='nan'&&v!=='null'){hasContent=true;break;}
+      }
+      if(hasContent) break;
+    }
+    if(!hasContent) h='<div class="empty"><div class="ei">📋</div><div class="et">暂无基本信息</div></div>';
+  }
+  return h;
+}
+window.renderBasicInfo=renderBasicInfo;
+
+var basicInfoEditMode=false;
+window.toggleBasicInfoEdit=function(){
+  basicInfoEditMode=!basicInfoEditMode;
+  renderContent();
+};
+window.saveBasicInfo=function(){
+  if(!cur)return;
+  var fields=['area_name','dept_full_name','parent_item_name','sub_item_name','impl_list_name','item_type_full','official_code','basic_code','legal_time_limit','promise_time_limit','apply_time_limit','accept_time_limit','online_url','onsite_visits','onsite_reason','is_one_window','is_comprehensive_window','is_in_hall','has_pre_license','pre_license_items','has_intermediary','intermediary_code','intermediary_name'];
+  for(var i=0;i<fields.length;i++){
+    var f=fields[i];
+    var el=document.getElementById('bi_'+f);
+    if(el){
+      cur[f]=el.value||el.textContent;
+    }
+  }
+  persistItem(cur);
+  basicInfoEditMode=false;
+  renderContent();
+  toast('基本信息已保存（本地缓存）','ok');
+};
+window.renderBasicInfo=renderBasicInfo;
+
+/* === Tab 1: 受理条件 === */
+var condEditMode=false;
+function renderCond(){
+  var it=cur;
+  if(!it.sc||!it.sc.length)return '<div class="empty"><div class="ei">📝</div><div class="et">暂无受理条件数据</div></div>';
+  var h='';
+  // 编辑模式按钮
+  h+='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px">'
+    +'<button class="btn" onclick="exportCondJSON()">📥 导出受理条件</button>'
+    +'<button class="btn'+(condEditMode?' btn-p':'')+'" onclick="toggleCondEdit()">'+(condEditMode?'✅ 完成编辑':'✏️ 编辑条件')+'</button>'
+    +'</div>';
+  // 适用对象
+  if(it.s){
+    h+='<div class="cond-meta"><span class="cm-label">适用对象</span><span class="cm-val">'+esc(it.s)+'</span></div>';
+  }
+  // 原始文本
+  if(it.ot){
+    h+='<div class="cond-orig"><div class="cond-orig-label">原始描述</div><div class="cond-orig-text">'+esc(it.ot)+'</div></div>';
+  }
+  for(var si=0;si<it.sc.length;si++){
+    var sc=it.sc[si],cds=sc.conditions||[];
+    var ev=sc.evaluation||{};
+    var sr=sc.scenario_relation||'AND';
+    // 场景卡片头部
+    h+='<div class="sc-card"><div class="sc-hd"><span class="sc-name">场景 '+esc(sc.scenario_name||sc.name||'未命名')+'</span>'
+      +'<span class="sc-tog" onclick="togSc(this)">收起</span></div>'
+      +'<div class="cd-list" data-si="'+si+'">';
+    // 场景统计信息
+    if(ev.total_conditions){
+      var drRate=ev.data_driven_rate?Math.round(ev.data_driven_rate*100):0;
+      h+='<div class="sc-stats">'
+        +'<span class="sc-stat"><b>'+ev.total_conditions+'</b> 条件总数</span>'
+        +'<span class="sc-stat dr"><b>'+(ev.data_driven_count||0)+'</b> 数据驱动 ('+drRate+'%)</span>'
+        +'<span class="sc-stat mj"><b>'+(ev.manual_judgment_count||0)+'</b> 人工判断</span>'
+        +'<span class="sc-stat rel">场景关系: <b>'+sr+'</b></span>'
+        +'</div>';
+    }
+    // 条件列表
+    for(var ci=0;ci<cds.length;ci++){
+      var c=cds[ci];
+      var drCls=c.is_data_driven?'dr':'nd';
+      var drTxt=c.is_data_driven?'数据驱动':'人工判断';
+      var cid=c.condition_id||c.id||('C'+(ci+1));
+      if(condEditMode){
+        // 编辑模式：显示可编辑表单
+        h+='<div class="cd-row cd-edit"><div class="cd-idx">'+cid+'</div><div class="cd-body">'
+          +'<div class="cd-edit-row"><label>描述</label><textarea class="cd-inp-desc" data-si="'+si+'" data-ci="'+ci+'" rows="2">'+esc(c.description||c.desc||'')+'</textarea></div>'
+          +'<div class="cd-edit-row cd-edit-inline">'
+          +'<label><input type="checkbox" class="cd-inp-dr" data-si="'+si+'" data-ci="'+ci+'"'+(c.is_data_driven?' checked':'')+'> 数据驱动</label>'
+          +'<label>数据源 <input class="cd-inp-ds" data-si="'+si+'" data-ci="'+ci+'" value="'+esc(c.data_source||'')+'"></label>'
+          +'</div>'
+          +'<div class="cd-edit-row"><label>备注</label><textarea class="cd-inp-notes" data-si="'+si+'" data-ci="'+ci+'" rows="4" placeholder="填写备注信息...">'+esc(c.notes||'')+'</textarea></div>'
+          +'<div style="text-align:right;margin-top:4px"><button class="btn btn-del" onclick="delCond('+si+','+ci+')">🗑 删除</button></div>'
+          +'</div></div>';
+      } else {
+        // 查看模式
+        h+='<div class="cd-row"><div class="cd-idx">'+cid+'</div><div class="cd-body">'
+          +'<div class="cd-desc">'+esc(c.description||c.desc||'')+'</div>'
+          +'<div class="cd-tags">'
+          +'<span class="cd-tag '+drCls+'">'+drTxt+'</span>'
+          +(c.data_source?'<span class="cd-tag info">源: '+esc(c.data_source)+'</span>':'')
+          +(c.data_source_type?'<span class="cd-tag info">'+esc(c.data_source_type)+'</span>':'')
+          +'</div>'
+          +(c.notes?'<div class="cd-notes-display">📝 '+esc(c.notes)+'</div>':'')
+          +'</div></div>';
+      }
+    }
+    // 编辑模式：添加条件按钮
+    if(condEditMode){
+      h+='<div style="text-align:center;padding:8px"><button class="btn" onclick="addCond('+si+')">＋ 添加条件</button></div>';
+    }
+    // 逻辑公式
+    if(sc.logic_formula){
+      h+='<div class="sc-logic"><span class="sl-label">逻辑公式</span><span class="sl-val">'+esc(sc.logic_formula)+'</span></div>';
+    }
+    // 受理结果
+    if(sc.action){
+      h+='<div class="sc-action"><span class="sa-label">受理结果</span><span class="sa-val">'+esc(sc.action)+'</span></div>';
+    }
+    h+='</div></div>';
+  }
+  return h;
+}
+
+window.toggleCondEdit=function(){
+  if(condEditMode){
+    // 保存编辑内容
+    saveCondEdits();
+  }
+  condEditMode=!condEditMode;
+  renderContent();
+};
+
+window.saveCondEdits=function(){
+  if(!cur||!cur.sc)return;
+  document.querySelectorAll('.cd-inp-desc').forEach(function(el){
+    var si=+el.dataset.si, ci=+el.dataset.ci;
+    if(cur.sc[si]&&cur.sc[si].conditions[ci]){
+      cur.sc[si].conditions[ci].description=el.value;
+    }
+  });
+  document.querySelectorAll('.cd-inp-dr').forEach(function(el){
+    var si=+el.dataset.si, ci=+el.dataset.ci;
+    if(cur.sc[si]&&cur.sc[si].conditions[ci]){
+      cur.sc[si].conditions[ci].is_data_driven=el.checked;
+      cur.sc[si].conditions[ci].data_source_type=el.checked?'数据驱动':'人工判断';
+    }
+  });
+  document.querySelectorAll('.cd-inp-ds').forEach(function(el){
+    var si=+el.dataset.si, ci=+el.dataset.ci;
+    if(cur.sc[si]&&cur.sc[si].conditions[ci]){
+      cur.sc[si].conditions[ci].data_source=el.value;
+    }
+  });
+  document.querySelectorAll('.cd-inp-notes').forEach(function(el){
+    var si=+el.dataset.si, ci=+el.dataset.ci;
+    if(cur.sc[si]&&cur.sc[si].conditions[ci]){
+      cur.sc[si].conditions[ci].notes=el.value;
+    }
+  });
+  persistItem(cur);
+  toast('已保存编辑（本地缓存，刷新后仍保留）','ok');
+};
+
+window.addCond=function(si){
+  if(!cur||!cur.sc||!cur.sc[si])return;
+  var cds=cur.sc[si].conditions||[];
+  var newId='C'+(cds.length+1);
+  cds.push({condition_id:newId,description:'新条件描述',is_data_driven:false,data_source:'',data_source_type:'人工判断',notes:''});
+  cur.sc[si].conditions=cds;
+  persistItem(cur);
+  if(condEditMode)renderContent();
+};
+
+window.delCond=function(si,ci){
+  if(!cur||!cur.sc||!cur.sc[si])return;
+  if(!confirm('确定删除此条件？'))return;
+  cur.sc[si].conditions.splice(ci,1);
+  persistItem(cur);
+  if(condEditMode)renderContent();
+};
+
+window.exportCondJSON=function(){
+  if(!cur)return;
+  var data={
+    item_code:cur.c,
+    item_name:cur.n,
+    dept:cur.d||'',
+    scope_object:cur.s||'',
+    original_text:cur.ot||'',
+    scenarios:cur.sc||[]
+  };
+  var d=JSON.stringify(data,null,2);
+  var b=new Blob([d],{type:'application/json'});
+  var u=URL.createObjectURL(b);
+  var a=document.createElement('a');
+  a.href=u;a.download=cur.c+'_受理条件.json';a.click();
+  URL.revokeObjectURL(u);
+  toast('导出成功','ok');
+};
+
+window.togSc=function(el){
+  var cl=el.parentElement.nextElementSibling;
+  if(cl.style.display==='none'){cl.style.display='';el.textContent='收起';}
+  else{cl.style.display='none';el.textContent='展开';}
+};
+
+/* === Tab 1: 政策依据 === */
+function syntaxHighlightJSON(obj,refNums){
+  var json=JSON.stringify(obj,null,2);
+  if(!refNums||!Object.keys(refNums).length) return esc(json);
+  // Highlight lines containing referenced clause numbers
+  var lines=json.split('\n');
+  var result=[];
+  for(var i=0;i<lines.length;i++){
+    var line=lines[i];
+    var isRef=false;
+    for(var k in refNums){
+      if(line.indexOf(k)>=0){isRef=true;break;}
+    }
+    if(isRef){
+      result.push('<span class="json-highlight">'+esc(line)+'</span>');
+    } else {
+      result.push(esc(line));
+    }
+  }
+  return result.join('\n');
+}
+
+var regEditMode=false;
+function renderReg(){
+  var it=cur;
+  var regs=getRegs(it);
+  if(!regs||!regs.length)return '<div class="empty"><div class="ei">📜</div><div class="et">暂无政策依据数据</div></div>';
+  var isNewFormat=regs.length>0&&regs[0].articles!==undefined;
+  var h='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px">'
+    +'<button class="btn" onclick="exportRegJSON()">📥 导出政策依据</button>'
+    +'<button class="btn'+(regEditMode?' btn-p':'')+'" onclick="toggleRegEdit()">'+(regEditMode?'✅ 完成编辑':'✏️ 编辑法规')+'</button>'
+    +'</div>';
+  h+='<div class="reg-intro">共 '+regs.length+' 部法规引用'+(isNewFormat?' · 含完整法规库数据':'')+'</div>';
+  if(isNewFormat){
+    for(var i=0;i<regs.length;i++) h+=renderRegFull(regs[i],i);
+  } else {
+    for(var i=0;i<regs.length;i++) h+=renderRegLegacy(regs[i],i);
+  }
+  return h;
+}
+
+function renderRegFull(r,idx){
+  var h='<div class="reg-card"><div class="reg-hd" onclick="togReg('+idx+')">'
+    +'<span class="rn">'+esc(r.name||'未知法规')+'</span>'
+    +(r.num||r.number?'<span class="rd">'+esc(r.num||r.number)+'</span>':'')
+    +(r.status?'<span class="reg-status '+(r.status.indexOf('现行')>=0?'valid':'other')+'">'+esc(r.status)+'</span>':'')
+    +'<span class="ra" id="ra'+idx+'">›</span></div>'
+    +'<div class="reg-bd" id="rb'+idx+'">';
+  // Metadata bar
+  h+='<div class="reg-meta-bar">';
+  if(r.issuing_authority) h+='<span class="reg-meta-item">📋 <strong>发布机关：</strong>'+esc(r.issuing_authority)+'</span>';
+  if(r.effective_date) h+='<span class="reg-meta-item">📅 <strong>生效日期：</strong>'+esc(r.effective_date)+'</span>';
+  if(r.business_sector) h+='<span class="reg-meta-item">🏷 <strong>行业：</strong>'+esc(r.business_sector)+'</span>';
+  if(r.department) h+='<span class="reg-meta-item">🏢 <strong>主管：</strong>'+esc(r.department)+'</span>';
+  if(r.source_url) h+='<a class="reg-meta-item reg-source-link" href="'+esc(r.source_url)+'" target="_blank" rel="noopener">🔗 来源</a>';
+  h+='</div>';
+  // Referenced clauses
+  h+='<div class="reg-section"><div class="reg-section-title">本事项引用条款（'+(r.ref_clauses?r.ref_clauses.length:0)+'条）</div>';
+  if(regEditMode){
+    // Edit mode for ref_clauses
+    if(r.ref_clauses){
+      for(var j=0;j<r.ref_clauses.length;j++){
+        var cl=r.ref_clauses[j];
+        h+='<div class="ref-clause-edit"><div class="ref-clause-edit-row">'
+          +'<label>条款号</label><input class="reg-inp-cn" data-ri="'+idx+'" data-ci="'+j+'" value="'+esc(cl.cn||'')+'">'
+          +'<label>条款内容</label><input class="reg-inp-cc" data-ri="'+idx+'" data-ci="'+j+'" value="'+esc(cl.cc||'')+'">'
+          +'</div>'
+          +'<div style="text-align:right;margin-top:2px"><button class="btn btn-del" onclick="delRefClause('+idx+','+j+')">🗑 删除</button></div>'
+          +'</div>';
+      }
+    }
+    h+='<div style="text-align:center;padding:6px"><button class="btn" onclick="addRefClause('+idx+')">＋ 添加引用条款</button></div>';
+  } else {
+    if(r.ref_clauses&&r.ref_clauses.length>0){
+      for(var j=0;j<r.ref_clauses.length;j++){
+        var cl=r.ref_clauses[j];
+        h+='<div class="ref-clause"><div class="ref-clause-num">'+esc(cl.cn||'')+'</div>'
+          +'<div class="ref-clause-content">'+esc(cl.cc||'')+'</div></div>';
+      }
+    } else {
+      h+='<div style="font-size:12px;color:var(--t3);padding:4px 0">暂无引用条款</div>';
+    }
+  }
+  h+='</div>';
+  // Full articles as JSON
+  if(r.articles&&r.articles.length>0){
+    var refClauseNums={};
+    if(r.ref_clauses){for(var j=0;j<r.ref_clauses.length;j++){refClauseNums[r.ref_clauses[j].cn||'']=true;}}
+    h+='<div class="reg-section" style="padding-bottom:0"><div class="reg-section-title">法规全文条款 JSON（共'+r.articles.length+'条）</div></div>'
+      +'<div class="reg-toggle-articles" id="rta'+idx+'" onclick="togArticles('+idx+')">展开全部 JSON ▼</div>'
+      +'<div id="rarts'+idx+'" style="display:none">'
+      +'<pre class="reg-json-block">'+syntaxHighlightJSON(r.articles,refClauseNums)+'</pre>'
+      +'</div>';
+  }
+  h+='</div></div>';
+  return h;
+}
+
+function renderRegLegacy(r,idx){
+  var h='<div class="reg-card"><div class="reg-hd" onclick="togReg('+idx+')">'
+    +'<span class="rn">'+esc(r.regulation_name||r.name||'未知法规')+'</span>'
+    +(r.doc_number?'<span class="rd">'+esc(r.doc_number)+'</span>':'')
+    +'<span class="ra" id="ra'+idx+'">›</span></div>'
+    +'<div class="reg-bd" id="rb'+idx+'">';
+  if(r.clause_number)h+='<div class="reg-cl"><div class="reg-cl-l">条款号</div><div class="reg-cl-c">'+esc(r.clause_number)+'</div></div>';
+  if(r.clause_content)h+='<div class="reg-cl"><div class="reg-cl-l">条款内容</div><div class="reg-cl-c">'+esc(r.clause_content)+'</div></div>';
+  h+='<div class="reg-meta">';
+  if(r.issuing_authority)h+='<span class="reg-mi">📋 '+esc(r.issuing_authority)+'</span>';
+  if(r.effective_date)h+='<span class="reg-mi">📅 '+esc(r.effective_date)+'</span>';
+  h+='</div></div></div>';
+  return h;
+}
+
+window.togReg=function(i){
+  var b=document.getElementById('rb'+i),a=document.getElementById('ra'+i);
+  if(b.classList.contains('open')){b.classList.remove('open');a.classList.remove('open');}
+  else{b.classList.add('open');a.classList.add('open');}
+};
+
+window.togArticles=function(i){
+  var d=document.getElementById('rarts'+i),t=document.getElementById('rta'+i);
+  if(d.style.display==='none'){d.style.display='';t.textContent='收起全部 JSON ▲';}
+  else{d.style.display='none';t.textContent='展开全部 JSON ▼';}
+};
+
+window.toggleRegEdit=function(){
+  if(regEditMode){saveRegEdits();}
+  regEditMode=!regEditMode;
+  renderContent();
+};
+
+window.saveRegEdits=function(){
+  if(!cur||!cur.regs)return;
+  document.querySelectorAll('.reg-inp-cn').forEach(function(el){
+    var ri=+el.dataset.ri, ci=+el.dataset.ci;
+    if(cur.regs[ri]&&cur.regs[ri].ref_clauses&&cur.regs[ri].ref_clauses[ci]){
+      cur.regs[ri].ref_clauses[ci].cn=el.value;
+    }
+  });
+  document.querySelectorAll('.reg-inp-cc').forEach(function(el){
+    var ri=+el.dataset.ri, ci=+el.dataset.ci;
+    if(cur.regs[ri]&&cur.regs[ri].ref_clauses&&cur.regs[ri].ref_clauses[ci]){
+      cur.regs[ri].ref_clauses[ci].cc=el.value;
+    }
+  });
+  persistItem(cur);
+  toast('已保存编辑（本地缓存，刷新后仍保留）','ok');
+};
+
+window.addRefClause=function(ri){
+  if(!cur||!cur.regs||!cur.regs[ri])return;
+  if(!cur.regs[ri].ref_clauses)cur.regs[ri].ref_clauses=[];
+  cur.regs[ri].ref_clauses.push({cn:'',cc:''});
+  persistItem(cur);
+  renderContent();
+};
+
+window.delRefClause=function(ri,ci){
+  if(!cur||!cur.regs||!cur.regs[ri])return;
+  if(!confirm('确定删除此引用条款？'))return;
+  cur.regs[ri].ref_clauses.splice(ci,1);
+  persistItem(cur);
+  renderContent();
+};
+
+window.exportRegJSON=function(){
+  if(!cur)return;
+  var regs=getRegs(cur);
+  if(!regs)return;
+  var data={
+    item_code:cur.c,
+    item_name:cur.n,
+    dept:cur.d||'',
+    regulations:regs.map(function(r){
+      return {
+        regulation_id:r.regulation_id||r.id||'',
+        regulation_name:r.name||'',
+        doc_number:r.number||r.num||'',
+        issuing_authority:r.issuing_authority||r.authority||'',
+        effective_date:r.effective_date||r.date||'',
+        status:r.status||'',
+        source_url:r.source_url||r.url||'',
+        business_sector:r.business_sector||r.sector||'',
+        department:r.department||r.dept||'',
+        ref_clauses:r.ref_clauses||[],
+        articles_count:(r.articles||[]).length
+      };
+    })
+  };
+  var d=JSON.stringify(data,null,2);
+  var b=new Blob([d],{type:'application/json'});
+  var u=URL.createObjectURL(b);
+  var a=document.createElement('a');
+  a.href=u;a.download=cur.c+'_政策依据.json';a.click();
+  URL.revokeObjectURL(u);
+  toast('导出成功','ok');
+};
+
+/* === Tab 2: 申请表 === */
+function renderFields(){
+  var it=cur;
+  if(!it.f||!it.f.length)return '<div class="empty"><div class="ei">📄</div><div class="et">暂无申请表数据</div></div>';
+  var h='';
+  if(it.fn){
+    h+='<div class="fm-info"><span><strong>表单：</strong>'+esc(it.fn)+'</span>';
+    if(it.fid)h+='<span><strong>编号：</strong>'+esc(Array.isArray(it.fid)?it.fid.join(', '):it.fid)+'</span>';
+    h+='<span><strong>字段数：</strong>'+it.f.length+'</span></div>';
+  }
+  // Collect unique values for filter dropdowns
+  var typeSet={},stdSet={},entSet={},dimSet={};
+  for(var i=0;i<it.f.length;i++){
+    var f=it.f[i];
+    typeSet[f.type||f.field_type||'text']=1;
+    stdSet[f.std||f.standard_field||'']=1;
+    entSet[f.ent||f.entity_type||'']=1;
+    var dims=f.dimensions||f.dims||[];
+    for(var di=0;di<dims.length;di++) dimSet[dims[di]]=1;
+  }
+  // Filter bar
+  h+='<div class="field-filter-bar">'
+    +'<div class="field-filter-group"><label>类型</label><select onchange="fieldFilter.type=this.value;renderContent()"><option value="">全部</option>';
+  var tk=Object.keys(typeSet).sort();for(var ti=0;ti<tk.length;ti++) h+='<option value="'+tk[ti]+'"'+(fieldFilter.type===tk[ti]?' selected':'')+'>'+esc(TM[tk[ti]]||tk[ti])+'</option>';
+  h+='</select></div>'
+    +'<div class="field-filter-group"><label>标准字段</label><select onchange="fieldFilter.std=this.value;renderContent()"><option value="">全部</option>';
+  var sk=Object.keys(stdSet).sort();for(var si=0;si<sk.length;si++){var sv=sk[si];if(!sv)continue;h+='<option value="'+esc(sv)+'"'+(fieldFilter.std===sv?' selected':'')+'>'+esc(sv)+'</option>';}
+  h+='</select></div>'
+    +'<div class="field-filter-group"><label>实体类型</label><select onchange="fieldFilter.ent=this.value;renderContent()"><option value="">全部</option>';
+  var ek=Object.keys(entSet).sort();for(var ei=0;ei<ek.length;ei++){var ev=ek[ei];if(!ev)continue;h+='<option value="'+esc(ev)+'"'+(fieldFilter.ent===ev?' selected':'')+'>'+esc(ev)+'</option>';}
+  h+='</select></div>'
+    +'<div class="field-filter-group"><label>五维标注</label><select onchange="fieldFilter.dim=this.value;renderContent()"><option value="">全部</option>';
+  var dims=['主体','客体','空间','凭证','载体'];for(var di=0;di<dims.length;di++){if(!dimSet[dims[di]])continue;h+='<option value="'+dims[di]+'"'+(fieldFilter.dim===dims[di]?' selected':'')+'>'+dims[di]+'</option>';}
+  h+='</select></div>'
+    +'<button class="btn field-filter-reset" onclick="fieldFilter={type:\'\',std:\'\',ent:\'\',dim:\'\'};renderContent()">重置</button>'
+    +'</div>';
+  // Table
+  h+='<div class="ftbl-wrap"><table class="ftbl"><thead><tr>'
+    +'<th style="width:36px">序号</th><th>字段名称</th><th style="width:76px">类型</th>'
+    +'<th style="width:50px">必填</th><th style="width:90px">标准字段</th>'
+    +'<th style="width:72px">实体类型</th><th style="min-width:100px">五维标注</th><th style="width:70px">操作</th>'
+    +'</tr></thead><tbody>';
+  var DM_META={'主体':{i:'👤',t:'主体 · 谁在办',d:'申请人身份信息，包括单位名称、联系人、电话、证件号等'},'客体':{i:'📋',t:'客体 · 为什么办',d:'申请事项的具体内容，包括标的、数量、规格、理由等'},'空间':{i:'📍',t:'空间 · 在哪办',d:'地点空间信息，包括地址、位置、面积、坐标等'},'凭证':{i:'📄',t:'凭证 · 凭什么办',d:'证件、材料、附件、合同编号等证明材料'},'载体':{i:'📝',t:'载体 · 办理记录',d:'行政流程痕迹，包括日期、签章、受理编号等'}};
+  var shown=0;
+  for(var i=0;i<it.f.length;i++){
+    var f=it.f[i];
+    var ft=f.type||f.field_type||'text';
+    var fs=f.std||f.standard_field||'';
+    var fe=f.ent||f.entity_type||'';
+    var fdims=f.dimensions||f.dims||[];
+    // Apply filters
+    if(fieldFilter.type&&ft!==fieldFilter.type) continue;
+    if(fieldFilter.std&&fs!==fieldFilter.std) continue;
+    if(fieldFilter.ent&&fe!==fieldFilter.ent) continue;
+    if(fieldFilter.dim&&fdims.indexOf(fieldFilter.dim)<0) continue;
+    shown++;
+    var fi=f.idx||(i+1),fn=f.name||f.field_name||'';
+    var fr=f.req||f.required||false;
+    var tl=TM[ft]||ft, el=EM[fe]||fe||'-';
+    var ec=EM_COLORS[fe]||'#666';
+    var dh='';
+    if(fdims.length){for(var di=0;di<fdims.length;di++){var dm=DM_META[fdims[di]]||{i:'•',t:fdims[di],d:fdims[di]};dh+='<span class="dtag '+fdims[di]+'" data-title="'+dm.t+'" data-desc="'+dm.d+'"><span class="di">'+dm.i+'</span>'+fdims[di]+'</span>';}}
+    else{dh='<span style="color:var(--t3);font-size:10px">—</span>';}
+    h+='<tr><td style="color:var(--t3)">'+fi+'</td>'
+      +'<td class="fn">'+esc(fn)+'</td>'
+      +'<td><span class="ttag '+ft+'">'+esc(tl)+'</span></td>'
+      +'<td>'+(fr?'<span class="req-y">是</span>':'<span class="req-n">否</span>')+'</td>'
+      +'<td>'+esc(fs||'-')+'</td>'
+      +'<td><span style="display:inline-block;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:500;background:'+ec+'1a;color:'+ec+'">'+esc(el)+'</span></td>'
+      +'<td><div class="dim-cell">'+dh+'</div></td>'
+      +'<td><button class="btn" style="padding:2px 8px;font-size:11px" onclick="editF('+i+')">编辑</button></td>'
+      +'</tr>';
+  }
+  h+='</tbody></table></div>';
+  if(fieldFilter.type||fieldFilter.std||fieldFilter.ent||fieldFilter.dim){
+    h+='<div style="text-align:center;padding:6px;font-size:11px;color:var(--t3)">筛选结果：'+shown+' / '+it.f.length+' 个字段</div>';
+  }
+  return h;
+}
+
+/* === Tab 3: 办事须知 === */
+function getNoteObj(it){
+  if(!it.note)return {pre:'',post:'',form_tip:'',other:''};
+  if(typeof it.note==='object')return Object.assign({pre:'',post:'',form_tip:'',other:''},it.note);
+  return {pre:'',post:'',form_tip:'',other:String(it.note)};
+}
+function renderNote(){
+  var it=cur;
+  var n=getNoteObj(it);
+  var hasAny=n.pre||n.post||n.form_tip||n.other;
+  var h='<div class="note-wrap">';
+  if(!hasAny){
+    h+='<div class="empty"><div class="ei">📝</div><div class="et">暂无办事须知</div><div class="es">点击下方按钮添加前置事项、后置结果、填表注意等信息</div></div>';
+  } else {
+    if(n.pre) h+='<div class="note-section"><div class="note-section-hd pre">🔗 前置事项</div><div class="note-section-body">'+esc(n.pre).replace(/\n/g,'<br>')+'</div></div>';
+    if(n.post) h+='<div class="note-section"><div class="note-section-hd post">✅ 后置结果</div><div class="note-section-body">'+esc(n.post).replace(/\n/g,'<br>')+'</div></div>';
+    if(n.form_tip) h+='<div class="note-section"><div class="note-section-hd form-tip">📋 填表注意</div><div class="note-section-body">'+esc(n.form_tip).replace(/\n/g,'<br>')+'</div></div>';
+    if(n.other) h+='<div class="note-section"><div class="note-section-hd other">📌 其他说明</div><div class="note-section-body">'+esc(n.other).replace(/\n/g,'<br>')+'</div></div>';
+  }
+  h+='<div style="margin-top:16px;text-align:center">'
+    +'<button class="btn btn-p" onclick="editNote()">✏️ '+(hasAny?'编辑办事须知':'添加办事须知')+'</button>'
+    +'</div>';
+  h+='</div>';
+  return h;
+}
+
+/* === Tab 4: 材料清单 === */
+function renderMaterials(){
+  var it=cur;
+  if(!it.materials||!it.materials.length) return '<div class="empty"><div class="ei">📄</div><div class="et">暂无材料数据</div></div>';
+  var h='';
+  // Official acceptance conditions display
+  if(it.accept_conditions_official){
+    h+='<div class="info-card"><div class="info-card-row"><span class="info-card-label">官方受理条件</span><span class="info-card-value">'+esc(it.accept_conditions_official)+'</span></div></div>';
+  }
+  h+='<table class="mat-tbl"><thead><tr>'
+    +'<th>序号</th><th>材料名称</th><th>材料类型</th><th>必要性</th><th>形式</th><th>来源渠道</th><th>免提交</th>'
+    +'</tr></thead><tbody>';
+  for(var i=0;i<it.materials.length;i++){
+    var m=it.materials[i];
+    var necessary=m.material_necessity||m.is_necessary||'';
+    var neccClass=necessary==='必要'?'mat-type-necessary':(necessary==='非必要'||necessary==='容缺'?'mat-type-optional':'');
+    h+='<tr>'
+      +'<td>'+(i+1)+'</td>'
+      +'<td><strong>'+esc(m.material_name||'')+'</strong>'
+        +(m.linked_cert&&m.linked_cert!=='未关联'?'<br><span style="font-size:10px;color:var(--t3)">📎 '+esc(m.linked_cert)+'</span>':'')
+      +'</td>'
+      +'<td>'+esc(m.material_type||'')+'</td>'
+      +'<td>'+(necessary?'<span class="mat-type '+neccClass+'">'+esc(necessary)+'</span>':'')+'</td>'
+      +'<td>'+esc(m.material_form||'')+'</td>'
+      +'<td>'+esc(m.source_channel||'')+'</td>'
+      +'<td>'+(m.is_exempt==='是'?'<span style="color:var(--ok)">✓</span>':'')+'</td>'
+      +'</tr>';
+  }
+  h+='</tbody></table>';
+  return h;
+}
+window.renderMaterials=renderMaterials;
+
+/* === Tab 5: 办事结果 === */
+function renderResults(){
+  var it=cur;
+  if(!it.results||!it.results.length) return '<div class="empty"><div class="ei">📜</div><div class="et">暂无结果数据</div></div>';
+  var h='';
+  h+='<table class="res-tbl"><thead><tr>'
+    +'<th>序号</th><th>结果名称</th><th>结果类型</th><th>关联证照</th><th>有效期</th><th>持有人类型</th>'
+    +'</tr></thead><tbody>';
+  for(var i=0;i<it.results.length;i++){
+    var r=it.results[i];
+    h+='<tr>'
+      +'<td>'+(i+1)+'</td>'
+      +'<td><strong>'+esc(r.result_name||'')+'</strong></td>'
+      +'<td>'+(r.result_type?'<span class="res-type">'+esc(r.result_type)+'</span>':'')+'</td>'
+      +'<td>'+esc(r.linked_cert||r.linked_cert_name||'')+'</td>'
+      +'<td>'+esc(r.cert_validity||'')+'</td>'
+      +'<td>'+esc(r.holder_type||'')+'</td>'
+      +'</tr>';
+  }
+  h+='</tbody></table>';
+  return h;
+}
+window.renderResults=renderResults;
+
+/* === Edit Modal === */
+window.editF=function(idx){
+  if(!cur||!cur.f)return;
+  var f=cur.f[idx];
+  var ft=f.type||f.field_type||'text';
+  var fe=f.ent||f.entity_type||'';
+  var fs=f.std||f.standard_field||'';
+  var fr=f.req||f.required||false;
+  var fo=f.opts?(Array.isArray(f.opts)?f.opts.join(', '):JSON.stringify(f.opts)):'';
+  var mb=document.getElementById('mBox');
+  var oh='<div class="modal-hd"><h3>编辑字段：'+esc(f.name||f.field_name||'')+'</h3>'
+    +'<button class="modal-x" onclick="closeM()">×</button></div>'
+    +'<div class="modal-bd">'
+    +'<div class="fg"><label>字段名称</label><input id="ef-n" value="'+esc(f.name||f.field_name||'')+'"></div>'
+    +'<div class="fg"><label>字段类型</label><select id="ef-t">';
+  for(var k in TM)oh+='<option value="'+k+'"'+(ft===k?' selected':'')+'>'+TM[k]+'</option>';
+  oh+='</select></div>'
+    +'<div class="fg"><label>是否必填</label><select id="ef-r"><option value="1"'+(fr?' selected':'')+'>是</option><option value="0"'+(!fr?' selected':'')+'>否</option></select></div>'
+    +'<div class="fg"><label>标准字段分类</label><input id="ef-s" value="'+esc(fs)+'" placeholder="如：个人签名、单位盖章"></div>'
+    +'<div class="fg"><label>实体类型</label><select id="ef-e"><option value="">-</option>';
+  for(var ei=0;ei<EM_KEYS.length;ei++){var ek=EM_KEYS[ei];oh+='<option value="'+ek+'"'+(fe===ek?' selected':'')+'>'+ek+'</option>';}
+  oh+='</select></div>'
+    +'<div class="fg"><label>选项值（逗号分隔，仅下拉类型）</label><textarea id="ef-o" rows="3" placeholder="选项1, 选项2, 选项3">'+esc(fo)+'</textarea></div>'
+    +'</div>'
+    +'<div class="modal-ft"><button class="btn" onclick="closeM()">取消</button><button class="btn btn-p" onclick="saveF('+idx+')">保存</button></div>';
+  mb.innerHTML=oh;
+  document.getElementById('mBg').classList.add('show');
+};
+
+window.closeM=function(){document.getElementById('mBg').classList.remove('show');};
+
+window.editNote=function(){
+  if(!cur)return;
+  var n=getNoteObj(cur);
+  var mb=document.getElementById('mBox');
+  var oh='<div class="modal-hd"><h3>编辑办事须知</h3>'
+    +'<button class="modal-x" onclick="closeM()">×</button></div>'
+    +'<div class="modal-bd">'
+    +'<div class="note-edit-section"><label>🔗 前置事项（办理前需先完成的事项/审批）</label>'
+    +'<textarea id="ef-note-pre" rows="3" placeholder="如：需先取得XX许可证，或先完成XX备案...">'+esc(n.pre)+'</textarea></div>'
+    +'<div class="note-edit-section"><label>✅ 后置结果（办理完成后产生的结果/后续步骤）</label>'
+    +'<textarea id="ef-note-post" rows="3" placeholder="如：审批通过后需到XX窗口领取证件，或需在XX日内完成XX...">'+esc(n.post)+'</textarea></div>'
+    +'<div class="note-edit-section"><label>📋 填表注意（申请表填写时的注意事项）</label>'
+    +'<textarea id="ef-note-form" rows="3" placeholder="如：申请日期需填写当天日期，经营范围需与营业执照一致...">'+esc(n.form_tip)+'</textarea></div>'
+    +'<div class="note-edit-section"><label>📌 其他说明（其他影响事项办理的信息）</label>'
+    +'<textarea id="ef-note-other" rows="3" placeholder="如：需按照小散工程进行施工报备...">'+esc(n.other)+'</textarea></div>'
+    +'</div>'
+    +'<div class="modal-ft"><button class="btn" onclick="closeM()">取消</button><button class="btn btn-p" onclick="saveNote()">保存</button></div>';
+  mb.innerHTML=oh;
+  document.getElementById('mBg').classList.add('show');
+};
+
+window.saveNote=function(){
+  if(!cur)return;
+  var pre=document.getElementById('ef-note-pre').value.trim();
+  var post=document.getElementById('ef-note-post').value.trim();
+  var form_tip=document.getElementById('ef-note-form').value.trim();
+  var other=document.getElementById('ef-note-other').value.trim();
+  cur.note={pre:pre,post:post,form_tip:form_tip,other:other};
+  persistItem(cur);
+  closeM();
+  document.getElementById('content').innerHTML=renderContent();
+};
+
+window.saveF=function(idx){
+  var f=cur.f[idx];
+  f.name=document.getElementById('ef-n').value;
+  f.type=document.getElementById('ef-t').value;
+  f.req=document.getElementById('ef-r').value==='1';
+  f.std=document.getElementById('ef-s').value;
+  f.ent=document.getElementById('ef-e').value;
+  var ov=document.getElementById('ef-o').value.trim();
+  f.opts=(ov&&f.type==='select')?ov.split(/[,，]/).map(function(s){return s.trim();}).filter(Boolean):null;
+  // Track edit
+  if(!localEdits[cur.c])localEdits[cur.c]={fields:{}};
+  localEdits[cur.c].fields[idx]=true;
+  persistItem(cur);
+  closeM();renderContent();toast('字段已更新（本地缓存）','ok');
+};
+
+/* === Export === */
+window.doExport=function(){
+  if(!cur)return;
+  var d=JSON.stringify(cur,null,2);
+  var b=new Blob([d],{type:'application/json'});
+  var u=URL.createObjectURL(b);
+  var a=document.createElement('a');
+  a.href=u;a.download=cur.c+'_'+cur.n+'.json';a.click();
+  URL.revokeObjectURL(u);
+  toast('导出成功','ok');
+};
+
+/* === Save to Supabase === */
+window.doSave=function(){
+  if(!cur)return;
+  toast('正在保存…','');
+  var headers={'apikey':SUPA_KEY,'Content-Type':'application/json','Authorization':'Bearer '+SUPA_KEY};
+  var proms=[];
+  // Save form fields if on fields tab and fields exist
+  if(cur.f&&cur.f.length){
+    var fids=Array.isArray(cur.fid)?cur.fid:[cur.fid];
+    for(var fi=0;fi<fids.length;fi++){
+      var fid=fids[fi];
+      if(!fid)continue;
+      // Query existing records
+      proms.push(
+        fetch(SUPA_URL+'/rest/v1/form_fields?form_id=eq.'+encodeURIComponent(fid),{headers:headers})
+        .then(function(r){return r.json();})
+        .then(function(rows){
+          var byName={};
+          for(var j=0;j<rows.length;j++){
+            var key=(rows[j].field_name||'')+'__'+(rows[j].field_index||j);
+            byName[key]=rows[j].id;
+          }
+          var ups=[];
+          for(var k=0;k<cur.f.length;k++){
+            var f=cur.f[k];
+            var key2=(f.name||f.field_name||'')+'__'+k;
+            var rec={
+              field_name:f.name||f.field_name||'',
+              field_type:f.type||f.field_type||'text',
+              required:f.req||f.required||false,
+              standard_field:f.std||f.standard_field||null,
+              entity_type:f.ent||f.entity_type||null,
+              field_index:k
+            };
+            if(f.opts)rec.options=f.opts;
+            if(byName[key2]){
+              // Update existing
+              ups.push(fetch(SUPA_URL+'/rest/v1/form_fields?id=eq.'+byName[key2],{
+                method:'PATCH',headers:headers,
+                body:JSON.stringify(rec)
+              }));
+            }
+          }
+          return Promise.all(ups);
+        })
+      );
+    }
+  }
+  Promise.all(proms).then(function(){
+    toast('已保存到数据库','ok');
+  }).catch(function(e){
+    toast('保存失败: '+e.message,'err');
+  });
+};
+
+/* === Dimension tooltip (fixed position, avoids overflow clipping) === */
+(function(){
+  var tip=document.getElementById('dim-tip');
+  if(!tip)return;
+  var showTip=function(e){
+    var el=e.target.closest('.dtag');
+    if(!el||!el.dataset.title){tip.style.opacity='0';return;}
+    tip.innerHTML='<div class="dt-title">'+el.dataset.title+'</div><div class="dt-desc">'+el.dataset.desc+'</div>';
+    tip.style.opacity='1';
+    var r=el.getBoundingClientRect();
+    requestAnimationFrame(function(){
+      var tw=tip.offsetWidth,th=tip.offsetHeight;
+      var left=r.left+r.width/2-tw/2;
+      var top=r.top-th-10;
+      if(left<8)left=8;
+      if(left+tw>window.innerWidth-8)left=window.innerWidth-tw-8;
+      if(top<8){top=r.bottom+10;tip.style.transform='none';}
+      tip.style.left=left+'px';
+      tip.style.top=top+'px';
+    });
+  };
+  var hideTip=function(){tip.style.opacity='0';};
+  document.addEventListener('mouseover',showTip);
+  document.addEventListener('mouseout',function(e){
+    if(!e.target.closest('.dtag'))hideTip();
+  });
+})();
+
+loadData();
+})();
+</script>
+</body>
+</html>
