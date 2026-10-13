@@ -367,7 +367,12 @@ function loadEditsFromSupabase(){
 // 保存编辑到Supabase
 function saveEditToSupabase(itemCode,editData){
   if(!useSupabase||!SUPA_KEY)return Promise.resolve();
-  var headers={'apikey':SUPA_KEY,'Content-Type':'application/json','Authorization':'Bearer '+SUPA_KEY};
+  var headers={
+    'apikey':SUPA_KEY,
+    'Content-Type':'application/json',
+    'Authorization':'Bearer '+SUPA_KEY,
+    'Prefer':'resolution=merge-duplicates'
+  };
   return fetch(SUPA_URL+'/rest/v1/item_edits',{
     method:'POST',
     headers:headers,
@@ -377,20 +382,16 @@ function saveEditToSupabase(itemCode,editData){
       updated_at:new Date().toISOString()
     })
   }).then(function(r){
-    if(r.status===409){
-      // 已存在，更新
-      return fetch(SUPA_URL+'/rest/v1/item_edits?item_code=eq.'+encodeURIComponent(itemCode),{
-        method:'PATCH',
-        headers:headers,
-        body:JSON.stringify({
-          edit_data:editData,
-          updated_at:new Date().toISOString()
-        })
+    if(!r.ok){
+      console.warn('Supabase保存失败:',r.status,r.statusText);
+      return r.json().then(function(err){
+        console.warn('错误详情:',err);
+        throw new Error(err.message||'保存失败');
       });
     }
     return r;
   }).catch(function(e){
-    console.warn('Supabase保存失败:',e.message);
+    console.error('Supabase保存异常:',e);
     useSupabase=false;
   });
 }
