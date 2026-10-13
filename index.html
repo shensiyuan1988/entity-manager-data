@@ -1255,22 +1255,21 @@ function renderMaterials(){
     h+='<div class="info-card"><div class="info-card-row"><span class="info-card-label">官方受理条件</span><span class="info-card-value">'+esc(it.accept_conditions_official)+'</span></div></div>';
   }
   h+='<table class="mat-tbl"><thead><tr>'
-    +'<th>序号</th><th>材料名称</th><th>材料类型</th><th>必要性</th><th>形式</th><th>来源渠道</th><th>免提交</th>'
+    +'<th>序号</th><th>材料名称</th><th>材料类型</th><th>必要性</th><th>来源</th>'
     +'</tr></thead><tbody>';
   for(var i=0;i<it.materials.length;i++){
     var m=it.materials[i];
-    var necessary=m.material_necessity||m.is_necessary||'';
+    var name=m.name||m.material_name||'';
+    var type=m.type||m.material_type||'';
+    var necessary=m.required||m.material_necessity||m.is_necessary||'';
     var neccClass=necessary==='必要'?'mat-type-necessary':(necessary==='非必要'||necessary==='容缺'?'mat-type-optional':'');
+    var source=m.source||m.source_channel||'';
     h+='<tr>'
       +'<td>'+(i+1)+'</td>'
-      +'<td><strong>'+esc(m.material_name||'')+'</strong>'
-        +(m.linked_cert&&m.linked_cert!=='未关联'?'<br><span style="font-size:10px;color:var(--t3)">📎 '+esc(m.linked_cert)+'</span>':'')
-      +'</td>'
-      +'<td>'+esc(m.material_type||'')+'</td>'
+      +'<td><strong>'+esc(name)+'</strong></td>'
+      +'<td>'+esc(type)+'</td>'
       +'<td>'+(necessary?'<span class="mat-type '+neccClass+'">'+esc(necessary)+'</span>':'')+'</td>'
-      +'<td>'+esc(m.material_form||'')+'</td>'
-      +'<td>'+esc(m.source_channel||'')+'</td>'
-      +'<td>'+(m.is_exempt==='是'?'<span style="color:var(--ok)">✓</span>':'')+'</td>'
+      +'<td>'+esc(source)+'</td>'
       +'</tr>';
   }
   h+='</tbody></table>';
@@ -1284,17 +1283,16 @@ function renderResults(){
   if(!it.results||!it.results.length) return '<div class="empty"><div class="ei">📜</div><div class="et">暂无结果数据</div></div>';
   var h='';
   h+='<table class="res-tbl"><thead><tr>'
-    +'<th>序号</th><th>结果名称</th><th>结果类型</th><th>关联证照</th><th>有效期</th><th>持有人类型</th>'
+    +'<th>序号</th><th>结果名称</th><th>结果类型</th>'
     +'</tr></thead><tbody>';
   for(var i=0;i<it.results.length;i++){
     var r=it.results[i];
+    var name=r.name||r.result_name||'';
+    var type=r.type||r.result_type||'';
     h+='<tr>'
       +'<td>'+(i+1)+'</td>'
-      +'<td><strong>'+esc(r.result_name||'')+'</strong></td>'
-      +'<td>'+(r.result_type?'<span class="res-type">'+esc(r.result_type)+'</span>':'')+'</td>'
-      +'<td>'+esc(r.linked_cert||r.linked_cert_name||'')+'</td>'
-      +'<td>'+esc(r.cert_validity||'')+'</td>'
-      +'<td>'+esc(r.holder_type||'')+'</td>'
+      +'<td><strong>'+esc(name)+'</strong></td>'
+      +'<td>'+(type?'<span class="res-type">'+esc(type)+'</span>':'')+'</td>'
       +'</tr>';
   }
   h+='</tbody></table>';
