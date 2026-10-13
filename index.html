@@ -778,7 +778,20 @@ window.renderBasicInfo=renderBasicInfo;
 var condEditMode=false;
 function renderCond(){
   var it=cur;
-  if(!it.sc||!it.sc.length)return '<div class="empty"><div class="ei">📝</div><div class="et">暂无受理条件数据</div></div>';
+  // 如果没有知识库受理条件，显示官方受理条件
+  if(!it.sc||!it.sc.length){
+    if(it.accept_conditions_official){
+      var h='';
+      h+='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px">'
+        +'<button class="btn" onclick="exportCondJSON()">📥 导出受理条件</button>'
+        +'</div>';
+      h+='<div class="info-card" style="margin-bottom:0">';
+      h+='<div class="info-card-row"><span class="info-card-label">官方受理条件</span><span class="info-card-value" style="white-space:pre-wrap;line-height:1.6">'+esc(it.accept_conditions_official)+'</span></div>';
+      h+='</div>';
+      return h;
+    }
+    return '<div class="empty"><div class="ei">📝</div><div class="et">暂无受理条件数据</div></div>';
+  }
   var h='';
   // 编辑模式按钮
   h+='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px">'
