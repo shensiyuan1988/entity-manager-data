@@ -1250,10 +1250,6 @@ function renderMaterials(){
   var it=cur;
   if(!it.materials||!it.materials.length) return '<div class="empty"><div class="ei">📄</div><div class="et">暂无材料数据</div></div>';
   var h='';
-  // Official acceptance conditions display
-  if(it.accept_conditions_official){
-    h+='<div class="info-card"><div class="info-card-row"><span class="info-card-label">官方受理条件</span><span class="info-card-value">'+esc(it.accept_conditions_official)+'</span></div></div>';
-  }
   h+='<table class="mat-tbl"><thead><tr>'
     +'<th>序号</th><th>材料名称</th><th>材料类型</th><th>必要性</th><th>来源</th>'
     +'</tr></thead><tbody>';
