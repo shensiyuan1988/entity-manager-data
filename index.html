@@ -749,8 +749,13 @@ window.renderBasicInfo=renderBasicInfo;
 
 var basicInfoEditMode=false;
 window.toggleBasicInfoEdit=function(){
-  basicInfoEditMode=!basicInfoEditMode;
-  renderContent();
+  if(basicInfoEditMode){
+    // 退出编辑模式时自动保存
+    window.saveBasicInfo();
+  } else {
+    basicInfoEditMode=true;
+    renderContent();
+  }
 };
 window.saveBasicInfo=function(){
   if(!cur)return;
