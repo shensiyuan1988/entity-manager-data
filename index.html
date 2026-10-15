@@ -447,8 +447,45 @@ function toast(m,t){var e=document.getElementById('toast');e.textContent=m;e.cla
 function getRegs(it){return it.regs||it.r||[];}
 function getRegCount(it){var r=getRegs(it);return r?r.length:0;}
 
+/* === 法规库关联 === */
+var regsLibMap={};  // name -> full regulation object
+function enrichRegs(slimRegs){
+  if(!slimRegs||!slimRegs.length)return [];
+  var result=[];
+  for(var i=0;i<slimRegs.length;i++){
+    var sr=slimRegs[i];
+    var name=sr.name||sr.regulation_name||'';
+    var full=regsLibMap[name];
+    if(full){
+      // 合并：完整法规库数据 + 事项特有的引用条款
+      var enriched=JSON.parse(JSON.stringify(full));
+      if(sr.ref_clauses)enriched.ref_clauses=sr.ref_clauses;
+      if(sr._rc&&!enriched.ref_clauses)enriched._rc=sr._rc;
+      result.push(enriched);
+    } else {
+      // 法规库中没有，保留原始数据（slim或legacy格式）
+      result.push(sr);
+    }
+  }
+  return result;
+}
+
 function loadData(){
-  fetch('items_data.json').then(function(r){return r.json();}).then(function(d){
+  // 同时加载事项数据和法规库
+  Promise.all([
+    fetch('items_data.json').then(function(r){return r.json();}),
+    fetch('regulations_lib.json').then(function(r){return r.json();}).catch(function(e){return {};})
+  ]).then(function(results){
+    var d=results[0];
+    var lib=results[1];
+    // 构建法规名称索引
+    if(lib&&typeof lib==='object'){
+      var keys=Object.keys(lib);
+      for(var i=0;i<keys.length;i++){
+        var reg=lib[keys[i]];
+        if(reg.name)regsLibMap[reg.name]=reg;
+      }
+    }
     // 异步加载编辑数据（优先Supabase，失败则localStorage）
     loadEditsFromSupabase().then(function(edits){
       var editCount=0;
@@ -993,8 +1030,10 @@ function syntaxHighlightJSON(obj,refNums){
 var regEditMode=false;
 function renderReg(){
   var it=cur;
-  var regs=getRegs(it);
-  if(!regs||!regs.length)return '<div class="empty"><div class="ei">📜</div><div class="et">暂无政策依据数据</div></div>';
+  var rawRegs=getRegs(it);
+  if(!rawRegs||!rawRegs.length)return '<div class="empty"><div class="ei">📜</div><div class="et">暂无政策依据数据</div></div>';
+  // 用法规库数据丰富slim格式
+  var regs=enrichRegs(rawRegs);
   var isNewFormat=regs.length>0&&regs[0].articles!==undefined;
   var h='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px">'
     +'<button class="btn" onclick="exportRegJSON()">📥 导出政策依据</button>'
@@ -1135,7 +1174,7 @@ window.delRefClause=function(ri,ci){
 
 window.exportRegJSON=function(){
   if(!cur)return;
-  var regs=getRegs(cur);
+  var regs=enrichRegs(getRegs(cur));
   if(!regs)return;
   var data={
     item_code:cur.c,
