@@ -249,6 +249,11 @@ table.ftbl{width:100%;border-collapse:collapse;font-size:12px;min-width:700px}
 #dim-tip .dt-desc{opacity:.85;font-size:11px}
 #dim-tip::after{content:'';position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:#16213e}
 .dim-cell{display:flex;flex-wrap:wrap;align-items:center;gap:2px;min-width:90px}
+.dim-edit-group{display:flex;flex-wrap:wrap;gap:6px;padding:4px 0}
+.dim-edit-cb{display:inline-flex;align-items:center;gap:4px;cursor:pointer;padding:3px 6px;border-radius:8px;transition:background .15s}
+.dim-edit-cb:hover{background:var(--bg2)}
+.dim-edit-cb input[type=checkbox]{width:14px;height:14px;cursor:pointer;accent-color:var(--pri)}
+.dim-edit-desc{font-size:10px;color:var(--t3)}
 
 /* === Modal === */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:100;display:none;align-items:center;justify-content:center}
@@ -1371,6 +1376,9 @@ window.editF=function(idx){
   var fs=f.std||f.standard_field||'';
   var fr=f.req||f.required||false;
   var fo=f.opts?(Array.isArray(f.opts)?f.opts.join(', '):JSON.stringify(f.opts)):'';
+  var fdims=f.dimensions||f.dims||[];
+  var DIMS=['主体','客体','空间','凭证','载体'];
+  var DIM_DESC={'主体':'👤 谁在办','客体':'📋 为什么办','空间':'📍 在哪办','凭证':'📄 凭什么办','载体':'📝 办理记录'};
   var mb=document.getElementById('mBox');
   var oh='<div class="modal-hd"><h3>编辑字段：'+esc(f.name||f.field_name||'')+'</h3>'
     +'<button class="modal-x" onclick="closeM()">×</button></div>'
@@ -1385,6 +1393,14 @@ window.editF=function(idx){
   for(var ei=0;ei<EM_KEYS.length;ei++){var ek=EM_KEYS[ei];oh+='<option value="'+ek+'"'+(fe===ek?' selected':'')+'>'+ek+'</option>';}
   oh+='</select></div>'
     +'<div class="fg"><label>选项值（逗号分隔，仅下拉类型）</label><textarea id="ef-o" rows="3" placeholder="选项1, 选项2, 选项3">'+esc(fo)+'</textarea></div>'
+    +'<div class="fg"><label>五维标注（可多选）</label><div class="dim-edit-group">';
+  for(var di=0;di<DIMS.length;di++){
+    var dm=DIMS[di],checked=fdims.indexOf(dm)>=0?' checked':'';
+    oh+='<label class="dim-edit-cb"><input type="checkbox" class="ef-dim" value="'+dm+'"'+checked+'>'
+      +'<span class="dtag '+dm+'" style="cursor:pointer"><span class="di">'+(DIM_DESC[dm]?DIM_DESC[dm].split(' ')[0]:'•')+'</span>'+dm+'</span>'
+      +'<span class="dim-edit-desc">'+DIM_DESC[dm].split(' ').slice(1).join(' ')+'</span></label>';
+  }
+  oh+='</div></div>'
     +'</div>'
     +'<div class="modal-ft"><button class="btn" onclick="closeM()">取消</button><button class="btn btn-p" onclick="saveF('+idx+')">保存</button></div>';
   mb.innerHTML=oh;
@@ -1435,6 +1451,11 @@ window.saveF=function(idx){
   f.ent=document.getElementById('ef-e').value;
   var ov=document.getElementById('ef-o').value.trim();
   f.opts=(ov&&f.type==='select')?ov.split(/[,，]/).map(function(s){return s.trim();}).filter(Boolean):null;
+  // Save dimensions
+  var dimCbs=document.querySelectorAll('.ef-dim:checked');
+  var newDims=[];for(var di=0;di<dimCbs.length;di++)newDims.push(dimCbs[di].value);
+  f.dimensions=newDims;
+  f.dims=newDims;
   // Track edit
   if(!localEdits[cur.c])localEdits[cur.c]={fields:{}};
   localEdits[cur.c].fields[idx]=true;
