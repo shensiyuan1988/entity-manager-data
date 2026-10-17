@@ -143,79 +143,8 @@ a:hover{text-decoration:underline}
 .btn-del{background:#fff1f0;color:#cf1322;border:1px solid #ffa39e;font-size:11px;padding:2px 10px;border-radius:6px;cursor:pointer}
 .btn-del:hover{background:#cf1322;color:#fff}
 
-/* === 政策依据（知识库风格） === */
+/* === 政策依据 === */
 .reg-intro{font-size:12px;color:var(--t2);margin-bottom:10px}
-/* 法规头部信息卡 */
-.reg-detail-card{border:1px solid var(--border);border-radius:var(--r);background:#fff;margin-bottom:16px;overflow:hidden}
-.reg-detail-hd{padding:16px 18px 14px;border-bottom:1px solid #f0f0f0}
-.reg-detail-hd .reg-title-row{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;margin-bottom:6px}
-.reg-detail-hd .reg-name{font-size:16px;font-weight:600;color:var(--t1);flex:1;min-width:0;line-height:1.4}
-.reg-detail-hd .reg-sub{font-size:12px;color:var(--t3);margin-top:2px}
-.reg-status{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;letter-spacing:.3px}
-.reg-status.valid{background:#e6f4ea;color:#137333}
-.reg-status.other{background:#f0f0f0;color:var(--t2)}
-.reg-level{display:inline-block;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:600;background:#e8f0fe;color:#1a73e8}
-.reg-detail-meta{padding:14px 18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px 20px;border-top:1px solid #f5f5f5;background:#fafbfc}
-.reg-meta-cell{display:flex;align-items:flex-start;gap:8px}
-.reg-meta-cell .mi{font-size:14px;line-height:1;margin-top:1px;flex-shrink:0;opacity:.5}
-.reg-meta-cell .ml{font-size:10px;color:var(--t3);margin-bottom:1px}
-.reg-meta-cell .mv{font-size:12px;color:var(--t1);font-weight:500;line-height:1.4;word-break:break-all}
-/* 引用条款区域 */
-.reg-ref-section{padding:14px 18px;border-top:1px solid #f0f0f0}
-.reg-ref-title{font-size:12px;font-weight:600;color:var(--pri);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.reg-ref-title::before{content:'';display:inline-block;width:3px;height:12px;background:var(--pri);border-radius:2px}
-.ref-clause{padding:10px 12px;background:#f0f7ff;border-radius:8px;margin-bottom:8px;border-left:3px solid var(--pri)}
-.ref-clause-num{font-size:11px;font-weight:600;color:var(--pri);margin-bottom:3px}
-.ref-clause-content{font-size:13px;line-height:1.6;color:var(--t1)}
-.ref-clause-edit{padding:10px 12px;background:#f8f9ff;border:1px solid #e0e4f0;border-radius:8px;margin-bottom:8px}
-.ref-clause-edit-row{display:grid;grid-template-columns:60px 1fr 70px 1fr;gap:6px;align-items:center}
-.ref-clause-edit-row label{font-size:11px;color:var(--t3);font-weight:500}
-.reg-inp-cn,.reg-inp-cc{border:1px solid #d9d9d9;border-radius:5px;padding:4px 8px;font-size:12px;width:100%;box-sizing:border-box}
-.reg-inp-cn:focus,.reg-inp-cc:focus{outline:none;border-color:var(--pri)}
-/* 条款列表 */
-.reg-articles-section{padding:0 18px 18px}
-.reg-articles-hd{font-size:13px;font-weight:600;color:var(--t1);padding:14px 0 10px;display:flex;align-items:center;gap:6px}
-.reg-articles-hd span{font-size:11px;font-weight:400;color:var(--t3)}
-/* 单个条款卡片 */
-.clause-card{border:1px solid #e8e8e8;border-radius:8px;margin-bottom:8px;overflow:hidden;transition:border-color .15s}
-.clause-card:hover{border-color:#c0d0e0}
-.clause-card.is-ref{border-color:var(--pri);border-width:1.5px;background:#fafcff}
-.clause-card.is-ref .clause-hd{background:#f0f7ff}
-.clause-hd{padding:10px 14px;background:#fff;cursor:pointer;display:flex;align-items:flex-start;gap:10px;transition:background .12s}
-.clause-hd:hover{background:#f8fafc}
-.clause-card.is-ref .clause-hd:hover{background:#e8f2ff}
-.clause-icon{width:24px;height:24px;border-radius:6px;background:var(--pri);background:rgba(26,115,232,.08);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:1px}
-.clause-card.is-ref .clause-icon{background:rgba(26,115,232,.15)}
-.clause-body-preview{flex:1;min-width:0}
-.clause-num-title{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-.clause-num{font-size:13px;font-weight:600;color:var(--t1)}
-.clause-title-text{font-size:13px;color:var(--t1)}
-.clause-ch{font-size:10px;color:var(--t3);background:#f0f0f0;padding:1px 6px;border-radius:4px}
-.clause-type-tag{font-size:9px;padding:1px 6px;border-radius:4px;font-weight:600}
-.clause-type-tag.t-上位法依据{background:#e8f0fe;color:#1a73e8}
-.clause-type-tag.t-定义条款{background:#e6f4ea;color:#137333}
-.clause-type-tag.t-适用条件{background:#fff3e0;color:#b35c00}
-.clause-type-tag.t-程序要求{background:#f3e8fd;color:#7b1fa2}
-.clause-type-tag.t-法律后果{background:#fce4ec;color:#c62828}
-.clause-type-tag.t-权利义务{background:#e0f7fa;color:#00708a}
-.clause-type-tag.t-救济途径{background:#fff8e1;color:#f57f17}
-.clause-type-tag.t-其他{background:#f5f5f5;color:#666}
-.clause-summary{font-size:12px;color:var(--t2);line-height:1.5;margin-top:4px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.clause-ref-badge{font-size:9px;background:var(--pri);color:#fff;padding:1px 6px;border-radius:4px;font-weight:600;flex-shrink:0}
-.clause-chevron{font-size:12px;color:var(--t3);transition:transform .2s;flex-shrink:0;margin-top:3px}
-.clause-chevron.open{transform:rotate(180deg)}
-/* 条款展开内容 */
-.clause-expand{display:none;padding:14px 16px;background:#f8fafd;border-top:1px solid #eee;border-left:3px solid var(--pri)}
-.clause-expand.open{display:block}
-.clause-full-text{font-size:13px;line-height:1.8;color:var(--t1);margin-bottom:12px;padding:10px 14px;background:#fff;border-radius:6px;border:1px solid #eee}
-.clause-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
-@media(max-width:640px){.clause-info-grid{grid-template-columns:1fr}}
-.clause-info-box{padding:10px 12px;border-radius:8px;font-size:12px;line-height:1.6}
-.clause-info-box.threshold{background:#fffbeb;border:1px solid #fde68a;color:#92400e}
-.clause-info-box.plain{background:#eff6ff;border:1px solid #bfdbfe;color:#1e40af}
-.clause-info-box .ci-label{font-size:10px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:4px}
-.clause-note{font-size:11px;color:var(--t3);line-height:1.5;padding:8px 12px;background:#f5f5f5;border-radius:6px}
-/* 旧样式保留兼容legacy */
 .reg-card{border:1px solid var(--border);border-radius:var(--r);margin-bottom:12px;overflow:hidden}
 .reg-hd{padding:10px 14px;background:#fff;border-bottom:1px solid #f0f0f0;cursor:pointer;display:flex;align-items:center;gap:8px;transition:background .12s;flex-wrap:wrap}
 .reg-hd:hover{background:#fafbfc}
@@ -223,6 +152,9 @@ a:hover{text-decoration:underline}
 .reg-hd .rd{font-size:11px;color:var(--t3);flex-shrink:0}
 .reg-hd .ra{font-size:12px;color:var(--t3);transition:transform .2s;flex-shrink:0}
 .reg-hd .ra.open{transform:rotate(90deg)}
+.reg-status{display:inline-block;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:500}
+.reg-status.valid{background:#e6f4ea;color:#137333}
+.reg-status.other{background:#f0f0f0;color:var(--t2)}
 .reg-bd{display:none;padding:0;border-top:1px solid #f0f0f0;background:#fafbfc}
 .reg-bd.open{display:block}
 .reg-meta-bar{padding:10px 14px;display:flex;gap:12px;flex-wrap:wrap;border-bottom:1px solid #eee;background:#f8fafc}
@@ -231,8 +163,21 @@ a:hover{text-decoration:underline}
 .reg-section{padding:10px 14px}
 .reg-section-title{font-size:12px;font-weight:600;color:var(--pri);margin-bottom:8px;display:flex;align-items:center;gap:6px}
 .reg-section-title::before{content:'';display:inline-block;width:3px;height:12px;background:var(--pri);border-radius:2px}
-.reg-source-link{font-size:11px;color:var(--pri);text-decoration:none;display:flex;align-items:center;gap:3px}
-.reg-source-link:hover{text-decoration:underline}
+.ref-clause{padding:8px 10px;background:#fff;border-radius:6px;margin-bottom:6px;border-left:3px solid var(--pri)}
+.ref-clause-num{font-size:11px;font-weight:600;color:var(--pri);margin-bottom:2px}
+.ref-clause-content{font-size:13px;line-height:1.6;color:var(--t1)}
+.ref-clause-edit{padding:10px 12px;background:#f8f9ff;border:1px solid #e0e4f0;border-radius:8px;margin-bottom:8px}
+.ref-clause-edit-row{display:grid;grid-template-columns:60px 1fr 70px 1fr;gap:6px;align-items:center}
+.ref-clause-edit-row label{font-size:11px;color:var(--t3);font-weight:500}
+.reg-inp-cn,.reg-inp-cc{border:1px solid #d9d9d9;border-radius:5px;padding:4px 8px;font-size:12px;width:100%;box-sizing:border-box}
+.reg-inp-cn:focus,.reg-inp-cc:focus{outline:none;border-color:var(--pri)}
+.reg-article{padding:8px 10px;border-bottom:1px solid #f0f0f0}
+.reg-article:last-child{border-bottom:none}
+.reg-article.highlight{background:#fffbe6;border-left:3px solid var(--warn)}
+.reg-json-block{margin:0 14px 14px;padding:12px;background:#1e1e2e;color:#cdd6f4;border-radius:8px;font-family:'Menlo','Consolas','Courier New',monospace;font-size:11px;line-height:1.5;overflow-x:auto;white-space:pre-wrap;word-break:break-all;max-height:500px;overflow-y:auto}
+.reg-json-block .json-key{color:#89b4fa}
+.reg-json-block .json-str{color:#a6e3a1}
+.reg-json-block .json-num{color:#fab387}
 .reg-json-block .json-bool{color:#cba6f7}
 .reg-json-block .json-null{color:#6c7086}
 .reg-json-block .json-highlight{background:rgba(250,204,21,0.15);display:inline}
@@ -1109,31 +1054,24 @@ function renderReg(){
 }
 
 function renderRegFull(r,idx){
-  // 收集引用条款号
-  var refNums={};
-  if(r.ref_clauses){for(var j=0;j<r.ref_clauses.length;j++){refNums[r.ref_clauses[j].cn||'']=true;}}
-  var refCount=Object.keys(refNums).length;
-  var artCount=(r.articles||[]).length;
-  // 法规头部
-  var h='<div class="reg-detail-card">';
-  h+='<div class="reg-detail-hd"><div class="reg-title-row">';
-  if(r.id) h+='<span class="reg-level">'+esc(r.id)+'</span>';
-  if(r.status) h+='<span class="reg-status '+(r.status.indexOf('现行')>=0?'valid':'other')+'">'+esc(r.status)+'</span>';
+  var h='<div class="reg-card"><div class="reg-hd" onclick="togReg('+idx+')">'
+    +'<span class="rn">'+esc(r.name||'未知法规')+'</span>'
+    +(r.num||r.number?'<span class="rd">'+esc(r.num||r.number)+'</span>':'')
+    +(r.status?'<span class="reg-status '+(r.status.indexOf('现行')>=0?'valid':'other')+'">'+esc(r.status)+'</span>':'')
+    +'<span class="ra" id="ra'+idx+'">›</span></div>'
+    +'<div class="reg-bd" id="rb'+idx+'">';
+  // Metadata bar
+  h+='<div class="reg-meta-bar">';
+  if(r.issuing_authority) h+='<span class="reg-meta-item">📋 <strong>发布机关：</strong>'+esc(r.issuing_authority)+'</span>';
+  if(r.effective_date) h+='<span class="reg-meta-item">📅 <strong>生效日期：</strong>'+esc(r.effective_date)+'</span>';
+  if(r.business_sector) h+='<span class="reg-meta-item">🏷 <strong>行业：</strong>'+esc(r.business_sector)+'</span>';
+  if(r.department) h+='<span class="reg-meta-item">🏢 <strong>主管：</strong>'+esc(r.department)+'</span>';
+  if(r.source_url) h+='<a class="reg-meta-item reg-source-link" href="'+esc(r.source_url)+'" target="_blank" rel="noopener">🔗 来源</a>';
   h+='</div>';
-  h+='<div class="reg-name">'+esc(r.name||'未知法规')+'</div>';
-  h+='<div class="reg-sub">'+(r.num||r.number?esc(r.num||r.number)+' · ':'')+'共 '+artCount+' 条条款'+(refCount?' · 本事项引用 '+refCount+' 条':'')+'</div>';
-  h+='</div>';
-  // 元数据网格
-  h+='<div class="reg-detail-meta">';
-  if(r.issuing_authority) h+='<div class="reg-meta-cell"><span class="mi">📋</span><div><div class="ml">发文机关</div><div class="mv">'+esc(r.issuing_authority)+'</div></div></div>';
-  if(r.effective_date) h+='<div class="reg-meta-cell"><span class="mi">📅</span><div><div class="ml">生效日期</div><div class="mv">'+esc(r.effective_date)+'</div></div></div>';
-  if(r.business_sector) h+='<div class="reg-meta-cell"><span class="mi">🏷</span><div><div class="ml">行业领域</div><div class="mv">'+esc(r.business_sector)+'</div></div></div>';
-  if(r.department) h+='<div class="reg-meta-cell"><span class="mi">🏢</span><div><div class="ml">主管部门</div><div class="mv">'+esc(r.department)+'</div></div></div>';
-  if(r.source_url) h+='<div class="reg-meta-cell"><span class="mi">🔗</span><div><div class="ml">来源</div><div class="mv"><a href="'+esc(r.source_url)+'" target="_blank" rel="noopener" class="reg-source-link">查看原文</a></div></div></div>';
-  h+='</div>';
-  // 本事项引用条款
-  h+='<div class="reg-ref-section"><div class="reg-ref-title">本事项引用条款（'+(r.ref_clauses?r.ref_clauses.length:0)+'条）</div>';
+  // Referenced clauses
+  h+='<div class="reg-section"><div class="reg-section-title">本事项引用条款（'+(r.ref_clauses?r.ref_clauses.length:0)+'条）</div>';
   if(regEditMode){
+    // Edit mode for ref_clauses
     if(r.ref_clauses){
       for(var j=0;j<r.ref_clauses.length;j++){
         var cl=r.ref_clauses[j];
@@ -1158,64 +1096,17 @@ function renderRegFull(r,idx){
     }
   }
   h+='</div>';
-  // 条款列表
+  // Full articles as JSON
   if(r.articles&&r.articles.length>0){
-    h+='<div class="reg-articles-section">';
-    h+='<div class="reg-articles-hd">条文列表 <span>（点击条文可展开全文、量化阈值与通俗解读）</span></div>';
-    for(var ai=0;ai<r.articles.length;ai++){
-      var art=r.articles[ai];
-      var isRef=refNums[art.num]||false;
-      var artType=art.type||'';
-      var noteObj=art.note||{};
-      var plainExp=noteObj.plain_explanation||'';
-      var appNote=noteObj.application_note||'';
-      var thresholds=art.thresholds||[];
-      var threshText='';
-      if(thresholds.length){
-        var parts=[];
-        for(var ti=0;ti<thresholds.length;ti++){
-          var th=thresholds[ti];
-          if(typeof th==='string')parts.push(th);
-          else if(th.description)parts.push(th.description);
-          else if(th.value)parts.push(th.value);
-        }
-        threshText=parts.join('；');
-      }
-      h+='<div class="clause-card'+(isRef?' is-ref':'')+'">';
-      h+='<div class="clause-hd" onclick="togClause('+idx+','+ai+')">';
-      h+='<span class="clause-icon">📄</span>';
-      h+='<div class="clause-body-preview">';
-      h+='<div class="clause-num-title">';
-      h+='<span class="clause-num">'+esc(art.num||'')+'</span>';
-      if(art.ch) h+='<span class="clause-ch">'+esc(art.ch)+'</span>';
-      if(artType) h+='<span class="clause-type-tag t-'+esc(artType)+'">'+esc(artType)+'</span>';
-      if(isRef) h+='<span class="clause-ref-badge">本事项引用</span>';
-      h+='</div>';
-      if(art.title) h+='<div class="clause-summary" style="-webkit-line-clamp:1;margin-top:2px;font-weight:500;color:var(--t1)">'+esc(art.title)+'</div>';
-      if(art.summary) h+='<div class="clause-summary">'+esc(art.summary)+'</div>';
-      h+='</div>';
-      h+='<span class="clause-chevron" id="cq_'+idx+'_'+ai+'">▼</span>';
-      h+='</div>';
-      // 展开内容
-      h+='<div class="clause-expand" id="ce_'+idx+'_'+ai+'">';
-      if(art.full){
-        h+='<div class="clause-full-text">'+esc(art.full)+'</div>';
-      }
-      if(threshText||plainExp){
-        h+='<div class="clause-info-grid">';
-        if(threshText) h+='<div class="clause-info-box threshold"><div class="ci-label">⚖️ 量化阈值 / 适用口径</div>'+esc(threshText)+'</div>';
-        if(plainExp) h+='<div class="clause-info-box plain"><div class="ci-label">💡 通俗解读</div>'+esc(plainExp)+'</div>';
-        h+='</div>';
-      }
-      if(appNote){
-        h+='<div class="clause-note"><strong>📝 适用说明：</strong>'+esc(appNote)+'</div>';
-      }
-      h+='</div>';
-      h+='</div>';
-    }
-    h+='</div>';
+    var refClauseNums={};
+    if(r.ref_clauses){for(var j=0;j<r.ref_clauses.length;j++){refClauseNums[r.ref_clauses[j].cn||'']=true;}}
+    h+='<div class="reg-section" style="padding-bottom:0"><div class="reg-section-title">法规全文条款 JSON（共'+r.articles.length+'条）</div></div>'
+      +'<div class="reg-toggle-articles" id="rta'+idx+'" onclick="togArticles('+idx+')">展开全部 JSON ▼</div>'
+      +'<div id="rarts'+idx+'" style="display:none">'
+      +'<pre class="reg-json-block">'+syntaxHighlightJSON(r.articles,refClauseNums)+'</pre>'
+      +'</div>';
   }
-  h+='</div>';
+  h+='</div></div>';
   return h;
 }
 
@@ -1238,14 +1129,6 @@ window.togReg=function(i){
   var b=document.getElementById('rb'+i),a=document.getElementById('ra'+i);
   if(b.classList.contains('open')){b.classList.remove('open');a.classList.remove('open');}
   else{b.classList.add('open');a.classList.add('open');}
-};
-
-window.togClause=function(ri,ai){
-  var e=document.getElementById('ce_'+ri+'_'+ai);
-  var q=document.getElementById('cq_'+ri+'_'+ai);
-  if(!e)return;
-  if(e.classList.contains('open')){e.classList.remove('open');if(q)q.classList.remove('open');}
-  else{e.classList.add('open');if(q)q.classList.add('open');}
 };
 
 window.togArticles=function(i){
