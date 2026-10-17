@@ -293,6 +293,31 @@ table.ftbl{width:100%;border-collapse:collapse;font-size:12px;min-width:700px}
   .sc-bd,.reg-bd{display:block!important}
   body{background:#fff}
 }
+
+/* 条件分类展示 */
+.cond-summary{background:#f0f7ff;border:1px solid #d0e3ff;border-radius:8px;padding:10px 14px;margin-bottom:12px;font-size:14px;color:#333}
+.cond-summary b{color:#1a73e8}
+.prohib-count{color:#d32f2f!important}
+.prohibition-section{background:#fff8f0;border:1px solid #ffe0b2;border-radius:8px;padding:12px;margin-bottom:12px}
+.prohibition-header{font-size:15px;font-weight:600;color:#e65100;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #ffe0b2}
+.prohibition-item{background:#fff3e0;border-left:3px solid #ff9800;padding:8px 12px;margin-bottom:6px;border-radius:0 6px 6px 0;font-size:13px;line-height:1.6;color:#333}
+.prohibition-text{color:#bf360c}
+.prohibition-note{margin-top:4px;font-size:12px;color:#795548;background:#fff8e1;padding:4px 8px;border-radius:4px}
+.prohib-row{border-left:3px solid #ff9800!important}
+.type-group{margin-bottom:10px;border:1px solid #e0e0e0;border-radius:8px;overflow:hidden}
+.type-group-header{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:#fafafa;cursor:pointer;user-select:none;border-bottom:1px solid #e0e0e0}
+.type-group-header:hover{background:#f0f0f0}
+.tg-label{font-size:14px;font-weight:600;color:#333}
+.tg-count{font-size:12px;color:#666;background:#e8e8e8;padding:2px 8px;border-radius:10px}
+.tg-toggle{font-size:12px;color:#999;transition:transform .2s}
+.type-group-body{padding:8px}
+.type-group-body.collapsed{display:none}
+.sub-group-label{font-size:12px;color:#555;font-weight:500;padding:6px 8px 4px;margin-top:4px;border-top:1px dashed #eee}
+.sub-group-label:first-child{border-top:none;margin-top:0}
+.sg-count{font-size:11px;color:#888;margin-left:4px}
+.cd-tag.type{background:#e8f5e9;color:#2e7d32;font-size:11px}
+.sc-footer-info{margin-top:8px;padding:8px;background:#f5f5f5;border-radius:6px;font-size:13px}
+.sc-scenario-name{font-weight:500;color:#555;margin-bottom:4px}
 </style>
 </head>
 <body>
@@ -862,71 +887,176 @@ function renderCond(){
   if(it.ot){
     h+='<div class="cond-orig"><div class="cond-orig-label">原始描述</div><div class="cond-orig-text">'+esc(it.ot)+'</div></div>';
   }
+
+  // 收集所有条件并分类
+  var allConds = []; // {si, ci, cond, scenario}
+  var prohibitions = []; // 禁止性条件
+  var typeGroups = {}; // type_main -> [{si, ci, cond}]
+  var typeLabels = {
+    'subject': '👤 主体适格条件',
+    'procedure': '📋 程序合规条件', 
+    'event': '🔄 事由触发条件',
+    'general': '📌 一般性条件'
+  };
+  var subLabels = {
+    '主体-身份适格': '🧑 身份要求',
+    '主体-资质能力': '📜 资质要求',
+    '主体-资源设施': '🏢 资源设施',
+    '程序-材料要求': '📄 材料要求',
+    '程序-审批流程': '⚙️ 审批流程',
+    '程序-时限要求': '⏰ 时限要求',
+    '程序-前置完成': '✅ 前置完成',
+    '事由-设立新增': '🆕 设立新增',
+    '事由-变更': '🔄 变更',
+    '事由-注销撤销': '❌ 注销撤销',
+    '事由-遗失补办': '🔍 遗失补办'
+  };
+
   for(var si=0;si<it.sc.length;si++){
     var sc=it.sc[si],cds=sc.conditions||[];
-    var ev=sc.evaluation||{};
-    var sr=sc.scenario_relation||'AND';
-    // 场景卡片头部
-    h+='<div class="sc-card"><div class="sc-hd"><span class="sc-name">场景 '+esc(sc.scenario_name||sc.name||'未命名')+'</span>'
-      +'<span class="sc-tog" onclick="togSc(this)">收起</span></div>'
-      +'<div class="cd-list" data-si="'+si+'">';
-    // 场景统计信息
-    if(ev.total_conditions){
-      var drRate=ev.data_driven_rate?Math.round(ev.data_driven_rate*100):0;
-      h+='<div class="sc-stats">'
-        +'<span class="sc-stat"><b>'+ev.total_conditions+'</b> 条件总数</span>'
-        +'<span class="sc-stat dr"><b>'+(ev.data_driven_count||0)+'</b> 数据驱动 ('+drRate+'%)</span>'
-        +'<span class="sc-stat mj"><b>'+(ev.manual_judgment_count||0)+'</b> 人工判断</span>'
-        +'<span class="sc-stat rel">场景关系: <b>'+sr+'</b></span>'
-        +'</div>';
-    }
-    // 条件列表
     for(var ci=0;ci<cds.length;ci++){
       var c=cds[ci];
-      var drCls=c.is_data_driven?'dr':'nd';
-      var drTxt=c.is_data_driven?'数据驱动':'人工判断';
-      var cid=c.condition_id||c.id||('C'+(ci+1));
-      if(condEditMode){
-        // 编辑模式：显示可编辑表单
-        h+='<div class="cd-row cd-edit"><div class="cd-idx">'+cid+'</div><div class="cd-body">'
-          +'<div class="cd-edit-row"><label>描述</label><textarea class="cd-inp-desc" data-si="'+si+'" data-ci="'+ci+'" rows="2">'+esc(c.description||c.desc||'')+'</textarea></div>'
-          +'<div class="cd-edit-row cd-edit-inline">'
-          +'<label><input type="checkbox" class="cd-inp-dr" data-si="'+si+'" data-ci="'+ci+'"'+(c.is_data_driven?' checked':'')+'> 数据驱动</label>'
-          +'<label>数据源 <input class="cd-inp-ds" data-si="'+si+'" data-ci="'+ci+'" value="'+esc(c.data_source||'')+'"></label>'
-          +'</div>'
-          +'<div class="cd-edit-row"><label>备注</label><textarea class="cd-inp-notes" data-si="'+si+'" data-ci="'+ci+'" rows="4" placeholder="填写备注信息...">'+esc(c.notes||'')+'</textarea></div>'
-          +'<div style="text-align:right;margin-top:4px"><button class="btn btn-del" onclick="delCond('+si+','+ci+')">🗑 删除</button></div>'
-          +'</div></div>';
+      var entry={si:si,ci:ci,cond:c,scenario:sc};
+      allConds.push(entry);
+      var tm=c.type_main||'general';
+      if(tm==='prohibition'){
+        prohibitions.push(entry);
       } else {
-        // 查看模式
-        h+='<div class="cd-row"><div class="cd-idx">'+cid+'</div><div class="cd-body">'
-          +'<div class="cd-desc">'+esc(c.description||c.desc||'')+'</div>'
-          +'<div class="cd-tags">'
-          +'<span class="cd-tag '+drCls+'">'+drTxt+'</span>'
-          +(c.data_source?'<span class="cd-tag info">源: '+esc(c.data_source)+'</span>':'')
-          +(c.data_source_type?'<span class="cd-tag info">'+esc(c.data_source_type)+'</span>':'')
-          +'</div>'
-          +(c.notes?'<div class="cd-notes-display">📝 '+esc(c.notes)+'</div>':'')
-          +'</div></div>';
+        if(!typeGroups[tm]) typeGroups[tm]=[];
+        typeGroups[tm].push(entry);
       }
     }
-    // 编辑模式：添加条件按钮
-    if(condEditMode){
-      h+='<div style="text-align:center;padding:8px"><button class="btn" onclick="addCond('+si+')">＋ 添加条件</button></div>';
+  }
+
+  var totalConds = allConds.length;
+  var totalProhibs = prohibitions.length;
+  var totalRegular = totalConds - totalProhibs;
+
+  // 总览统计
+  h+='<div class="cond-summary">该事项共 <b>'+totalRegular+'</b> 项条件';
+  if(totalProhibs>0) h+=' 和 <b class="prohib-count">'+totalProhibs+'</b> 条特别提示';
+  h+='</div>';
+
+  // 特别提示区域（禁止性条件）
+  if(totalProhibs>0){
+    h+='<div class="prohibition-section">';
+    h+='<div class="prohibition-header">⚠️ 特别提示</div>';
+    for(var i=0;i<prohibitions.length;i++){
+      var p=prohibitions[i];
+      var c=p.cond;
+      if(condEditMode){
+        h+='<div class="cd-row cd-edit prohib-row"><div class="cd-idx">禁'+(i+1)+'</div><div class="cd-body">'
+          +'<div class="cd-edit-row"><label>描述</label><textarea class="cd-inp-desc" data-si="'+p.si+'" data-ci="'+p.ci+'" rows="2">'+esc(c.description||c.desc||'')+'</textarea></div>'
+          +'<div class="cd-edit-row cd-edit-inline">'
+          +'<label><input type="checkbox" class="cd-inp-dr" data-si="'+p.si+'" data-ci="'+p.ci+'"'+(c.is_data_driven?' checked':'')+'> 数据驱动</label>'
+          +'<label>数据源 <input class="cd-inp-ds" data-si="'+p.si+'" data-ci="'+p.ci+'" value="'+esc(c.data_source||'')+'"></label>'
+          +'</div>'
+          +'<div class="cd-edit-row"><label>备注</label><textarea class="cd-inp-notes" data-si="'+p.si+'" data-ci="'+p.ci+'" rows="2" placeholder="填写备注...">'+esc(c.notes||'')+'</textarea></div>'
+          +'</div></div>';
+      } else {
+        h+='<div class="prohibition-item">';
+        h+='<div class="prohibition-text">'+esc(c.description||c.desc||'')+'</div>';
+        if(c.notes) h+='<div class="prohibition-note">📝 '+esc(c.notes)+'</div>';
+        h+='</div>';
+      }
     }
-    // 逻辑公式
+    h+='</div>';
+  }
+
+  // 按类型分组显示常规条件
+  var displayOrder = ['subject','procedure','event','general'];
+  for(var di=0;di<displayOrder.length;di++){
+    var tm=displayOrder[di];
+    var group=typeGroups[tm];
+    if(!group||!group.length) continue;
+
+    // 按子分类再分组
+    var subGroups = {};
+    for(var gi=0;gi<group.length;gi++){
+      var sub = group[gi].cond.type_sub || '其他';
+      if(!subGroups[sub]) subGroups[sub]=[];
+      subGroups[sub].push(group[gi]);
+    }
+
+    h+='<div class="type-group">';
+    h+='<div class="type-group-header" onclick="togTypeGroup(this)">'
+      +'<span class="tg-label">'+(typeLabels[tm]||tm)+'</span>'
+      +'<span class="tg-count">'+group.length+'项</span>'
+      +'<span class="tg-toggle">▾</span>'
+      +'</div>';
+    h+='<div class="type-group-body">';
+
+    // 按子分类展示
+    var subKeys = Object.keys(subGroups);
+    for(var ski=0;ski<subKeys.length;ski++){
+      var subKey=subKeys[ski];
+      var subItems=subGroups[subKey];
+      if(subKeys.length>1){
+        h+='<div class="sub-group-label">'+(subLabels[subKey]||subKey)+' <span class="sg-count">'+subItems.length+'</span></div>';
+      }
+      for(var ii=0;ii<subItems.length;ii++){
+        var entry=subItems[ii];
+        var c=entry.cond;
+        var drCls=c.is_data_driven?'dr':'nd';
+        var drTxt=c.is_data_driven?'数据驱动':'人工判断';
+        var cid=c.condition_id||c.id||('C'+(ii+1));
+        if(condEditMode){
+          h+='<div class="cd-row cd-edit"><div class="cd-idx">'+cid+'</div><div class="cd-body">'
+            +'<div class="cd-edit-row"><label>描述</label><textarea class="cd-inp-desc" data-si="'+entry.si+'" data-ci="'+entry.ci+'" rows="2">'+esc(c.description||c.desc||'')+'</textarea></div>'
+            +'<div class="cd-edit-row cd-edit-inline">'
+            +'<label><input type="checkbox" class="cd-inp-dr" data-si="'+entry.si+'" data-ci="'+entry.ci+'"'+(c.is_data_driven?' checked':'')+'> 数据驱动</label>'
+            +'<label>数据源 <input class="cd-inp-ds" data-si="'+entry.si+'" data-ci="'+entry.ci+'" value="'+esc(c.data_source||'')+'"></label>'
+            +'</div>'
+            +'<div class="cd-edit-row"><label>备注</label><textarea class="cd-inp-notes" data-si="'+entry.si+'" data-ci="'+entry.ci+'" rows="2" placeholder="填写备注...">'+esc(c.notes||'')+'</textarea></div>'
+            +'<div style="text-align:right;margin-top:4px"><button class="btn btn-del" onclick="delCond('+entry.si+','+entry.ci+')">🗑 删除</button></div>'
+            +'</div></div>';
+        } else {
+          h+='<div class="cd-row"><div class="cd-idx">'+cid+'</div><div class="cd-body">'
+            +'<div class="cd-desc">'+esc(c.description||c.desc||'')+'</div>'
+            +'<div class="cd-tags">'
+            +'<span class="cd-tag '+drCls+'">'+drTxt+'</span>'
+            +(c.data_source?'<span class="cd-tag info">源: '+esc(c.data_source)+'</span>':'')
+            +(c.data_source_type?'<span class="cd-tag info">'+esc(c.data_source_type)+'</span>':'')
+            +(c.type_sub?'<span class="cd-tag type">'+esc(c.type_sub)+'</span>':'')
+            +'</div>'
+            +(c.notes?'<div class="cd-notes-display">📝 '+esc(c.notes)+'</div>':'')
+            +'</div></div>';
+        }
+      }
+    }
+
+    h+='</div></div>';
+  }
+
+  // 编辑模式：添加条件按钮（在最后一个场景下）
+  if(condEditMode && it.sc.length>0){
+    h+='<div style="text-align:center;padding:8px"><button class="btn" onclick="addCond('+((it.sc.length-1))+')">＋ 添加条件</button></div>';
+  }
+
+  // 场景逻辑公式和受理结果（如果有多个场景）
+  if(it.sc.length>1){
+    for(var si=0;si<it.sc.length;si++){
+      var sc=it.sc[si];
+      if(sc.logic_formula || sc.action){
+        h+='<div class="sc-footer-info">';
+        h+='<div class="sc-scenario-name">场景: '+esc(sc.scenario_name||'')+'</div>';
+        if(sc.logic_formula) h+='<div class="sc-logic"><span class="sl-label">逻辑公式</span><span class="sl-val">'+esc(sc.logic_formula)+'</span></div>';
+        if(sc.action) h+='<div class="sc-action"><span class="sa-label">受理结果</span><span class="sa-val">'+esc(sc.action)+'</span></div>';
+        h+='</div>';
+      }
+    }
+  } else if(it.sc.length===1){
+    var sc=it.sc[0];
     if(sc.logic_formula){
       h+='<div class="sc-logic"><span class="sl-label">逻辑公式</span><span class="sl-val">'+esc(sc.logic_formula)+'</span></div>';
     }
-    // 受理结果
     if(sc.action){
       h+='<div class="sc-action"><span class="sa-label">受理结果</span><span class="sa-val">'+esc(sc.action)+'</span></div>';
     }
-    h+='</div></div>';
   }
+
   return h;
 }
-
 window.toggleCondEdit=function(){
   if(condEditMode){
     // 保存编辑内容
@@ -1007,6 +1137,18 @@ window.exportCondJSON=function(){
 window.togSc=function(el){
   var cl=el.parentElement.nextElementSibling;
   if(cl.style.display==='none'){cl.style.display='';el.textContent='收起';}
+
+window.togTypeGroup=function(el){
+  var body=el.nextElementSibling;
+  var toggle=el.querySelector('.tg-toggle');
+  if(body.classList.contains('collapsed')){
+    body.classList.remove('collapsed');
+    toggle.textContent='▾';
+  } else {
+    body.classList.add('collapsed');
+    toggle.textContent='▸';
+  }
+};
   else{cl.style.display='none';el.textContent='展开';}
 };
 
