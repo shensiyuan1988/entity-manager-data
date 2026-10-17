@@ -1137,6 +1137,8 @@ window.exportCondJSON=function(){
 window.togSc=function(el){
   var cl=el.parentElement.nextElementSibling;
   if(cl.style.display==='none'){cl.style.display='';el.textContent='收起';}
+  else{cl.style.display='none';el.textContent='展开';}
+};
 
 window.togTypeGroup=function(el){
   var body=el.nextElementSibling;
@@ -1148,8 +1150,6 @@ window.togTypeGroup=function(el){
     body.classList.add('collapsed');
     toggle.textContent='▸';
   }
-};
-  else{cl.style.display='none';el.textContent='展开';}
 };
 
 /* === Tab 1: 政策依据 === */
