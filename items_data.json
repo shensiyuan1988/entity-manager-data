@@ -104,8 +104,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -113,16 +113,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -130,8 +131,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -139,9 +140,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -50026,8 +50028,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -50035,16 +50037,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -50052,8 +50055,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -50061,9 +50064,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -50176,8 +50180,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -50185,16 +50189,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -50202,8 +50207,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -50211,9 +50216,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -50326,8 +50332,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -50335,16 +50341,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -50352,8 +50359,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -50361,9 +50368,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -50476,8 +50484,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -50485,16 +50493,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -50502,8 +50511,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -50511,9 +50520,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -432724,8 +432734,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -432733,16 +432743,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -432750,8 +432761,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -432759,9 +432770,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -432848,8 +432860,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -432857,16 +432869,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -432874,8 +432887,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -432883,9 +432896,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -432972,8 +432986,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -432981,16 +432995,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -432998,8 +433013,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -433007,9 +433022,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -433096,8 +433112,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -433105,16 +433121,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -433122,8 +433139,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -433131,9 +433148,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -517761,8 +517779,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -517770,16 +517788,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -517787,8 +517806,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -517796,9 +517815,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -517885,8 +517905,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -517894,16 +517914,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -517911,8 +517932,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -517920,9 +517941,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -518009,8 +518031,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -518018,16 +518040,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -518035,8 +518058,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -518044,9 +518067,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -518133,8 +518157,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -518142,16 +518166,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -518159,8 +518184,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -518168,9 +518193,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -586286,8 +586312,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -586295,16 +586321,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -586312,8 +586339,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -586321,9 +586348,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -586410,8 +586438,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -586419,16 +586447,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -586436,8 +586465,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -586445,9 +586474,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -586534,8 +586564,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -586543,16 +586573,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -586560,8 +586591,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -586569,9 +586600,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -586658,8 +586690,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -586667,16 +586699,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -586684,8 +586717,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -586693,9 +586726,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -631556,8 +631590,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -631565,16 +631599,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -631582,8 +631617,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -631591,9 +631626,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -631680,8 +631716,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -631689,16 +631725,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -631706,8 +631743,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -631715,9 +631752,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -631804,8 +631842,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -631813,16 +631851,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -631830,8 +631869,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -631839,9 +631878,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -631928,8 +631968,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -631937,16 +631977,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -631954,8 +631995,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -631963,9 +632004,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -722138,8 +722180,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -722147,16 +722189,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -722164,8 +722207,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -722173,9 +722216,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -722262,8 +722306,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -722271,16 +722315,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -722288,8 +722333,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -722297,9 +722342,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -722386,8 +722432,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -722395,16 +722441,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -722412,8 +722459,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -722421,9 +722468,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -722510,8 +722558,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -722519,16 +722567,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -722536,8 +722585,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -722545,9 +722594,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -813507,8 +813557,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -813516,16 +813566,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -813533,8 +813584,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -813542,9 +813593,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -813631,8 +813683,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -813640,16 +813692,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -813657,8 +813710,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -813666,9 +813719,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -813755,8 +813809,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -813764,16 +813818,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -813781,8 +813836,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -813790,9 +813845,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -813879,8 +813935,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -813888,16 +813944,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -813905,8 +813962,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -813914,9 +813971,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -874155,8 +874213,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -874164,16 +874222,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -874181,8 +874240,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -874190,9 +874249,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -874279,8 +874339,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -874288,16 +874348,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -874305,8 +874366,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -874314,9 +874375,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -874403,8 +874465,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -874412,16 +874474,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -874429,8 +874492,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -874438,9 +874501,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -874527,8 +874591,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -874536,16 +874600,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -874553,8 +874618,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -874562,9 +874627,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -954853,8 +954919,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -954862,16 +954928,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -954879,8 +954946,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -954888,9 +954955,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -954977,8 +955045,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -954986,16 +955054,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -955003,8 +955072,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -955012,9 +955081,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -955101,8 +955171,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -955110,16 +955180,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -955127,8 +955198,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -955136,9 +955207,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -955225,8 +955297,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -955234,16 +955306,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -955251,8 +955324,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -955260,9 +955333,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -999398,8 +999472,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -999407,16 +999481,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -999424,8 +999499,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -999433,9 +999508,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -999522,8 +999598,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -999531,16 +999607,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -999548,8 +999625,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -999557,9 +999634,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -999646,8 +999724,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -999655,16 +999733,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -999672,8 +999751,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -999681,9 +999760,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -999770,8 +999850,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -999779,16 +999859,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -999796,8 +999877,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -999805,9 +999886,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1058441,8 +1058523,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1058450,16 +1058532,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1058467,8 +1058550,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1058476,9 +1058559,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1058565,8 +1058649,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1058574,16 +1058658,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1058591,8 +1058676,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1058600,9 +1058685,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1058689,8 +1058775,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1058698,16 +1058784,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1058715,8 +1058802,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1058724,9 +1058811,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1058813,8 +1058901,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1058822,16 +1058910,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1058839,8 +1058928,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1058848,9 +1058937,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1116944,8 +1117034,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1116953,16 +1117043,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1116970,8 +1117061,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1116979,9 +1117070,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1117068,8 +1117160,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1117077,16 +1117169,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1117094,8 +1117187,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1117103,9 +1117196,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1117192,8 +1117286,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1117201,16 +1117295,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1117218,8 +1117313,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1117227,9 +1117322,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1117316,8 +1117412,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1117325,16 +1117421,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1117342,8 +1117439,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1117351,9 +1117448,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1174944,8 +1175042,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1174953,16 +1175051,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1174970,8 +1175069,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1174979,9 +1175078,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1175068,8 +1175168,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1175077,16 +1175177,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1175094,8 +1175195,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1175103,9 +1175204,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1175192,8 +1175294,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1175201,16 +1175303,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1175218,8 +1175321,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1175227,9 +1175330,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
@@ -1175316,8 +1175420,8 @@
       {
         "name": "放射性同位素与射线装置安全和防护条例",
         "doc_number": "国务院令第709号",
-        "articles": "第八条第一款、第二款",
-        "authority": "国务院",
+        "clause_number": "第八条第一款、第二款",
+        "issuing_authority": "国务院",
         "effective_date": "2019-03-02",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2524578.html",
         "_rc": 2
@@ -1175325,16 +1175429,17 @@
       {
         "name": "放射诊疗管理规定",
         "doc_number": "国家卫生和计划生育委员会令第8号",
-        "articles": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
-        "authority": "卫生部",
+        "clause_number": "第十一条第一款第（一）项、第（二）项、第（三）项、第二款；第十四条第（一）至（五）项",
+        "issuing_authority": "卫生部",
         "effective_date": "2016-01-19",
+        "source_url": "",
         "_rc": 2
       },
       {
         "name": "广东省人民政府关于将一批省级行政职权事项调整由各地级以上市实施的决定",
         "doc_number": "广东省人民政府令第248号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2018-01-08",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2711545.html",
         "_rc": 1
@@ -1175342,8 +1175447,8 @@
       {
         "name": "广东省人民政府关于将一批省级行政职权事项继续委托各地级以上市实施的决定",
         "doc_number": "粤府〔2019〕16号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2019-02-28",
         "source_url": "http://www.gd.gov.cn/zwgk/wjk/zcfgk/content/post_2712353.html",
         "_rc": 1
@@ -1175351,9 +1175456,10 @@
       {
         "name": "广东省人民政府关于将第三批省级管理权限调整由中国（广东）自由贸易试验区各片区管委会实施的决定",
         "doc_number": "广东省人民政府令第283号",
-        "articles": "全文",
-        "authority": "广东省人民政府",
+        "clause_number": "全文",
+        "issuing_authority": "广东省人民政府",
         "effective_date": "2021-05-01",
+        "source_url": "",
         "_rc": 1
       }
     ],
