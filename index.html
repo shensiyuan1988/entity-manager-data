@@ -416,9 +416,9 @@ function saveEditToSupabase(itemCode,editData){
     'apikey':SUPA_KEY,
     'Content-Type':'application/json',
     'Authorization':'Bearer '+SUPA_KEY,
-    'Prefer':'return=minimal'
+    'Prefer':'return=representation'
   };
-  // 先尝试更新，如果不存在则插入
+  // 先尝试PATCH更新，检查返回数据判断是否命中
   return fetch(SUPA_URL+'/rest/v1/item_edits?item_code=eq.'+encodeURIComponent(itemCode),{
     method:'PATCH',
     headers:headers,
@@ -427,28 +427,33 @@ function saveEditToSupabase(itemCode,editData){
       updated_at:new Date().toISOString()
     })
   }).then(function(r){
-    if(r.status===406||r.status===404){
-      // 不存在，插入新记录
-      return fetch(SUPA_URL+'/rest/v1/item_edits',{
-        method:'POST',
-        headers:headers,
-        body:JSON.stringify({
-          item_code:itemCode,
-          edit_data:editData,
-          updated_at:new Date().toISOString()
-        })
-      });
-    }
-    return r;
-  }).then(function(r){
-    if(!r.ok){
-      console.warn('Supabase保存失败:',r.status,r.statusText);
-      return r.json().then(function(err){
-        console.warn('错误详情:',err);
-        throw new Error(err.message||'保存失败');
-      });
-    }
-    return r;
+    if(!r.ok)throw new Error('PATCH失败:'+r.status);
+    return r.json();
+  }).then(function(rows){
+    if(rows&&rows.length>0)return rows;
+    // PATCH没命中，插入新记录
+    return fetch(SUPA_URL+'/rest/v1/item_edits',{
+      method:'POST',
+      headers:{'apikey':SUPA_KEY,'Content-Type':'application/json','Authorization':'Bearer '+SUPA_KEY,'Prefer':'return=representation'},
+      body:JSON.stringify({
+        item_code:itemCode,
+        edit_data:editData,
+        updated_at:new Date().toISOString()
+      })
+    }).then(function(r){
+      if(!r.ok){
+        // 可能是并发插入导致唯一约束冲突，再PATCH一次
+        if(r.status===409){
+          return fetch(SUPA_URL+'/rest/v1/item_edits?item_code=eq.'+encodeURIComponent(itemCode),{
+            method:'PATCH',
+            headers:{'apikey':SUPA_KEY,'Content-Type':'application/json','Authorization':'Bearer '+SUPA_KEY},
+            body:JSON.stringify({edit_data:editData,updated_at:new Date().toISOString()})
+          });
+        }
+        throw new Error('INSERT失败:'+r.status);
+      }
+      return r.json();
+    });
   }).catch(function(e){
     console.error('Supabase保存异常:',e);
     useSupabase=false;
