@@ -514,10 +514,32 @@ var dbApi={
     if(filters.type)params.push('item_type=eq.'+encodeURIComponent(filters.type));
     if(filters.area)params.push('area_name=ilike.%25'+encodeURIComponent(filters.area)+'%25');
     if(filters.hasCond===true)params.push('accept_conditions_official=not.is.null');
-    return fetch(SUPA_URL+'/rest/v1/svc_items?'+params.join('&'),{headers:Object.assign(this._h(),{'Prefer':'count=exact'})}).then(function(r){
+    var h=Object.assign(this._h(),{'Prefer':'count=exact'});
+    return fetch(SUPA_URL+'/rest/v1/svc_items?'+params.join('&'),{headers:h}).then(function(r){
       if(!r.ok)throw new Error('查询失败:'+r.status);
       var total=dbApi._cnt(r.headers);
-      return r.json().then(function(rows){return {items:rows,total:total,page:page};});
+      return r.json().then(function(rows){
+        if(!rows.length) return {items:[],total:total,page:page};
+        var codes=rows.map(function(r){return r.code;});
+        var codeQ=encodeURIComponent('('+codes.join(',')+')');
+        // 批量查询材料/条件/法规数量
+        return Promise.all([
+          fetch(SUPA_URL+'/rest/v1/svc_item_materials?select=item_code&item_code=in.'+codeQ+'&limit=10000',{headers:dbApi._h()}).then(function(r){return r.ok?r.json():[];}),
+          fetch(SUPA_URL+'/rest/v1/svc_item_scenarios?select=item_code&item_code=in.'+codeQ+'&limit=10000',{headers:dbApi._h()}).then(function(r){return r.ok?r.json():[];}),
+          fetch(SUPA_URL+'/rest/v1/svc_item_regulations?select=item_code&item_code=in.'+codeQ+'&limit=10000',{headers:dbApi._h()}).then(function(r){return r.ok?r.json():[];})
+        ]).then(function(counts){
+          var mc={},sc2={},rc={};
+          counts[0].forEach(function(r){mc[r.item_code]=(mc[r.item_code]||0)+1;});
+          counts[1].forEach(function(r){sc2[r.item_code]=(sc2[r.item_code]||0)+1;});
+          counts[2].forEach(function(r){rc[r.item_code]=(rc[r.item_code]||0)+1;});
+          rows.forEach(function(row){
+            row.material_count=mc[row.code]||0;
+            row.sc_count=sc2[row.code]||0;
+            row.reg_count=rc[row.code]||0;
+          });
+          return {items:rows,total:total,page:page};
+        });
+      });
     });
   },
   getItemDetail:function(code){
