@@ -124,6 +124,15 @@ a:hover{text-decoration:underline}
 .mat-type{display:inline-block;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:500}
 .mat-type-necessary{background:#fce4ec;color:#c62828}
 .mat-type-optional{background:#e8f5e9;color:#2e7d32}
+.mat-summary{display:flex;gap:12px;flex-wrap:wrap;padding:10px 12px;background:#f8f9fa;border-radius:8px;margin-bottom:8px}
+.mat-stat{font-size:12px;color:var(--t2)}.mat-stat strong{color:var(--t1);font-weight:600}
+.mat-stat-green{color:#2e7d32}.mat-stat-green strong{color:#1b5e20}
+.mat-stat-blue{color:#1565c0}.mat-stat-blue strong{color:#0d47a1}
+.mat-note{font-size:11px;color:var(--t3);margin-top:3px;line-height:1.4}
+.row-exempt{background:#f1f8e9}
+.cert-badge{display:inline-block;padding:1px 6px;border-radius:8px;font-size:10px;font-weight:500}
+.cert-linked{background:#e3f2fd;color:#1565c0}
+.cert-unlinked{background:#fafafa;color:#999}
 .res-type{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;background:#e3f2fd;color:#1565c0}
 .info-card{background:#f8f9fa;border-radius:var(--r);padding:12px 16px;margin-bottom:16px;border:1px solid var(--border)}
 .info-card-row{display:flex;gap:12px;margin-bottom:6px;font-size:12px;line-height:1.5}
@@ -569,7 +578,7 @@ var dbApi={
         // 构建基础 item
         var item={c:row.code,n:row.name,d:row.dept_full_name||row.dept_name,s:row.accept_scope_object,area_name:row.area_name,dept_full_name:row.dept_full_name,parent_item_name:row.parent_item_name,sub_item_name:row.sub_item_name,impl_list_name:row.impl_list_name,item_type:row.item_type,item_type_full:row.item_type_full,official_code:row.official_code,basic_code:row.basic_code,legal_time_limit:row.legal_time_limit,promise_time_limit:row.promise_time_limit,apply_time_limit:row.apply_time_limit,accept_time_limit:row.accept_time_limit,online_url:row.online_url,onsite_visits:row.onsite_visits,onsite_reason:row.onsite_reason,is_one_window:row.is_one_window,is_comprehensive_window:row.is_comprehensive_window,is_in_hall:row.is_in_hall,has_pre_license:row.has_pre_license,pre_license_items:row.pre_license_items,has_intermediary:row.has_intermediary,intermediary_code:row.intermediary_code,intermediary_name:row.intermediary_name,online_service:row.online_service,exercise_level:row.exercise_level,accept_conditions_official:row.accept_conditions_official,ot:row.accept_conditions_original};
         // 材料
-        item.materials=[];for(var i=0;i<mats.length;i++){var m=mats[i];item.materials.push({name:m.name||m.material_name,type:m.type||m.material_type||'',required:m.required?'必要':'非必要',original:m.original,copy:m.copy,format:m.format,source:m.source||m.source_channel||'',form_type:m.form_type,seq:m.seq});}
+        item.materials=[];for(var i=0;i<mats.length;i++){var m=mats[i];item.materials.push({name:m.name||'',type:m.type||m.material_category||'',required:m.required||m.material_necessity||'必要',original:m.original,copy:m.copy,format:m.format||m.material_form||'',source:m.source||m.source_channel||'',form_type:m.form_type||'',seq:m.seq,material_id:m.material_id||'',form_or_material:m.form_or_material||'',material_form:m.material_form||'',exempt:m.exempt,exempt_measure:m.exempt_measure||'',should_link_cert:m.should_link_cert||'',link_cert:m.link_cert||'',cert_name:m.cert_name||'',paper_score:m.paper_score,paper_spec:m.paper_spec||'',fill_notes:m.fill_notes||'',accept_standard:m.accept_standard||''});}
         // 办事结果
         item.results=[];for(var i=0;i<ress.length;i++){var rs=ress[i];item.results.push({name:rs.name||rs.result_name,type:rs.type||rs.result_type||'',id:rs.id});}
         // 受理条件(scenarios)
@@ -1635,24 +1644,61 @@ function renderNote(){
 function renderMaterials(){
   var it=cur;
   if(!it.materials||!it.materials.length) return '<div class="empty"><div class="ei">📄</div><div class="et">暂无材料数据</div></div>';
-  var h='';
+  
+  // 统计摘要
+  var total=it.materials.length;
+  var exemptCount=0, linkedCount=0, formCount=0, matCount=0;
+  for(var i=0;i<it.materials.length;i++){
+    var m=it.materials[i];
+    if(m.exempt===true) exemptCount++;
+    if(m.link_cert==='已关联') linkedCount++;
+    if(m.form_or_material==='业务表单') formCount++;
+    else if(m.form_or_material==='办理材料') matCount++;
+  }
+  
+  var h='<div class="mat-summary">';
+  h+='<span class="mat-stat">共 <strong>'+total+'</strong> 项</span>';
+  if(formCount||matCount) h+='<span class="mat-stat">办理材料 <strong>'+matCount+'</strong> · 业务表单 <strong>'+formCount+'</strong></span>';
+  if(exemptCount) h+='<span class="mat-stat mat-stat-green">免提交 <strong>'+exemptCount+'</strong></span>';
+  if(linkedCount) h+='<span class="mat-stat mat-stat-blue">已关联证照 <strong>'+linkedCount+'</strong></span>';
+  h+='</div>';
+  
   h+='<table class="mat-tbl"><thead><tr>'
-    +'<th>序号</th><th>材料名称</th><th>材料类型</th><th>必要性</th><th>来源</th>'
+    +'<th style="width:36px">序号</th>'
+    +'<th>材料名称</th>'
+    +'<th style="width:80px">类型</th>'
+    +'<th style="width:60px">必要性</th>'
+    +'<th style="width:100px">材料形式</th>'
+    +'<th style="width:120px">来源渠道</th>'
+    +'<th style="width:60px">免提交</th>'
+    +'<th style="width:80px">电子证照</th>'
     +'</tr></thead><tbody>';
   for(var i=0;i<it.materials.length;i++){
     var m=it.materials[i];
-    var name=m.name||m.material_name||'';
-    var type=m.type||m.material_type||'';
-    var necessary=m.required||m.material_necessity||m.is_necessary||'';
+    var name=m.name||'';
+    var type=m.type||'';
+    var necessary=m.required||'';
     var neccClass=necessary==='必要'?'mat-type-necessary':(necessary==='非必要'||necessary==='容缺'?'mat-type-optional':'');
-    var source=m.source||m.source_channel||'';
-    h+='<tr>'
-      +'<td>'+(i+1)+'</td>'
-      +'<td><strong>'+esc(name)+'</strong></td>'
-      +'<td>'+esc(type)+'</td>'
-      +'<td>'+(necessary?'<span class="mat-type '+neccClass+'">'+esc(necessary)+'</span>':'')+'</td>'
-      +'<td>'+esc(source)+'</td>'
-      +'</tr>';
+    var source=m.source||'';
+    var matForm=m.material_form||m.format||'';
+    var isExempt=m.exempt===true;
+    var linkCert=m.link_cert||'';
+    var linkClass=linkCert==='已关联'?'cert-linked':'cert-unlinked';
+    var linkText=linkCert||'-';
+    
+    h+='<tr'+(isExempt?' class="row-exempt"':'')+'>';
+    h+='<td>'+(i+1)+'</td>';
+    h+='<td><strong>'+esc(name)+'</strong>';
+    if(m.fill_notes) h+='<div class="mat-note">📝 '+esc(m.fill_notes)+'</div>';
+    if(m.exempt_measure&&isExempt) h+='<div class="mat-note">✅ '+esc(m.exempt_measure)+'</div>';
+    h+='</td>';
+    h+='<td>'+esc(type)+'</td>';
+    h+='<td>'+(necessary?'<span class="mat-type '+neccClass+'">'+esc(necessary)+'</span>':'')+'</td>';
+    h+='<td>'+esc(matForm)+'</td>';
+    h+='<td>'+esc(source)+'</td>';
+    h+='<td>'+(isExempt?'<span class="mat-type mat-type-optional">免提交</span>':'')+'</td>';
+    h+='<td><span class="cert-badge '+linkClass+'">'+esc(linkText)+'</span></td>';
+    h+='</tr>';
   }
   h+='</tbody></table>';
   return h;
