@@ -958,8 +958,11 @@ function renderBasicInfo(){
         var inputTag='input';
         if(field==='online_url'){
           h+='<div class="info-card-row"><span class="info-card-label">'+esc(label)+'</span><span class="info-card-value"><input type="url" id="bi_'+field+'" value="'+esc(val||'')+'" style="width:100%;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px;font-size:12px;box-sizing:border-box"></span></div>';
-        } else if(field==='onsite_reason'||field==='pre_license_items'||field==='intermediary_name'){
+        } else if(field==='legal_time_desc'||field==='promise_time_desc'||field==='accept_time_desc'||field==='online_process_desc'||field==='window_process_desc'||field==='review_standard'||field==='approval_conditions'||field==='rejection_conditions'||field==='responsibilities'||field==='pre_license_items'){
           h+='<div class="info-card-row"><span class="info-card-label">'+esc(label)+'</span><span class="info-card-value"><textarea id="bi_'+field+'" style="width:100%;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px;font-size:12px;resize:vertical;min-height:60px;box-sizing:border-box">'+esc(val||'')+'</textarea></span></div>';
+        } else if(field==='is_fee'||field==='is_convenience'||field==='is_cross_handling'||field==='support_deficiency_accept'||field==='support_instant_approval'||field==='support_commitment'||field==='has_pre_license'||field==='has_intermediary'||field==='is_one_window'||field==='is_comprehensive_window'||field==='is_in_hall'){
+          var bv=(val===true||val==='是')?'是':(val===false||val==='否')?'否':'';
+          h+='<div class="info-card-row"><span class="info-card-label">'+esc(label)+'</span><span class="info-card-value"><select id="bi_'+field+'" style="padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px;font-size:12px"><option value="">--</option><option value="是"'+(bv==='是'?' selected':'')+'>是</option><option value="否"'+(bv==='否'?' selected':'')+'>否</option></select></span></div>';
         } else {
           h+='<div class="info-card-row"><span class="info-card-label">'+esc(label)+'</span><span class="info-card-value"><input type="text" id="bi_'+field+'" value="'+esc(val||'')+'" style="width:100%;padding:4px 8px;border:1px solid #d9d9d9;border-radius:4px;font-size:12px;box-sizing:border-box"></span></div>';
         }
@@ -1005,18 +1008,45 @@ window.toggleBasicInfoEdit=function(){
 };
 window.saveBasicInfo=function(){
   if(!cur)return;
-  var fields=['area_name','dept_full_name','parent_item_name','sub_item_name','impl_list_name','item_type_full','official_code','basic_code','legal_time_limit','promise_time_limit','apply_time_limit','accept_time_limit','online_url','onsite_visits','onsite_reason','is_one_window','is_comprehensive_window','is_in_hall','has_pre_license','pre_license_items','has_intermediary','intermediary_code','intermediary_name'];
+  var fields=['area_name','dept_full_name','parent_item_name','sub_item_name','impl_list_name','item_type_full','official_code','basic_code','legal_time_limit','promise_time_limit','apply_time_limit','accept_time_limit','online_url','onsite_visits','is_one_window','is_comprehensive_window','is_in_hall','has_pre_license','pre_license_items','has_intermediary','industry_dept','item_status','power_source','case_type','handling_form','online_depth','online_service','service_object','quantity_limit','is_fee','fee_items','payment_method','consultation_phone','complaint_phone','responsible_office','admin_review_dept','admin_review_phone','litigation_dept','litigation_phone','support_deficiency_accept','support_instant_approval','support_commitment','daily_language','short_name','legal_time_desc','promise_time_desc','accept_time_desc','online_process_desc','window_process_desc','review_standard','approval_conditions','rejection_conditions','process_steps','responsibilities','subject_category','cross_handling_type','cross_handling_area'];
+  var patchData={};
   for(var i=0;i<fields.length;i++){
     var f=fields[i];
     var el=document.getElementById('bi_'+f);
     if(el){
-      cur[f]=el.value||el.textContent;
+      var val=el.value||el.textContent;
+      if(val!==cur[f]){
+        patchData[f]=val||null;
+        cur[f]=val;
+      }
     }
   }
-  persistItem(cur);
-  basicInfoEditMode=false;
-  renderContent();
-  toast('基本信息已保存（本地缓存）','ok');
+  if(Object.keys(patchData).length===0){
+    basicInfoEditMode=false;
+    renderContent();
+    toast('没有修改内容','ok');
+    return;
+  }
+  // 直接写入Supabase主表
+  fetch(SUPA_URL+'/rest/v1/rpc/update_svc_item',{
+    method:'POST',
+    headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY,'Content-Type':'application/json'},
+    body:JSON.stringify({p_code:cur.c,p_data:patchData})
+  }).then(function(r){
+    if(!r.ok) throw new Error('保存失败:'+r.status);
+    return r.json();
+  }).then(function(result){
+    basicInfoEditMode=false;
+    renderContent();
+    if(result&&result.error){toast(result.error,'');}
+    else{toast('已保存到数据库 ✓','ok');}
+  }).catch(function(e){
+    // 降级保存到item_edits
+    persistItem(cur);
+    basicInfoEditMode=false;
+    renderContent();
+    toast('主表写入失败，已保存本地缓存','');
+  });
 };
 window.renderBasicInfo=renderBasicInfo;
 
