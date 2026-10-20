@@ -680,15 +680,21 @@ function applyFilter(){
 
 function populateFilters(){
   var h=dbApi._h();
-  // 从API获取类型和区域分布
-  Promise.all([
-    fetch(SUPA_URL+'/rest/v1/svc_items?select=item_type&limit=1000',{headers:h}).then(function(r){return r.json();}),
-    fetch(SUPA_URL+'/rest/v1/svc_items?select=area_name&limit=1000',{headers:h}).then(function(r){return r.json();})
-  ]).then(function(results){
-    var types=results[0],areas=results[1];
-    // 统计类型
+  // 分页获取全部数据的类型和区域分布（API单次最多1000条）
+  var allTypes=[], allAreas=[];
+  function fetchPage(offset){
+    return Promise.all([
+      fetch(SUPA_URL+'/rest/v1/svc_items?select=item_type&limit=1000&offset='+offset,{headers:h}).then(function(r){return r.json();}),
+      fetch(SUPA_URL+'/rest/v1/svc_items?select=area_name&limit=1000&offset='+offset,{headers:h}).then(function(r){return r.json();})
+    ]).then(function(res){
+      allTypes=allTypes.concat(res[0]); allAreas=allAreas.concat(res[1]);
+      if(res[0].length===1000) return fetchPage(offset+1000);
+    });
+  }
+  fetchPage(0).then(function(){
+    // 类型统计
     var typeCounts={};
-    for(var i=0;i<types.length;i++){var t=types[i].item_type;if(t)typeCounts[t]=(typeCounts[t]||0)+1;}
+    for(var i=0;i<allTypes.length;i++){var t=allTypes[i].item_type;if(t)typeCounts[t]=(typeCounts[t]||0)+1;}
     var typeArr=Object.keys(typeCounts).sort(function(a,b){return typeCounts[b]-typeCounts[a];});
     var typeSel=document.getElementById('typeFilter');
     while(typeSel.options.length>1)typeSel.remove(1);
@@ -698,15 +704,20 @@ function populateFilters(){
       opt.textContent=typeArr[i]+' ('+typeCounts[typeArr[i]]+')';
       typeSel.appendChild(opt);
     }
-    // 区域 - 使用固定列表
-    var areaOrder=['市本级','南山区','福田区','罗湖区','宝安区','龙岗区','龙华区','盐田区','光明区','坪山区','大鹏新区','深汕合作区','前海合作区'];
+    // 区域 - 从实际数据提取，去掉"广东省深圳市"前缀
+    var areaCounts={};
+    for(var i=0;i<allAreas.length;i++){var a=allAreas[i].area_name;if(a)areaCounts[a]=(areaCounts[a]||0)+1;}
+    var areaOrder=['广东省深圳市','广东省深圳市南山区','广东省深圳市福田区','广东省深圳市罗湖区','广东省深圳市宝安区','广东省深圳市龙岗区','广东省深圳市龙华区','广东省深圳市盐田区','广东省深圳市光明区','广东省深圳市坪山区','广东省深圳市大鹏新区','广东省深圳市深汕特别合作区','广东省深圳市前海蛇口自贸片区'];
     var areaSel=document.getElementById('areaFilter');
     while(areaSel.options.length>1)areaSel.remove(1);
     for(var i=0;i<areaOrder.length;i++){
-      var opt=document.createElement('option');
-      opt.value=areaOrder[i];
-      opt.textContent=areaOrder[i];
-      areaSel.appendChild(opt);
+      var full=areaOrder[i], short=full.replace('广东省深圳市','')||'市本级';
+      if(areaCounts[full]){
+        var opt=document.createElement('option');
+        opt.value=full;
+        opt.textContent=short+' ('+areaCounts[full]+')';
+        areaSel.appendChild(opt);
+      }
     }
   }).catch(function(e){console.warn('筛选器加载失败:',e);});
 }
