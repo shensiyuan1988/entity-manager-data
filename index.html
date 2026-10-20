@@ -211,6 +211,20 @@ a:hover{text-decoration:underline}
 .note-edit-section{margin-bottom:14px}
 .note-edit-section label{display:block;font-size:12px;font-weight:600;color:var(--t2);margin-bottom:4px}
 .note-edit-section textarea{width:100%;border:1px solid #d1d5db;border-radius:6px;padding:8px 10px;font-size:13px;line-height:1.6;resize:vertical;font-family:inherit}
+/* === Q&A 常见问答 === */
+.qa-wrap{padding:8px 0;max-width:820px;margin:0 auto}
+.qa-card{border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;margin-bottom:14px;background:#fff}
+.qa-q{padding:12px 16px;font-size:13px;line-height:1.6;color:var(--t1);display:flex;gap:8px;align-items:flex-start;background:#f0f9ff;border-bottom:1px solid #e5e7eb}
+.qa-label{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--pri);color:#fff;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+.qa-a{padding:12px 16px;font-size:13px;line-height:1.8;color:var(--t2);white-space:pre-wrap;word-break:break-word}
+.qa-ref{padding:6px 16px 8px;font-size:11px;border-top:1px dashed #e5e7eb}
+.qa-ref a{color:var(--pri);text-decoration:none}
+.qa-ref a:hover{text-decoration:underline}
+.qa-actions{display:flex;gap:6px;padding:8px 16px;border-top:1px solid #e5e7eb;background:#fafafa}
+.btn-sm{padding:4px 10px;font-size:11px;border:1px solid #d1d5db;border-radius:5px;cursor:pointer;background:#fff;color:var(--t2);transition:all .12s}
+.btn-sm:hover{background:#f3f4f6;border-color:#9ca3af}
+.btn-sm.btn-danger{color:#ef4444;border-color:#fecaca}
+.btn-sm.btn-danger:hover{background:#fef2f2}
 .field-filter-bar{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;margin-bottom:12px;padding:8px 12px;background:#f8f9fa;border-radius:8px;border:1px solid #e9ecef}
 .field-filter-group{display:flex;align-items:center;gap:4px}
 .field-filter-group label{font-size:11px;color:var(--t2);white-space:nowrap;font-weight:500}
@@ -367,6 +381,7 @@ var EM={'自然人':'自然人','法人/企业':'法人/企业','社会组织':'
 var EM_KEYS=['自然人','法人/企业','社会组织','事业单位','其他','表单/申请','空间/地址','项目/事项','证照/许可','凭证'];
 var EM_COLORS={'自然人':'#1a73e8','法人/企业':'#e8710a','社会组织':'#9c27b0','事业单位':'#00897b','其他':'#78909c','表单/申请':'#6d4c9f','空间/地址':'#0d8050','项目/事项':'#c5221f','证照/许可':'#1a9da0','凭证':'#b35c00'};
 var items=[],filtered=[],cur=null,curTab=0,curF='all',page=1;
+var qaData={};
 var fieldFilter={type:'',std:'',ent:'',dim:''};
 window.fieldFilter=fieldFilter;
 var localEdits={};
@@ -501,13 +516,17 @@ function enrichRegs(slimRegs){
 }
 
 function loadData(){
-  // 同时加载事项数据和法规库
+  // 同时加载事项数据、法规库和Q&A数据
   Promise.all([
     fetch('items_data.json').then(function(r){return r.json();}),
-    fetch('regulations_lib.json').then(function(r){return r.json();}).catch(function(e){return {};})
+    fetch('regulations_lib.json').then(function(r){return r.json();}).catch(function(e){return {};}),
+    fetch('qa_data.json').then(function(r){return r.json();}).catch(function(e){return {};})
   ]).then(function(results){
     var d=results[0];
     var lib=results[1];
+    var qa=results[2];
+    // 加载Q&A数据
+    if(qa&&typeof qa==='object')qaData=qa;
     // 构建法规名称索引
     if(lib&&typeof lib==='object'){
       var keys=Object.keys(lib);
@@ -696,6 +715,9 @@ function renderContent(){
   var hasNote=!!(_nObj.pre||_nObj.post||_nObj.form_tip||_nObj.other);
   var matCnt=cur.materials?cur.materials.length:0;
   var resCnt=cur.results?cur.results.length:0;
+  // Q&A count - check INHERIT or direct array
+  var _qaArr=_getQA(cur.c);
+  var qaCnt=_qaArr?_qaArr.length:0;
   // Build info tags
   var infoTags=[];
   if(cur.item_type) infoTags.push(cur.item_type);
@@ -715,6 +737,7 @@ function renderContent(){
     +'<div class="tab'+(curTab===4?' on':'')+'" onclick="st(4)">办事须知<span class="bdg '+(hasNote?'bdg-y':'bdg-n')+'">'+(hasNote?1:0)+'</span></div>'
     +'<div class="tab'+(curTab===5?' on':'')+'" onclick="st(5)">材料清单<span class="bdg '+(matCnt?'bdg-y':'bdg-n')+'">'+matCnt+'</span></div>'
     +'<div class="tab'+(curTab===6?' on':'')+'" onclick="st(6)">办事结果<span class="bdg '+(resCnt?'bdg-y':'bdg-n')+'">'+resCnt+'</span></div>'
+    +'<div class="tab'+(curTab===7?' on':'')+'" onclick="st(7)">常见问答<span class="bdg '+(qaCnt?'bdg-y':'bdg-n')+'">'+qaCnt+'</span></div>'
     +'</div></div>';
   h+='<div class="tab-body">';
   if(curTab===0)h+=renderBasicInfo();
@@ -723,7 +746,8 @@ function renderContent(){
   else if(curTab===3)h+=renderFields();
   else if(curTab===4)h+=renderNote();
   else if(curTab===5)h+=renderMaterials();
-  else h+=renderResults();
+  else if(curTab===6)h+=renderResults();
+  else h+=renderQA();
   h+='</div>';
   if(curTab===0||curTab===1||curTab===2||curTab===3||curTab===4){
     h+='<div class="act-bar">'
@@ -1508,6 +1532,133 @@ function renderResults(){
   return h;
 }
 window.renderResults=renderResults;
+
+/* === Tab 7: 常见问答 Q&A === */
+// 获取Q&A数据（支持INHERIT机制：同主项下共享Q&A）
+function _getQA(code){
+  if(!qaData) return [];
+  var val=qaData[code];
+  if(Array.isArray(val)) return val;
+  if(val==='INHERIT'){
+    // 找同主项下有实际Q&A数组的事项
+    var curItem=null;
+    for(var i=0;i<items.length;i++){if(items[i].c===code){curItem=items[i];break;}}
+    if(!curItem||!curItem.parent_item_name) return [];
+    var keys=Object.keys(qaData);
+    for(var j=0;j<keys.length;j++){
+      if(!Array.isArray(qaData[keys[j]]))continue;
+      for(var k=0;k<items.length;k++){
+        if(items[k].c===keys[j]&&items[k].parent_item_name===curItem.parent_item_name) return qaData[keys[j]];
+      }
+    }
+  }
+  return [];
+}
+window._getQA=_getQA;
+
+function renderQA(){
+  var it=cur;
+  var qa=_getQA(it.c);
+  var h='<div class="qa-wrap">';
+  if(!qa.length){
+    h+='<div class="empty"><div class="ei">💬</div><div class="et">暂无常见问答</div><div class="es">点击下方按钮添加问答</div></div>';
+  } else {
+    for(var i=0;i<qa.length;i++){
+      var q=qa[i];
+      h+='<div class="qa-card">'
+        +'<div class="qa-q"><span class="qa-label">Q</span>'+esc(q.q)+'</div>'
+        +'<div class="qa-a">'+esc(q.a).replace(/\n/g,'<br>')+'</div>';
+      if(q.ref_name||q.ref_url){
+        h+='<div class="qa-ref">';
+        if(q.ref_url) h+='<a href="'+esc(q.ref_url)+'" target="_blank" rel="noopener">📎 '+esc(q.ref_name||'参考文件')+'</a>';
+        else h+='<span>📎 '+esc(q.ref_name)+'</span>';
+        h+='</div>';
+      }
+      h+='<div class="qa-actions">'
+        +'<button class="btn-sm" onclick="editQAItem('+i+')">✏️ 编辑</button>'
+        +'<button class="btn-sm btn-danger" onclick="deleteQAItem('+i+')">🗑️ 删除</button>'
+        +'</div>'
+        +'</div>';
+    }
+  }
+  h+='<div style="margin-top:16px;text-align:center">'
+    +'<button class="btn btn-p" onclick="addQAItem()">➕ 添加问答</button>'
+    +'<button class="btn" onclick="exportQA()" style="margin-left:8px">📥 导出Q&A</button>'
+    +'</div>';
+  h+='</div>';
+  return h;
+}
+window.renderQA=renderQA;
+
+// Q&A 编辑弹窗
+window.editQAItem=function(idx){
+  var qa=_getQA(cur.c);
+  var q=qa[idx];
+  showQAModal(q?{q:q.q,a:q.a,ref_name:q.ref_name||'',ref_url:q.ref_url||''}:null,idx);
+};
+window.deleteQAItem=function(idx){
+  if(!confirm('确定删除这条问答吗？'))return;
+  var qa=_getQA(cur.c);
+  qa.splice(idx,1);
+  qaData[cur.c]=qa;
+  renderContent();
+  toast('已删除，记得导出变更','ok');
+};
+window.addQAItem=function(){
+  showQAModal(null,-1);
+};
+
+function showQAModal(data,idx){
+  var d=data||{q:'',a:'',ref_name:'',ref_url:''};
+  var m=document.createElement('div');
+  m.className='modal-bg';
+  m.innerHTML='<div class="modal" style="max-width:640px;width:92%">'
+    +'<div class="modal-hd">'+(idx>=0?'编辑问答':'添加问答')+'</div>'
+    +'<div class="modal-body" style="padding:16px 20px">'
+    +'<label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:#374151">问题 (Q)</label>'
+    +'<textarea id="qa_q" rows="2" style="width:100%;border:1px solid #d1d5db;border-radius:6px;padding:8px;font-size:13px;margin-bottom:12px;resize:vertical;font-family:inherit">'+esc(d.q)+'</textarea>'
+    +'<label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:#374151">答案 (A)</label>'
+    +'<textarea id="qa_a" rows="6" style="width:100%;border:1px solid #d1d5db;border-radius:6px;padding:8px;font-size:13px;margin-bottom:12px;resize:vertical;font-family:inherit;line-height:1.6">'+esc(d.a)+'</textarea>'
+    +'<label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:#374151">引用文件名称</label>'
+    +'<input id="qa_ref_name" type="text" value="'+esc(d.ref_name)+'" style="width:100%;border:1px solid #d1d5db;border-radius:6px;padding:8px;font-size:13px;margin-bottom:12px" />'
+    +'<label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:#374151">引用链接</label>'
+    +'<input id="qa_ref_url" type="text" value="'+esc(d.ref_url)+'" style="width:100%;border:1px solid #d1d5db;border-radius:6px;padding:8px;font-size:13px;margin-bottom:8px" />'
+    +'</div>'
+    +'<div class="modal-ft" style="display:flex;gap:8px;justify-content:flex-end;padding:12px 20px;border-top:1px solid #e5e7eb">'
+    +'<button class="btn" onclick="this.closest(\'.modal-bg\').remove()">取消</button>'
+    +'<button class="btn btn-p" onclick="saveQAItem('+idx+')">保存</button>'
+    +'</div></div>';
+  document.body.appendChild(m);
+}
+
+window.saveQAItem=function(idx){
+  var q=document.getElementById('qa_q').value.trim();
+  var a=document.getElementById('qa_a').value.trim();
+  var rn=document.getElementById('qa_ref_name').value.trim();
+  var ru=document.getElementById('qa_ref_url').value.trim();
+  if(!q){toast('请填写问题','err');return;}
+  if(!a){toast('请填写答案','err');return;}
+  var item={q:q,a:a,ref_name:rn,ref_url:ru};
+  var qa=qaData[cur.c]||[];
+  if(qa==='INHERIT')qa=[];
+  if(idx>=0)qa[idx]=item; else qa.push(item);
+  qaData[cur.c]=qa;
+  var modal=document.querySelector('.modal-bg');
+  if(modal)modal.remove();
+  renderContent();
+  toast(idx>=0?'问答已更新':'问答已添加','ok');
+};
+
+// 导出Q&A变更
+window.exportQA=function(){
+  var json=JSON.stringify(qaData,null,2);
+  var blob=new Blob([json],{type:'application/json'});
+  var u=URL.createObjectURL(blob);
+  var a=document.createElement('a');
+  a.href=u;a.download='qa_data.json';a.click();
+  URL.revokeObjectURL(u);
+  toast('Q&A数据已导出','ok');
+};
 
 /* === Edit Modal === */
 window.editF=function(idx){
