@@ -560,7 +560,7 @@ var dbApi={
     };
     var _c=function(r){return dbApi._cnt(r.headers);};
     var base=['select=code','limit=1'];
-    if(filters&&filters.search){var sq=filters.search;base.push('or=(code.ilike.%'+sq+'%,name.ilike.%'+sq+'%,dept_full_name.ilike.%'+sq+'%,official_code.ilike.%'+sq+'%)');}
+    if(filters&&filters.search){var sq=encodeURIComponent(filters.search);base.push('or=(code.ilike.%25'+sq+'%25,name.ilike.%25'+sq+'%25,dept_full_name.ilike.%25'+sq+'%25,official_code.ilike.%'+sq+'%)');}
     if(filters&&filters.type)base.push('item_type=eq.'+encodeURIComponent(filters.type));
     if(filters&&filters.area)base.push('area_name=ilike.%25'+encodeURIComponent(filters.area)+'%25');
     var bStr=base.join('&');
