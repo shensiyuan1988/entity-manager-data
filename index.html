@@ -531,16 +531,31 @@ var dbApi={
     return Promise.all([qItem,qMats,qRes,qSc,qIR,qF]).then(function(results){
       var row=results[0],mats=results[1],ress=results[2],scs=results[3],iregs=results[4],forms=results[5];
       if(!row)throw new Error('事项不存在');
+      // 收集所有不重复法规名称，批量从 svc_regulations 取全文
+      var regNames=[];var regNameSet={};
+      for(var i=0;i<iregs.length;i++){var nm=iregs[i].regulation_name;if(nm&&!regNameSet[nm]){regNameSet[nm]=true;regNames.push(nm);}}
+      // 同时收集有 regulation_id 的（兼容旧数据）
       var regIds=[];for(var i=0;i<iregs.length;i++){if(iregs[i].regulation_id)regIds.push(iregs[i].regulation_id);}
-      var artsMap={};
-      var pArts=regIds.length?fetch(SUPA_URL+'/rest/v1/svc_regulations?id=in.('+regIds.join(',')+')&select=id,name,articles',{headers:h}).then(function(r){return r.ok?r.json():[];}).then(function(rows){for(var i=0;i<rows.length;i++){if(rows[i].articles){try{var a=typeof rows[i].articles==='string'?JSON.parse(rows[i].articles):rows[i].articles;artsMap[rows[i].id]=a;}catch(e){artsMap[rows[i].id]=[];}}}return [];}).catch(function(){return [];}):Promise.resolve([]);
-      return pArts.then(function(){
-        var item={c:row.code,n:row.name,d:row.dept_full_name||row.dept_name,s:row.accept_scope_object,area_name:row.area_name,dept_full_name:row.dept_full_name,parent_item_name:row.parent_item_name,sub_item_name:row.sub_item_name,impl_list_name:row.impl_list_name,item_type:row.item_type,item_type_full:row.item_type_full,official_code:row.official_code,basic_code:row.basic_code,legal_time_limit:row.legal_time_limit,promise_time_limit:row.promise_time_limit,apply_time_limit:row.apply_time_limit,accept_time_limit:row.accept_time_limit,online_url:row.online_url,onsite_visits:row.onsite_visits,onsite_reason:row.onsite_reason,is_one_window:row.is_one_window,is_comprehensive_window:row.is_comprehensive_window,is_in_hall:row.is_in_hall,has_pre_license:row.has_pre_license,pre_license_items:row.pre_license_items,has_intermediary:row.has_intermediary,intermediary_code:row.intermediary_code,intermediary_name:row.intermediary_name,online_service:row.online_service,exercise_level:row.exercise_level,has_intermediary:row.has_intermediary,accept_conditions_official:row.accept_conditions_official,ot:row.accept_conditions_original};
+      var fullRegsPromise=(regNames.length?fetch(SUPA_URL+'/rest/v1/svc_regulations?name=in.('+regNames.map(function(n){return encodeURIComponent(n);}).join(',')+')&select=*',{headers:h}).then(function(r){return r.ok?r.json():[];}):Promise.resolve([]));
+      var artsPromise=(regIds.length?fetch(SUPA_URL+'/rest/v1/svc_regulations?id=in.('+regIds.join(',')+')&select=*',{headers:h}).then(function(r){return r.ok?r.json():[];}):Promise.resolve([]));
+      return Promise.all([fullRegsPromise,artsPromise]).then(function(regResults){
+        var fullRegs=regResults[0],idRegs=regResults[1];
+        // 填充 regsLibMap（按名称）
+        for(var i=0;i<fullRegs.length;i++){var reg=fullRegs[i];if(typeof reg.articles==='string'){try{reg.articles=JSON.parse(reg.articles);}catch(e){reg.articles=[];}}regsLibMap[reg.name]=reg;}
+        // 填充 artsMap（按ID，兼容）
+        var artsMap={};for(var i=0;i<idRegs.length;i++){var reg=idRegs[i];if(typeof reg.articles==='string'){try{reg.articles=JSON.parse(reg.articles);}catch(e){reg.articles=[];}}artsMap[reg.id]=reg.articles||[];}
+        // 构建基础 item
+        var item={c:row.code,n:row.name,d:row.dept_full_name||row.dept_name,s:row.accept_scope_object,area_name:row.area_name,dept_full_name:row.dept_full_name,parent_item_name:row.parent_item_name,sub_item_name:row.sub_item_name,impl_list_name:row.impl_list_name,item_type:row.item_type,item_type_full:row.item_type_full,official_code:row.official_code,basic_code:row.basic_code,legal_time_limit:row.legal_time_limit,promise_time_limit:row.promise_time_limit,apply_time_limit:row.apply_time_limit,accept_time_limit:row.accept_time_limit,online_url:row.online_url,onsite_visits:row.onsite_visits,onsite_reason:row.onsite_reason,is_one_window:row.is_one_window,is_comprehensive_window:row.is_comprehensive_window,is_in_hall:row.is_in_hall,has_pre_license:row.has_pre_license,pre_license_items:row.pre_license_items,has_intermediary:row.has_intermediary,intermediary_code:row.intermediary_code,intermediary_name:row.intermediary_name,online_service:row.online_service,exercise_level:row.exercise_level,accept_conditions_official:row.accept_conditions_official,ot:row.accept_conditions_original};
+        // 材料
         item.materials=[];for(var i=0;i<mats.length;i++){var m=mats[i];item.materials.push({name:m.name||m.material_name,type:m.type||m.material_type||'',required:m.required?'必要':'非必要',original:m.original,copy:m.copy,format:m.format,source:m.source||m.source_channel||'',form_type:m.form_type,seq:m.seq});}
+        // 办事结果
         item.results=[];for(var i=0;i<ress.length;i++){var rs=ress[i];item.results.push({name:rs.name||rs.result_name,type:rs.type||rs.result_type||'',id:rs.id});}
+        // 受理条件(scenarios)
         item.sc=[];for(var i=0;i<scs.length;i++){var sc=scs[i];var conds=sc.conditions;if(typeof conds==='string'){try{conds=JSON.parse(conds);}catch(e){conds=[];}}item.sc.push({scenario_id:sc.scenario_id,scenario_name:sc.scenario_name,conditions:conds||[],logic_formula:sc.logic_formula,action:sc.action,evaluation:sc.evaluation});}
-        item.regs=[];for(var i=0;i<iregs.length;i++){var ir=iregs[i];var arts=artsMap[ir.regulation_id]||null;if(arts){var enriched={name:ir.regulation_name,articles:arts,ref_clauses:ir.ref_clauses};item.regs.push(enriched);}else{item.regs.push({name:ir.regulation_name,doc_number:ir.doc_number,ref_clauses:ir.ref_clauses,issuing_authority:ir.issuing_authority,effective_date:ir.effective_date});}}
-        if(forms.length>0){var fd=forms[0].fields;if(typeof fd==='string'){try{fd=JSON.parse(fd);}catch(e){fd=[];}}item.f=fd||[];item.fn=forms[0].form_name||'';}else{item.f=[];item.fn='';}
+        // 政策依据(regulations) - 用 regsLibMap 匹配完整法规数据
+        item.regs=[];for(var i=0;i<iregs.length;i++){var ir=iregs[i];var nm=ir.regulation_name||'';var full=regsLibMap[nm]||null;if(full){var enriched=JSON.parse(JSON.stringify(full));enriched.num=enriched.doc_number||'';if(ir.ref_clauses)enriched.ref_clauses=ir.ref_clauses;item.regs.push(enriched);}else if(ir.regulation_id&&artsMap[ir.regulation_id]){item.regs.push({name:nm,num:ir.doc_number||'',doc_number:ir.doc_number||'',articles:artsMap[ir.regulation_id],ref_clauses:ir.ref_clauses});}else{item.regs.push({name:nm,num:ir.doc_number||'',doc_number:ir.doc_number||'',ref_clauses:ir.ref_clauses});}}
+        // 申请表(forms)
+        if(forms.length>0){var fd=forms[0].fields;if(typeof fd==='string'){try{fd=JSON.parse(fd);}catch(e){fd=[];}}item.f=fd||[];item.fn=forms[0].form_name||'';item.fid=forms[0].id;}else{item.f=[];item.fn='';item.fid=null;}
         return item;
       });
     });
@@ -1868,55 +1883,9 @@ window.doExport=function(){
 window.doSave=function(){
   if(!cur)return;
   toast('正在保存…','');
-  var headers={'apikey':SUPA_KEY,'Content-Type':'application/json','Authorization':'Bearer '+SUPA_KEY};
-  var proms=[];
-  // Save form fields if on fields tab and fields exist
-  if(cur.f&&cur.f.length){
-    var fids=Array.isArray(cur.fid)?cur.fid:[cur.fid];
-    for(var fi=0;fi<fids.length;fi++){
-      var fid=fids[fi];
-      if(!fid)continue;
-      // Query existing records
-      proms.push(
-        fetch(SUPA_URL+'/rest/v1/form_fields?form_id=eq.'+encodeURIComponent(fid),{headers:headers})
-        .then(function(r){return r.json();})
-        .then(function(rows){
-          var byName={};
-          for(var j=0;j<rows.length;j++){
-            var key=(rows[j].field_name||'')+'__'+(rows[j].field_index||j);
-            byName[key]=rows[j].id;
-          }
-          var ups=[];
-          for(var k=0;k<cur.f.length;k++){
-            var f=cur.f[k];
-            var key2=(f.name||f.field_name||'')+'__'+k;
-            var rec={
-              field_name:f.name||f.field_name||'',
-              field_type:f.type||f.field_type||'text',
-              required:f.req||f.required||false,
-              standard_field:f.std||f.standard_field||null,
-              entity_type:f.ent||f.entity_type||null,
-              field_index:k
-            };
-            if(f.opts)rec.options=f.opts;
-            if(byName[key2]){
-              // Update existing
-              ups.push(fetch(SUPA_URL+'/rest/v1/form_fields?id=eq.'+byName[key2],{
-                method:'PATCH',headers:headers,
-                body:JSON.stringify(rec)
-              }));
-            }
-          }
-          return Promise.all(ups);
-        })
-      );
-    }
-  }
-  Promise.all(proms).then(function(){
-    toast('已保存到数据库','ok');
-  }).catch(function(e){
-    toast('保存失败: '+e.message,'err');
-  });
+  // 保存整个事项到 item_edits 表
+  persistItem(cur);
+  toast('已保存到数据库','ok');
 };
 
 /* === Dimension tooltip (fixed position, avoids overflow clipping) === */
