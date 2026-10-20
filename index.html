@@ -576,7 +576,7 @@ var dbApi={
         // 填充 artsMap（按ID，兼容）
         var artsMap={};for(var i=0;i<idRegs.length;i++){var reg=idRegs[i];if(typeof reg.articles==='string'){try{reg.articles=JSON.parse(reg.articles);}catch(e){reg.articles=[];}}artsMap[reg.id]=reg.articles||[];}
         // 构建基础 item
-        var item={c:row.code,n:row.name,d:row.dept_full_name||row.dept_name,s:row.accept_scope_object,area_name:row.area_name,dept_full_name:row.dept_full_name,parent_item_name:row.parent_item_name,sub_item_name:row.sub_item_name,impl_list_name:row.impl_list_name,item_type:row.item_type,item_type_full:row.item_type_full,official_code:row.official_code,basic_code:row.basic_code,legal_time_limit:row.legal_time_limit,promise_time_limit:row.promise_time_limit,apply_time_limit:row.apply_time_limit,accept_time_limit:row.accept_time_limit,online_url:row.online_url,onsite_visits:row.onsite_visits,onsite_reason:row.onsite_reason,is_one_window:row.is_one_window,is_comprehensive_window:row.is_comprehensive_window,is_in_hall:row.is_in_hall,has_pre_license:row.has_pre_license,pre_license_items:row.pre_license_items,has_intermediary:row.has_intermediary,intermediary_code:row.intermediary_code,intermediary_name:row.intermediary_name,online_service:row.online_service,exercise_level:row.exercise_level,accept_conditions_official:row.accept_conditions_official,ot:row.accept_conditions_original};
+        var item={c:row.code,n:row.name,d:row.dept_full_name||row.dept_name,s:row.accept_scope_object,area_name:row.area_name,dept_full_name:row.dept_full_name,parent_item_name:row.parent_item_name,sub_item_name:row.sub_item_name,impl_list_name:row.impl_list_name,item_type:row.item_type,item_type_full:row.item_type_full,official_code:row.official_code,basic_code:row.basic_code,legal_time_limit:row.legal_time_limit,promise_time_limit:row.promise_time_limit,apply_time_limit:row.apply_time_limit,accept_time_limit:row.accept_time_limit,online_url:row.online_url,onsite_visits:row.onsite_visits,onsite_reason:row.onsite_reason,is_one_window:row.is_one_window,is_comprehensive_window:row.is_comprehensive_window,is_in_hall:row.is_in_hall,has_pre_license:row.has_pre_license,pre_license_items:row.pre_license_items,has_intermediary:row.has_intermediary,intermediary_code:row.intermediary_code,intermediary_name:row.intermediary_name,online_service:row.online_service,exercise_level:row.exercise_level,accept_conditions_official:row.accept_conditions_official,ot:row.accept_conditions_original,industry_dept:row.industry_dept,item_status:row.item_status,power_source:row.power_source,case_type:row.case_type,handling_form:row.handling_form,online_depth:row.online_depth,is_convenience:row.is_convenience,is_cross_handling:row.is_cross_handling,cross_handling_type:row.cross_handling_type,cross_handling_area:row.cross_handling_area,service_object:row.service_object,quantity_limit:row.quantity_limit,legal_time_desc:row.legal_time_desc,promise_time_desc:row.promise_time_desc,is_fee:row.is_fee,fee_items:row.fee_items,payment_method:row.payment_method,consultation_phone:row.consultation_phone,complaint_phone:row.complaint_phone,responsible_office:row.responsible_office,admin_review_dept:row.admin_review_dept,admin_review_phone:row.admin_review_phone,litigation_dept:row.litigation_dept,litigation_phone:row.litigation_phone,support_deficiency_accept:row.support_deficiency_accept,support_instant_approval:row.support_instant_approval,support_commitment:row.support_commitment,online_process_desc:row.online_process_desc,window_process_desc:row.window_process_desc,review_standard:row.review_standard,approval_conditions:row.approval_conditions,rejection_conditions:row.rejection_conditions,process_steps:row.process_steps,process_step_count:row.process_step_count,responsibilities:row.responsibilities,daily_language:row.daily_language,short_name:row.short_name,subject_category:row.subject_category};
         // 材料
         item.materials=[];for(var i=0;i<mats.length;i++){var m=mats[i];item.materials.push({name:m.name||'',type:m.type||m.material_category||'',required:m.required||m.material_necessity||'必要',original:m.original,copy:m.copy,format:m.format||m.material_form||'',source:m.source||m.source_channel||'',form_type:m.form_type||'',seq:m.seq,material_id:m.material_id||'',form_or_material:m.form_or_material||'',material_form:m.material_form||'',exempt:m.exempt,exempt_measure:m.exempt_measure||'',should_link_cert:m.should_link_cert||'',link_cert:m.link_cert||'',cert_name:m.cert_name||'',paper_score:m.paper_score,paper_spec:m.paper_spec||'',fill_notes:m.fill_notes||'',accept_standard:m.accept_standard||''});}
         // 办事结果
@@ -882,33 +882,66 @@ function renderBasicInfo(){
     {title:'📋 事项标识', rows:[
       ['行政区划', 'area_name', it.area_name],
       ['实施部门', 'dept_full_name', it.dept_full_name],
+      ['行业部门', 'industry_dept', it.industry_dept],
       ['主项名称', 'parent_item_name', it.parent_item_name],
       ['子项名称', 'sub_item_name', it.sub_item_name],
       ['实施清单名称', 'impl_list_name', it.impl_list_name],
       ['事项类型', 'item_type_full', it.item_type_full],
       ['实施编码', 'official_code', it.official_code],
-      ['基本编码', 'basic_code', it.basic_code]
+      ['基本编码', 'basic_code', it.basic_code],
+      ['事项状态', 'item_status', it.item_status],
+      ['权力来源', 'power_source', it.power_source]
+    ]},
+    {title:'📊 办理详情', rows:[
+      ['办件类型', 'case_type', it.case_type],
+      ['办理形式', 'handling_form', it.handling_form],
+      ['网上办理深度', 'online_depth', it.online_depth],
+      ['是否可以网办', 'online_service', it.online_service],
+      ['是否便民服务', 'is_convenience', it.is_convenience],
+      ['是否通办', 'is_cross_handling', it.is_cross_handling],
+      ['通办类型', 'cross_handling_type', it.cross_handling_type],
+      ['通办区域', 'cross_handling_area', it.cross_handling_area],
+      ['服务对象', 'service_object', it.service_object],
+      ['数量限制', 'quantity_limit', it.quantity_limit]
     ]},
     {title:'⏱️ 办理时限', rows:[
       ['法定时限', 'legal_time_limit', it.legal_time_limit],
+      ['法定时限说明', 'legal_time_desc', it.legal_time_desc],
       ['承诺时限', 'promise_time_limit', it.promise_time_limit],
+      ['承诺时限说明', 'promise_time_desc', it.promise_time_desc],
       ['申请时限', 'apply_time_limit', it.apply_time_limit],
       ['受理时限', 'accept_time_limit', it.accept_time_limit]
+    ]},
+    {title:'💰 收费信息', rows:[
+      ['是否收费', 'is_fee', it.is_fee===true?'是':(it.is_fee===false?'否':it.is_fee)],
+      ['收费项目', 'fee_items', it.fee_items],
+      ['缴费方式', 'payment_method', it.payment_method]
     ]},
     {title:'🏢 窗口与渠道', rows:[
       ['在线申办网址', 'online_url', it.online_url],
       ['到现场次数', 'onsite_visits', it.onsite_visits],
-      ['必须现场办理原因', 'onsite_reason', it.onsite_reason],
       ['纳入一窗办理', 'is_one_window', it.is_one_window],
       ['纳入综合窗办理', 'is_comprehensive_window', it.is_comprehensive_window],
-      ['进驻政务大厅', 'is_in_hall', it.is_in_hall]
+      ['进驻政务大厅', 'is_in_hall', it.is_in_hall],
+      ['支持容缺收件', 'support_deficiency_accept', it.support_deficiency_accept===true?'是':(it.support_deficiency_accept===false?'否':'')],
+      ['支持秒批', 'support_instant_approval', it.support_instant_approval===true?'是':(it.support_instant_approval===false?'否':'')],
+      ['告知承诺制', 'support_commitment', it.support_commitment===true?'是':(it.support_commitment===false?'否':'')]
+    ]},
+    {title:'📞 咨询投诉', rows:[
+      ['咨询电话', 'consultation_phone', it.consultation_phone],
+      ['监督投诉电话', 'complaint_phone', it.complaint_phone],
+      ['责任科室', 'responsible_office', it.responsible_office]
+    ]},
+    {title:'⚖️ 法律救济', rows:[
+      ['行政复议部门', 'admin_review_dept', it.admin_review_dept],
+      ['行政复议电话', 'admin_review_phone', it.admin_review_phone],
+      ['行政诉讼部门', 'litigation_dept', it.litigation_dept],
+      ['行政诉讼电话', 'litigation_phone', it.litigation_phone]
     ]},
     {title:'🔗 关联事项', rows:[
       ['有无前置许可', 'has_pre_license', it.has_pre_license],
       ['前置许可事项', 'pre_license_items', it.pre_license_items],
-      ['涉及中介服务', 'has_intermediary', it.has_intermediary],
-      ['中介服务编码', 'intermediary_code', it.intermediary_code],
-      ['中介服务名称', 'intermediary_name', it.intermediary_name]
+      ['涉及中介服务', 'has_intermediary', it.has_intermediary]
     ]}
   ];
   for(var g=0;g<groups.length;g++){
@@ -932,7 +965,8 @@ function renderBasicInfo(){
         }
       } else {
         // 查看模式：显示文本
-        var displayVal=val&&val!=='-'&&val!=='None'&&val!=='nan'&&val!=='null'?String(val):'';
+        var displayVal=(val===true?'是':(val===false?'否':val));
+        displayVal=displayVal&&displayVal!=='-'&&displayVal!=='None'&&displayVal!=='nan'&&displayVal!=='null'?String(displayVal):'';
         if(!displayVal) continue;
         if(field==='online_url'&&displayVal&&(displayVal.startsWith('http://')||displayVal.startsWith('https://'))){
           h+='<div class="info-card-row"><span class="info-card-label">'+esc(label)+'</span><span class="info-card-value"><a href="'+esc(displayVal)+'" target="_blank">'+esc(displayVal)+'</a></span></div>';
