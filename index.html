@@ -554,7 +554,10 @@ var dbApi={
   },
   getStats:function(filters){
     var h=Object.assign(this._h(),{'Prefer':'count=exact'});
-    var _p=function(baseParams){return fetch(SUPA_URL+'/rest/v1/svc_items?'+baseParams.join('&'),{headers:h});};
+    var _p=function(qs){
+      var s=(typeof qs==='string')?qs:qs.join('&');
+      return fetch(SUPA_URL+'/rest/v1/svc_items?'+s,{headers:h});
+    };
     var _c=function(r){return dbApi._cnt(r.headers);};
     var base=['select=code','limit=1'];
     if(filters&&filters.search){var sq=filters.search;base.push('or=(code.ilike.%'+sq+'%,name.ilike.%'+sq+'%,dept_full_name.ilike.%'+sq+'%,official_code.ilike.%'+sq+'%)');}
@@ -563,12 +566,12 @@ var dbApi={
     var bStr=base.join('&');
     var pTotal=_p(bStr);
     var pWC=_p(bStr+'&accept_conditions_official.neq.&accept_conditions_official=is.not.null');
-    var pWR=_p([bStr.replace('limit=1','limit=0'), 'svc_item_regulations=inner']);
+    var pWR=_p([bStr.replace('limit=1','limit=0'),'svc_item_regulations=inner']);
     var pWF=_p(bStr+'&svc_item_forms=inner');
-    var pMat=_p([bStr.replace('limit=1','limit=0'), 'svc_item_materials=inner']);
-    return Promise.all([pTotal,pWC]).then(function(r){return {total:_c(r[0]),withCond:_c(r[1])};}).then(function(s){
-      return Promise.all([_p(bStr+'&accept_conditions_official.neq.&accept_conditions_official=is.not.null')]).then(function(){return s;});
-    }).catch(function(){return {total:0,withCond:0,withReg:0,withForm:0,materials:0};});
+    var pMat=_p([bStr.replace('limit=1','limit=0'),'svc_item_materials=inner']);
+    return Promise.all([pTotal,pWC,pWR,pWF,pMat]).then(function(r){
+      return {total:_c(r[0]),withCond:_c(r[1]),withReg:_c(r[2]),withForm:_c(r[3]),materials:_c(r[4])};
+    }).catch(function(e){console.warn('getStats error:',e);return {total:0,withCond:0,withReg:0,withForm:0,materials:0};});
   }
 };
 
