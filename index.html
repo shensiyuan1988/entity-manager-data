@@ -1213,9 +1213,14 @@ function renderReg(){
   var isNewFormat=regs.length>0&&regs[0].articles!==undefined;
   var h='<div style="display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px">'
     +'<button class="btn" onclick="exportRegJSON()">📥 导出政策依据</button>'
+    +'<button class="btn" onclick="addNewReg()">➕ 添加法规</button>'
     +'<button class="btn'+(regEditMode?' btn-p':'')+'" onclick="toggleRegEdit()">'+(regEditMode?'✅ 完成编辑':'✏️ 编辑法规')+'</button>'
     +'</div>';
   h+='<div class="reg-intro">共 '+regs.length+' 部法规引用'+(isNewFormat?' · 含完整法规库数据':'')+'</div>';
+  if(!regs.length&&!regEditMode){
+    h+='<div class="empty"><div class="ei">📜</div><div class="et">暂无政策依据数据</div><p style="margin-top:8px;color:#888">点击「➕ 添加法规」手动添加</p></div>';
+    return h;
+  }
   if(isNewFormat){
     for(var i=0;i<regs.length;i++) h+=renderRegFull(regs[i],i);
   } else {
@@ -1330,6 +1335,27 @@ window.saveRegEdits=function(){
   });
   persistItem(cur);
   toast('已保存编辑（本地缓存，刷新后仍保留）','ok');
+};
+
+window.addNewReg=function(){
+  if(!cur)return;
+  if(!cur.regs)cur.regs=[];
+  var name=prompt('法规名称：');
+  if(!name)return;
+  var doc=prompt('文号（如：国务院令第XXX号）：')||'';
+  var clause=prompt('引用条款（如：第三条第一款）：')||'';
+  var authority=prompt('发布机关：')||'';
+  var date=prompt('生效日期（YYYY-MM-DD）：')||'';
+  cur.regs.push({
+    name:name,
+    doc_number:doc,
+    clause_number:clause,
+    issuing_authority:authority,
+    effective_date:date
+  });
+  persistItem(cur);
+  renderContent();
+  toast('已添加法规「'+name+'」','ok');
 };
 
 window.addRefClause=function(ri){
