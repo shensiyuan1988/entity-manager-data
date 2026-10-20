@@ -1355,10 +1355,35 @@ function renderRegFull(r,idx){
     h+='<div style="text-align:center;padding:6px"><button class="btn" onclick="addRefClause('+idx+')">＋ 添加引用条款</button></div>';
   } else {
     if(r.ref_clauses&&r.ref_clauses.length>0){
+      var lastArtNum=null;
       for(var j=0;j<r.ref_clauses.length;j++){
         var cl=r.ref_clauses[j];
+        var clauseText=cl.cc||'';
+        if(!clauseText&&r.articles&&r.articles.length){
+          var cn=cl.cn||'';
+          var artMatch=cn.match(/第([一二三四五六七八九十百零\d]+)条/);
+          var paraMatch=cn.match(/第([一二三四五六七八九十\d]+)款/);
+          if(artMatch){lastArtNum='第'+artMatch[1]+'条';}
+          var searchArtNum=lastArtNum;
+          if(searchArtNum){
+            var targetArt=null;
+            for(var ai=0;ai<r.articles.length;ai++){if(r.articles[ai].num===searchArtNum){targetArt=r.articles[ai];break;}}
+            if(targetArt&&targetArt.full){
+              var parts=targetArt.full.split('。').filter(function(s){return s.trim();});
+              if(paraMatch){
+                var cnNums={'一':1,'二':2,'三':3,'四':4,'五':5,'六':6,'七':7,'八':8,'九':9,'十':10};
+                var pn=parseInt(paraMatch[1],10);
+                if(isNaN(pn))pn=cnNums[paraMatch[1]]||0;
+                if(pn>0&&pn<=parts.length)clauseText=parts[pn-1].trim();
+                else if(parts.length>0)clauseText=parts[0].trim();
+              } else if(parts.length>0){
+                clauseText=parts[0].trim();
+              }
+            }
+          }
+        }
         h+='<div class="ref-clause"><div class="ref-clause-num">'+esc(cl.cn||'')+'</div>'
-          +'<div class="ref-clause-content">'+esc(cl.cc||'')+'</div></div>';
+          +'<div class="ref-clause-content">'+esc(clauseText)+'</div></div>';
       }
     } else {
       h+='<div style="font-size:12px;color:var(--t3);padding:4px 0">暂无引用条款</div>';
