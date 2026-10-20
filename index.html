@@ -560,12 +560,12 @@ var dbApi={
     };
     var _c=function(r){return dbApi._cnt(r.headers);};
     var base=['select=code','limit=1'];
-    if(filters&&filters.search){var sq=encodeURIComponent(filters.search);base.push('or=(code.ilike.%25'+sq+'%25,name.ilike.%25'+sq+'%25,dept_full_name.ilike.%25'+sq+'%25,official_code.ilike.%'+sq+'%)');}
+    if(filters&&filters.search){var sq=encodeURIComponent(filters.search);base.push('or=(code.ilike.%25'+sq+'%25,name.ilike.%25'+sq+'%25,dept_full_name.ilike.%25'+sq+'%25,official_code.ilike.%25'+sq+'%25)');}
     if(filters&&filters.type)base.push('item_type=eq.'+encodeURIComponent(filters.type));
     if(filters&&filters.area)base.push('area_name=ilike.%25'+encodeURIComponent(filters.area)+'%25');
     var bStr=base.join('&');
     var pTotal=_p(bStr);
-    var pWC=_p(bStr+'&accept_conditions_official.neq.&accept_conditions_official=is.not.null');
+    var pWC=_p(bStr+'&accept_conditions_official=not.is.null');
     var pWR=_p([bStr.replace('limit=1','limit=0'),'svc_item_regulations=inner']);
     var pWF=_p(bStr+'&svc_item_forms=inner');
     var pMat=_p([bStr.replace('limit=1','limit=0'),'svc_item_materials=inner']);
