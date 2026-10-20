@@ -510,10 +510,10 @@ var dbApi={
   queryItems:function(page,pageSize,filters){
     filters=filters||{};
     var params=['select=code,name,dept_full_name,item_type,item_type_full,area_name,parent_item_name,accept_conditions_official,online_service,exercise_level,official_code','order=name.asc','limit='+pageSize,'offset='+((page-1)*pageSize)];
-    if(filters.search){var sq=filters.search;params.push('or=(code.ilike.%'+sq+'%,name.ilike.%'+sq+'%,dept_full_name.ilike.%'+sq+'%,official_code.ilike.%'+sq+'%)');}
+    if(filters.search){var sq=encodeURIComponent(filters.search);params.push('or=(code.ilike.%25'+sq+'%25,name.ilike.%25'+sq+'%25,dept_full_name.ilike.%25'+sq+'%25,official_code.ilike.%25'+sq+'%25)');}
     if(filters.type)params.push('item_type=eq.'+encodeURIComponent(filters.type));
-    if(filters.area)params.push('area_name.ilike.%'+encodeURIComponent(filters.area)+'%');
-    if(filters.hasCond===true)params.push('accept_conditions_official.neq.&accept_conditions_official=is.not.null');
+    if(filters.area)params.push('area_name=ilike.%25'+encodeURIComponent(filters.area)+'%25');
+    if(filters.hasCond===true)params.push('accept_conditions_official=not.is.null');
     return fetch(SUPA_URL+'/rest/v1/svc_items?'+params.join('&'),{headers:Object.assign(this._h(),{'Prefer':'count=exact'})}).then(function(r){
       if(!r.ok)throw new Error('查询失败:'+r.status);
       var total=dbApi._cnt(r.headers);
@@ -562,7 +562,7 @@ var dbApi={
     var base=['select=code','limit=1'];
     if(filters&&filters.search){var sq=filters.search;base.push('or=(code.ilike.%'+sq+'%,name.ilike.%'+sq+'%,dept_full_name.ilike.%'+sq+'%,official_code.ilike.%'+sq+'%)');}
     if(filters&&filters.type)base.push('item_type=eq.'+encodeURIComponent(filters.type));
-    if(filters&&filters.area)base.push('area_name.ilike.%'+encodeURIComponent(filters.area)+'%');
+    if(filters&&filters.area)base.push('area_name=ilike.%25'+encodeURIComponent(filters.area)+'%25');
     var bStr=base.join('&');
     var pTotal=_p(bStr);
     var pWC=_p(bStr+'&accept_conditions_official.neq.&accept_conditions_official=is.not.null');
