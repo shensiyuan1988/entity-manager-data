@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>数据统计 · 事项数据管理系统</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pri:#1a73e8;--pri-l:#e8f0fe;--pri-d:#1557b0;
+  --bg:#f5f7fa;--card:#fff;--border:#dfe3e8;
+  --t1:#202124;--t2:#5f6368;--t3:#9aa0a6;
+  --ok:#34a853;--warn:#f9ab00;--err:#ea4335;--info:#1a9da0;
+  --r:8px;--shadow:0 1px 3px rgba(0,0,0,.08);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--t1);line-height:1.5;padding-bottom:40px}
+a{color:inherit;text-decoration:none}
+
+/* Header */
+.app-header{background:var(--pri);color:#fff;padding:11px 22px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:20;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.app-header h1{font-size:17px;font-weight:600;white-space:nowrap}
+.app-header .back{font-size:13px;background:rgba(255,255,255,.18);padding:5px 12px;border-radius:16px;white-space:nowrap;transition:background .15s}
+.app-header .back:hover{background:rgba(255,255,255,.3)}
+.app-header .hmeta{font-size:12px;opacity:.85;margin-left:auto;white-space:nowrap}
+
+/* Filter */
+.filter-wrap{background:var(--card);border-bottom:1px solid var(--border);padding:12px 22px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;position:sticky;top:46px;z-index:10}
+.filter-wrap label{font-size:13px;color:var(--t2);display:flex;align-items:center;gap:6px}
+.filter-wrap select{padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:#fff;color:var(--t1);outline:none;cursor:pointer;min-width:150px}
+.filter-wrap select:focus{border-color:var(--pri)}
+.scope-tag{font-size:12px;background:var(--pri-l);color:var(--pri);padding:4px 10px;border-radius:12px;font-weight:500}
+.btn-reset{padding:6px 12px;border:1px solid var(--border);border-radius:6px;background:#fff;font-size:12px;cursor:pointer;color:var(--t2)}
+.btn-reset:hover{border-color:var(--pri);color:var(--pri)}
+
+.wrap{max-width:1280px;margin:0 auto;padding:20px 22px}
+.loading{text-align:center;padding:80px 20px;color:var(--t3);font-size:14px}
+.loading .spin{font-size:34px;display:inline-block;animation:rot 1.4s linear infinite;margin-bottom:10px}
+@keyframes rot{to{transform:rotate(360deg)}}
+
+/* KPI cards */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:20px}
+.kpi{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:14px 16px;border-top:3px solid var(--pri)}
+.kpi.green{border-top-color:var(--ok)}.kpi.orange{border-top-color:var(--warn)}
+.kpi.teal{border-top-color:var(--info)}.kpi.purple{border-top-color:#9c27b0}.kpi.red{border-top-color:var(--err)}
+.kpi .v{font-size:26px;font-weight:700;color:var(--t1);line-height:1.1}
+.kpi .v small{font-size:13px;font-weight:400;color:var(--t3);margin-left:2px}
+.kpi .l{font-size:12px;color:var(--t2);margin-top:5px}
+.kpi .s{font-size:11px;color:var(--t3);margin-top:3px}
+
+/* Section */
+.sec{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 18px;margin-bottom:16px}
+.sec-h{font-size:15px;font-weight:600;margin-bottom:14px;display:flex;align-items:center;gap:8px;padding-bottom:10px;border-bottom:1px solid #f0f0f0}
+.sec-h .ic{font-size:17px}
+.sec-h .hint{font-size:11px;color:var(--t3);font-weight:400;margin-left:auto}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:880px){.grid-2{grid-template-columns:1fr}}
+
+/* bars */
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:12.5px}
+.bar-row .bl{width:132px;min-width:132px;color:var(--t2);text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{flex:1;background:#f1f3f5;border-radius:4px;height:20px;position:relative;overflow:hidden}
+.bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#4285f4,#1a73e8);min-width:2px;transition:width .5s}
+.bar-fill.c2{background:linear-gradient(90deg,#34a853,#1e8e3e)}
+.bar-fill.c3{background:linear-gradient(90deg,#fbbc04,#f9ab00)}
+.bar-fill.c4{background:linear-gradient(90deg,#ff7043,#ea4335)}
+.bar-fill.c5{background:linear-gradient(90deg,#26c6da,#1a9da0)}
+.bar-row .bv{width:78px;min-width:78px;color:var(--t1);font-weight:500}
+.bar-row .bp{width:52px;min-width:52px;color:var(--t3);font-size:11px;text-align:right}
+
+/* donut */
+.donut-wrap{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.donut{width:130px;height:130px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;position:relative}
+.donut::after{content:'';position:absolute;width:84px;height:84px;background:var(--card);border-radius:50%}
+.donut .dc{position:relative;z-index:1;text-align:center}
+.donut .dc b{font-size:20px;display:block;line-height:1.1}
+.donut .dc span{font-size:10px;color:var(--t3)}
+.legend{flex:1;min-width:180px}
+.lg-row{display:flex;align-items:center;gap:8px;font-size:12.5px;margin-bottom:7px}
+.lg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+.lg-row .lg-l{flex:1;color:var(--t2)}
+.lg-row .lg-v{font-weight:500;color:var(--t1);min-width:70px;text-align:right}
+
+/* health */
+.health-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.hc{border:1px solid var(--border);border-radius:var(--r);padding:10px 12px}
+.hc-top{display:flex;align-items:center;gap:7px;font-size:12.5px;margin-bottom:7px}
+.dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.dot.g{background:var(--ok)}.dot.y{background:var(--warn)}.dot.r{background:var(--err)}.dot.gray{background:var(--t3)}
+.hc-top .hn{flex:1;color:var(--t1)}
+.hc-pct{font-weight:700;font-size:13px}
+.hc-bar{height:6px;background:#f1f3f5;border-radius:3px;overflow:hidden}
+.hc-fill{height:100%;border-radius:3px}
+.hc-sub{font-size:10.5px;color:var(--t3);margin-top:5px}
+
+/* mini stat line */
+.mini-line{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--t2);margin-top:4px}
+.mini-line b{color:var(--t1);font-size:15px;font-weight:700;margin-right:3px}
+.pill{display:inline-block;padding:2px 9px;border-radius:11px;font-size:11px;background:var(--pri-l);color:var(--pri);margin:2px 3px 2px 0}
+.foot{text-align:center;color:var(--t3);font-size:11px;padding:16px}
+</style>
+</head>
+<body>
+<header class="app-header">
+  <a class="back" href="index.html">← 返回事项管理</a>
+  <h1>📊 数据统计驾驶舱</h1>
+  <span class="hmeta" id="hmeta">加载中…</span>
+</header>
+
+<div class="filter-wrap">
+  <label>区域
+    <select id="fArea"><option value="">全部区域</option></select>
+  </label>
+  <label>部门
+    <select id="fDept"><option value="">全部部门</option></select>
+  </label>
+  <span class="scope-tag" id="scopeTag">全市</span>
+  <button class="btn-reset" id="btnReset">重置筛选</button>
+</div>
+
+<div class="wrap">
+  <div class="loading" id="loading"><div class="spin">⏳</div><div id="loadTxt">正在从数据库加载全量事项数据…</div></div>
+  <div id="dash" style="display:none"></div>
+  <div class="foot">数据来源：政务服务事项库（Supabase 实时聚合） · 统计口径随筛选联动</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var SUPA_URL='https://yhoiagabsftraufbinpa.supabase.co';
+var SUPA_KEY='sb_publishable_ngi2NNLWbWH92hTD_kLLJA_lTJQC3d9';
+
+var ITEM_COLS='code,area_name,dept_full_name,item_status,power_source,subject_category,service_object,handling_form,online_depth,case_type,is_fee,is_convenience,is_cross_handling,parent_item_name,sub_item_name,impl_list_name';
+var state={items:[],relMat:{},relRes:{},relReg:{},relForm:{},relQa:{},relSce:{},
+  matRows:[]};
+var fArea=document.getElementById('fArea'),fDept=document.getElementById('fDept');
+
+function api(path){
+  return fetch(SUPA_URL+'/rest/v1/'+path,{headers:{'apikey':SUPA_KEY,'Authorization':'Bearer '+SUPA_KEY}})
+    .then(function(r){if(!r.ok)throw new Error(r.status);return r.json();});
+}
+function pagedAll(basePath){
+  var all=[],off=0;
+  function step(){
+    return api(basePath+'&limit=1000&offset='+off).then(function(b){
+      all=all.concat(b);
+      if(b.length===1000){off+=1000;return step();}
+      return all;
+    });
+  }
+  return step();
+}
+function setLoad(t){document.getElementById('loadTxt').textContent=t;}
+
+// 关联表：只拉 item_code 做覆盖统计
+function relSet(rows){var s={};rows.forEach(function(r){if(r.item_code)s[r.item_code]=1;});return s;}
+
+function loadAll(){
+  setLoad('加载事项主表（14,379 条）…');
+  return pagedAll('svc_items?select='+ITEM_COLS).then(function(items){
+    state.items=items;
+    setLoad('加载材料关联（9.1 万条，稍慢）…');
+    return pagedAll('svc_item_materials?select=item_code,form_or_material,exempt,should_link_cert');
+  }).then(function(mats){
+    var codes={};mats.forEach(function(m){codes[m.item_code]=1;});state.relMat=codes;state.matRows=mats;
+    return pagedAll('svc_item_results?select=item_code');
+  }).then(function(r){state.relRes=relSet(r);
+    return pagedAll('svc_item_regulations?select=item_code');
+  }).then(function(r){state.relReg=relSet(r);
+    return pagedAll('svc_item_forms?select=item_code');
+  }).then(function(r){state.relForm=relSet(r);
+    return pagedAll('svc_item_qa?select=item_code');
+  }).then(function(r){state.relQa=relSet(r);
+    return pagedAll('svc_item_scenarios?select=item_code');
+  }).then(function(r){state.relSce=relSet(r);});
+}
+
+// ---- 聚合工具 ----
+function cur(){
+  var a=fArea.value,d=fDept.value;
+  return state.items.filter(function(it){
+    if(a&&it.area_name!==a)return false;
+    if(d&&it.dept_full_name!==d)return false;
+    return true;
+  });
+}
+function cnt(rows){return rows.length;}
+function dist(rows,field,opts){
+  opts=opts||{};
+  var m={};
+  rows.forEach(function(it){
+    var v=it[field];
+    if(opts.multi&&v){String(v).split(opts.sep||',').forEach(function(x){x=x.trim();if(x)m[x]=(m[x]||0)+1;});}
+    else{if(v===null||v===undefined||v==='')v='未填写';m[v]=(m[v]||0)+1;}
+  });
+  return m;
+}
+function pct(n,t){return t?Math.round(n/t*1000)/10:0;}
+function topArr(m,n){return Object.keys(m).map(function(k){return {k:k,v:m[k]};}).sort(function(a,b){return b.v-a.v;}).slice(0,n||999);}
+function fmt(n){return n.toLocaleString('zh-CN');}
+
+// ---- 渲染 ----
+function el(h){var d=document.createElement('div');d.innerHTML=h;return d.firstChild;}
+
+function kpiCard(cls,v,unit,label,sub){
+  return '<div class="kpi '+(cls||'')+'"><div class="v">'+v+(unit?'<small>'+unit+'</small>':'')+'</div><div class="l">'+label+'</div>'+(sub?'<div class="s">'+sub+'':'')+'</div>';
+}
+function barBlock(data,total,color){
+  var maxV=Math.max.apply(null,data.map(function(d){return d.v;}).concat([1]));
+  return data.map(function(d,i){
+    var w=Math.round(d.v/maxV*100);
+    return '<div class="bar-row"><div class="bl" title="'+d.k+'">'+d.k+'</div>'
+      +'<div class="bar-track"><div class="bar-fill '+(color||'')+'" style="width:'+w+'%"></div></div>'
+      +'<div class="bv">'+fmt(d.v)+'</div><div class="bp">'+pct(d.v,total)+'%</div></div>';
+  }).join('');
+}
+function donut(parts){ // parts:[{label,value,color}]
+  var tot=parts.reduce(function(s,p){return s+p.value;},0)||1;
+  var acc=0,seg=[];
+  parts.forEach(function(p){var s=acc/tot*100,e=(acc+p.value)/tot*100;seg.push(p.color+' '+s+'% '+e+'%');acc+=p.value;});
+  var lg=parts.map(function(p){return '<div class="lg-row"><span class="lg-dot" style="background:'+p.color+'"></span><span class="lg-l">'+p.label+'</span><span class="lg-v">'+fmt(p.value)+' · '+pct(p.value,tot)+'%</span></div>';}).join('');
+  return '<div class="donut-wrap"><div class="donut" style="background:conic-gradient('+seg.join(',')+')"><div class="dc"><b>'+fmt(tot)+'</b><span>总数</span></div></div><div class="legend">'+lg+'</div></div>';
+}
+function healthRow(label,filled,total,note){
+  var p=pct(filled,total),cls=p>=80?'g':(p>=40?'y':'r'),col=p>=80?'var(--ok)':(p>=40?'var(--warn)':'var(--err)');
+  return '<div class="hc"><div class="hc-top"><span class="dot '+cls+'"></span><span class="hn">'+label+'</span><span class="hc-pct" style="color:'+col+'">'+p+'%</span></div>'
+    +'<div class="hc-bar"><div class="hc-fill" style="width:'+p+'%;background:'+col+'"></div></div>'
+    +'<div class="hc-sub">已填 '+fmt(filled)+' / '+fmt(total)+(note?' · '+note:'')+'</div></div>';
+}
+
+function render(){
+  var rows=cur(),N=rows.length;
+  var codes={};rows.forEach(function(r){codes[r.code]=1;});
+  function cover(set){var n=0;rows.forEach(function(r){if(set[r.code])n++;});return n;}
+  var cMat=cover(state.relMat),cRes=cover(state.relRes),cReg=cover(state.relReg),
+      cForm=cover(state.relForm),cQa=cover(state.relQa),cSce=cover(state.relSce);
+
+  // 材料统计（限定当前范围）
+  var mRows=state.matRows.filter(function(m){return codes[m.item_code];});
+  var mMat=0,mForm=0,mExempt=0,mCert=0;
+  mRows.forEach(function(m){
+    if(m.form_or_material==='办理材料')mMat++;else if(m.form_or_material==='业务表单')mForm++;
+    if(m.exempt===true)mExempt++;
+    if(m.should_link_cert==='是'||m.should_link_cert===true)mCert++;
+  });
+
+  // 层级
+  var nParent={},nSub={};var split=0;
+  rows.forEach(function(it){
+    if(it.parent_item_name)nParent[it.parent_item_name]=1;
+    if(it.sub_item_name)nSub[it.dept_full_name+'|'+it.sub_item_name]=1;
+    if(it.sub_item_name!==it.impl_list_name)split++;
+  });
+  var nDept={};rows.forEach(function(it){if(it.dept_full_name)nDept[it.dept_full_name]=1;});
+
+  var h='';
+  // ① KPI
+  h+='<div class="kpi-grid">'
+   +kpiCard('',fmt(N),'','事项总数','在用 '+fmt(rows.filter(function(x){return x.item_status==='在用';}).length))
+   +kpiCard('green',fmt(Object.keys(nParent).length),'','主项','一级事项')
+   +kpiCard('green',fmt(Object.keys(nSub).length),'','子项','二级事项')
+   +kpiCard('teal',fmt(Object.keys(nDept).length),'','涉及部门','')
+   +kpiCard('orange',fmt(mRows.length),'','材料总数','户均 '+pct(mRows.length,N).toFixed(1)+' 份')
+   +kpiCard('orange',fmt(mExempt),'','免提交材料',pct(mExempt,mRows.length)+'% 免提交率')
+   +kpiCard('purple',fmt(mCert),'','关联电子证照',pct(mCert,mRows.length)+'% 关联率')
+   +kpiCard('',fmt(cReg),'','有设定依据',pct(cReg,N)+'% 覆盖')
+   +'</div>';
+
+  // ② 区域 + 部门
+  h+='<div class="grid-2"><div class="sec"><div class="sec-h"><span class="ic">🗺️</span>区域分布<span class="hint">按实施区域</span></div>'
+   +barBlock(topArr(dist(rows,'area_name'),13).map(function(d){if(d.k==='未填写')d.k='未标注区域';return d;}),N)
+   +'</div>'
+   +'<div class="sec"><div class="sec-h"><span class="ic">🏢</span>部门事项量 TOP 15<span class="hint">共 '+fmt(Object.keys(nDept).length)+' 个部门</span></div>'
+   +barBlock(topArr(dist(rows,'dept_full_name'),15),N,'c5')
+   +'</div></div>';
+
+  // ③ 事项结构
+  var ct=dist(rows,'case_type'),pw=dist(rows,'power_source'),sc=dist(rows,'subject_category');
+  h+='<div class="sec"><div class="sec-h"><span class="ic">🧩</span>事项结构分析</div><div class="grid-2">'
+   +'<div><div style="font-size:12.5px;color:var(--t2);margin-bottom:8px;font-weight:500">办件类型</div>'
+   +donut([{label:'承诺件',value:ct['承诺件']||0,color:'#1a73e8'},{label:'即办件',value:ct['即办件']||0,color:'#34a853'},{label:'未填写',value:ct['未填写']||0,color:'#dadce0'}])
+   +'<div style="font-size:12.5px;color:var(--t2);margin:16px 0 8px;font-weight:500">主体类型（联办情况）</div>'
+   +barBlock(topArr(sc,6).map(function(d){return d;}),N,'c2')+'</div>'
+   +'<div><div style="font-size:12.5px;color:var(--t2);margin-bottom:8px;font-weight:500">权力来源</div>'
+   +barBlock(topArr(pw,8),N,'c3')
+   +'<div style="font-size:12.5px;color:var(--t2);margin:16px 0 8px;font-weight:500">办理层级结构</div>'
+   +'<div class="mini-line"><span><b>'+fmt(N-split)+'</b>单层事项（子项即办理项）</span><span><b>'+fmt(split)+'</b>拆分办理项（'+'</b>个事项挂在子项下）</span></div>'
+   +'</div></div></div>';
+
+  // 服务对象（多选拆分）
+  var so=dist(rows,'service_object',{multi:true});
+  h+='<div class="sec"><div class="sec-h"><span class="ic">👥</span>服务对象分布<span class="hint">多选，按出现次数统计</span></div>'
+   +barBlock(topArr(so,10),N,'c5')+'</div>';
+
+  // ④ 网办能力
+  // 网办深度：取最深档关键词统计
+  var depthFull=0,depthPartial=0,depthNone=0;
+  rows.forEach(function(it){
+    var v=it.online_depth||'';
+    if(!v){depthNone++;return;}
+    if(v.indexOf('互联网办理结果信息反馈')>=0)depthFull++;
+    else if(v.indexOf('互联网')>=0)depthPartial++;else depthNone++;
+  });
+  var cross=rows.filter(function(x){return x.is_cross_handling===true;}).length;
+  var conv=rows.filter(function(x){return x.is_convenience===true;}).length;
+  var fee=rows.filter(function(x){return x.is_fee===true;}).length;
+  var forms=dist(rows,'handling_form',{multi:true,sep:','});
+  // 归一化办理形式（乱序）
+  var fOnline=forms['网上办理']||0,fWindow=forms['窗口办理']||0,fExpress=forms['快递申请']||0;
+  h+='<div class="sec"><div class="sec-h"><span class="ic">💻</span>网办与服务能力</div><div class="grid-2">'
+   +'<div><div style="font-size:12.5px;color:var(--t2);margin-bottom:8px;font-weight:500">网办深度成熟度</div>'
+   +donut([{label:'全流程网办（含结果反馈）',value:depthFull,color:'#34a853'},{label:'部分环节上网',value:depthPartial,color:'#f9ab00'},{label:'未标注/未上网',value:depthNone,color:'#dadce0'}])
+   +'<div class="mini-line" style="margin-top:14px"><span><b>'+pct(ct['即办件']||0,N)+'%</b>即办率</span><span><b>'+pct(fOnline,N)+'%</b>支持网上办理</span></div></div>'
+   +'<div><div style="font-size:12.5px;color:var(--t2);margin-bottom:8px;font-weight:500">办理渠道覆盖（多选）</div>'
+   +barBlock([{k:'网上办理',v:fOnline},{k:'窗口办理',v:fWindow},{k:'快递申请',v:fExpress}],N,'c2')
+   +'<div style="margin-top:14px">'
+   +'<span class="pill">跨域通办 '+fmt(cross)+' · '+pct(cross,N)+'%</span>'
+   +'<span class="pill">便民事项 '+fmt(conv)+' · '+pct(conv,N)+'%</span>'
+   +'<span class="pill">收费事项 '+fmt(fee)+' · '+pct(fee,N)+'%</span>'
+   +'</div></div></div></div>';
+
+  // ⑤ 材料画像
+  h+='<div class="sec"><div class="sec-h"><span class="ic">📎</span>材料画像</div>'
+   +'<div class="mini-line" style="margin-bottom:14px">'
+   +'<span><b>'+fmt(mMat)+'</b>办理材料</span><span><b>'+fmt(mForm)+'</b>业务表单</span>'
+   +'<span><b>'+fmt(mExempt)+'</b>免提交（'+pct(mExempt,mRows.length)+'%）</span>'
+   +'<span><b>'+fmt(mCert)+'</b>应关联电子证照（'+pct(mCert,mRows.length)+'%）</span>'
+   +'<span><b>'+fmt(cMat)+'</b>个事项配置了材料（'+pct(cMat,N)+'%）</span></div>'
+   +barBlock([{k:'办理材料',v:mMat},{k:'业务表单',v:mForm}],mRows.length)
+   +'</div>';
+
+  // ⑥ 数据完整度体检
+  function filled(field){return rows.filter(function(x){return x[field]!==null&&x[field]!==undefined&&x[field]!=='';}).length;}
+  h+='<div class="sec"><div class="sec-h"><span class="ic">🩺</span>数据完整度体检<span class="hint">绿灯≥80% · 黄灯40–80% · 红灯&lt;40%，点击事项管理可补录</span></div>'
+   +'<div class="health-grid">'
+   +healthRow('办事结果',cRes,N)
+   +healthRow('办理材料',cMat,N)
+   +healthRow('设定依据',cReg,N,'爬取补录中')
+   +healthRow('权力来源',filled('power_source'),N)
+   +healthRow('主体类型',filled('subject_category'),N)
+   +healthRow('办件类型',filled('case_type'),N)
+   +healthRow('办理形式',filled('handling_form'),N)
+   +healthRow('服务对象',filled('service_object'),N)
+   +healthRow('网办深度',filled('online_depth'),N)
+   +healthRow('办事场景',cSce,N)
+   +healthRow('关联表单',cForm,N)
+   +healthRow('常见问答',cQa,N)
+   +'</div></div>';
+
+  document.getElementById('dash').innerHTML=h;
+  document.getElementById('scopeTag').textContent=(fArea.value||'全市')+(fDept?(' / '+(fDept.value||'全部部门')):'');
+  document.getElementById('hmeta').textContent='当前口径 '+fmt(N)+' 个事项 · 更新于 '+new Date().toLocaleString('zh-CN',{hour12:false});
+}
+
+// ---- 筛选初始化与联动 ----
+function initFilters(){
+  var areas=topArr(dist(state.items,'area_name')).map(function(d){return d.k;}).filter(Boolean).sort();
+  areas.forEach(function(a){var o=document.createElement('option');o.value=a;o.textContent=a.replace('广东省深圳市','')||'深圳市级';fArea.appendChild(o);});
+  function fillDept(){
+    var a=fArea.value;
+    var pool=state.items.filter(function(it){return !a||it.area_name===a;});
+    var ds=topArr(dist(pool,'dept_full_name')).map(function(d){return d.k;}).filter(Boolean).sort();
+    fDept.innerHTML='<option value="">全部部门</option>';
+    ds.forEach(function(d){var o=document.createElement('option');o.value=d;o.textContent=d;fDept.appendChild(o);});
+  }
+  fillDept();
+  fArea.addEventListener('change',function(){fillDept();render();});
+  fDept.addEventListener('change',render);
+  document.getElementById('btnReset').addEventListener('click',function(){fArea.value='';fillDept();fDept.value='';render();});
+}
+
+loadAll().then(function(){
+  initFilters();
+  document.getElementById('loading').style.display='none';
+  document.getElementById('dash').style.display='block';
+  render();
+}).catch(function(e){
+  document.getElementById('loading').innerHTML='<div class="spin">⚠️</div>数据加载失败：'+e.message+'<br><small>请检查网络后刷新</small>';
+});
+})();
+</script>
+</body>
+</html>
