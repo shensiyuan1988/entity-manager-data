@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>办理窗口信息聚合 · 事项数据管理系统</title>
+<style>
+:root{
+  --pri:#1677FF;--pri-l:#E8F3FF;--pri-d:#0E5FD8;
+  --accent:#FF7D00;--accent-l:#FFF7E8;
+  --bg:#F5F7FA;--card:#fff;--border:#E5E6EB;
+  --t1:#1D2129;--t2:#4E5969;--t3:#86909C;
+  --ok:#00B42A;--warn:#FF7D00;--err:#F53F3F;
+  --r:10px;--r-sm:8px;--r-lg:16px;
+  --shadow:0 2px 12px rgba(0,0,0,.06);
+  --shadow-h:0 4px 16px rgba(22,119,255,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--t1);font-size:14px;line-height:1.5}
+a{color:var(--pri);text-decoration:none}
+/* 顶栏 */
+.app-header{height:56px;background:linear-gradient(135deg,#1677FF,#0E5FD8);color:#fff;display:flex;align-items:center;padding:0 22px;gap:14px;box-shadow:0 2px 10px rgba(22,119,255,.25);position:sticky;top:0;z-index:50}
+.app-header h1{font-size:16px;font-weight:600;display:flex;align-items:center;gap:9px}
+.app-header h1 .logo{width:30px;height:30px;background:rgba(255,255,255,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.app-header .nav{margin-left:auto;display:flex;gap:10px}
+.app-header .nav a{color:#fff;font-size:12px;background:rgba(255,255,255,.18);padding:5px 13px;border-radius:14px;white-space:nowrap;transition:background .15s}
+.app-header .nav a:hover{background:rgba(255,255,255,.32)}
+/* 概览条 */
+.summary{display:flex;gap:12px;padding:16px 22px 0;flex-wrap:wrap}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:12px 18px;box-shadow:var(--shadow);min-width:120px;flex:1;max-width:180px}
+.stat .num{font-size:22px;font-weight:700;color:var(--pri);line-height:1.2}
+.stat .lbl{font-size:12px;color:var(--t3);margin-top:2px}
+.stat[data-l="市"] .num{color:#1677FF}.stat[data-l="区"] .num{color:#0E8A6B}
+.stat[data-l="街道"] .num{color:#D48806}.stat[data-l="社区"] .num{color:#9c27b0}
+.stat[data-l="未分级"] .num{color:#86909C}
+/* 主体 */
+.layout{display:flex;gap:16px;padding:16px 22px 28px;align-items:flex-start}
+/* 左侧树 */
+.tree-panel{width:300px;flex-shrink:0;background:var(--card);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);position:sticky;top:72px;max-height:calc(100vh - 92px);display:flex;flex-direction:column}
+.tree-search{padding:12px;border-bottom:1px solid var(--border)}
+.tree-search input{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;transition:border-color .15s,box-shadow .15s}
+.tree-search input:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(22,119,255,.1)}
+.tree{overflow-y:auto;padding:8px;flex:1}
+.tnode{user-select:none}
+.trow{display:flex;align-items:center;gap:5px;padding:6px 8px;border-radius:7px;cursor:pointer;font-size:13px;color:var(--t2);transition:background .12s;white-space:nowrap}
+.trow:hover{background:var(--pri-l)}
+.trow.active{background:var(--pri);color:#fff;font-weight:500}
+.trow.active .tcount{background:rgba(255,255,255,.25);color:#fff}
+.tcaret{width:14px;flex-shrink:0;text-align:center;color:var(--t3);font-size:10px;transition:transform .15s}
+.tcaret.leaf{visibility:hidden}
+.tcaret.open{transform:rotate(90deg)}
+.ticon{flex-shrink:0;font-size:13px}
+.tlabel{overflow:hidden;text-overflow:ellipsis}
+.tcount{margin-left:auto;font-size:11px;color:var(--t3);background:var(--bg);border-radius:9px;padding:0 7px;flex-shrink:0}
+.tchildren{margin-left:14px;border-left:1px dashed var(--border);padding-left:4px;display:none}
+.tchildren.open{display:block}
+/* 右侧 */
+.main-panel{flex:1;min-width:0}
+.crumb{font-size:13px;color:var(--t3);margin-bottom:12px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.crumb b{color:var(--t1);font-size:15px}
+.lvl-badge{font-size:11px;font-weight:600;padding:2px 10px;border-radius:11px}
+.section-title{font-size:13px;font-weight:600;color:var(--t2);margin:18px 0 10px;display:flex;align-items:center;gap:8px}
+.section-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.win-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.win-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--pri);border-radius:var(--r);padding:13px 15px;box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .15s,transform .12s}
+.win-card:hover{box-shadow:var(--shadow-h);transform:translateY(-1px)}
+.wc-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:7px}
+.wc-name{font-size:13.5px;font-weight:600;color:var(--t1)}
+.wc-lvl{font-size:10px;font-weight:600;padding:1px 8px;border-radius:10px;border:1px solid transparent}
+.wc-body{font-size:12px;color:var(--t2);line-height:1.65}
+.wc-row{display:flex;gap:6px;margin-top:3px}
+.wc-row .k{flex-shrink:0}
+.wc-foot{margin-top:8px;font-size:11px;color:var(--pri);font-weight:500;display:flex;justify-content:space-between;align-items:center}
+.wc-items{margin-top:9px;border-top:1px dashed var(--border);padding-top:9px;display:none}
+.wc-items.open{display:block}
+.wc-items .il{font-size:12px;color:var(--t2);padding:5px 8px;border-radius:6px;display:block}
+.wc-items .il:hover{background:var(--pri-l);color:var(--pri)}
+.wc-items .ic{font-size:11px;color:var(--t3);margin-bottom:4px}
+/* 状态 */
+.status{padding:60px 20px;text-align:center;color:var(--t3)}
+.spin{display:inline-block;width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.empty{padding:50px 20px;text-align:center;color:var(--t3)}
+.empty .ei{font-size:40px;margin-bottom:10px}
+/* 弹窗 */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;align-items:center;justify-content:center;z-index:100;padding:20px}
+.modal-bg.open{display:flex}
+.modal{background:#fff;border-radius:var(--r-lg);width:680px;max-width:100%;max-height:82vh;display:flex;flex-direction:column;overflow:hidden}
+.modal-hd{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:10px}
+.modal-hd .mt{font-size:15px;font-weight:600;flex:1;line-height:1.5}
+.modal-x{cursor:pointer;color:var(--t3);font-size:20px;line-height:1;border:none;background:none}
+.modal-info{padding:10px 20px;font-size:12px;color:var(--t2);background:var(--bg);border-bottom:1px solid var(--border)}
+.modal-info div{margin:2px 0}
+.modal-bd{padding:12px 20px;overflow-y:auto;flex:1}
+.modal-bd a{display:block;padding:8px 10px;border-radius:7px;font-size:13px;color:var(--t1)}
+.modal-bd a:hover{background:var(--pri-l)}
+.modal-bd a .dept{font-size:11px;color:var(--t3);margin-top:1px}
+@media(max-width:768px){
+  .layout{flex-direction:column;padding:12px}
+  .tree-panel{width:100%;position:static;max-height:340px}
+  .summary{padding:12px 12px 0}.stat{max-width:none;min-width:0}
+  .app-header{padding:0 14px;height:52px}.app-header h1{font-size:14px}
+}
+</style>
+</head>
+<body>
+<header class="app-header">
+  <h1><span class="logo">🧭</span>办理窗口信息聚合</h1>
+  <nav class="nav">
+    <a href="index.html">📋 事项管理</a>
+    <a href="stats.html">📊 数据统计</a>
+  </nav>
+</header>
+
+<div class="summary" id="summary"><div class="status"><span class="spin"></span><div style="margin-top:10px">正在加载窗口数据…</div></div></div>
+
+<div class="layout">
+  <aside class="tree-panel">
+    <div class="tree-search"><input type="search" id="treeSearch" placeholder="搜索区/街道/社区/窗口名称…"></div>
+    <div class="tree" id="tree"></div>
+  </aside>
+  <section class="main-panel" id="main">
+    <div class="status"><span class="spin"></span><div style="margin-top:10px">加载中…</div></div>
+  </section>
+</div>
+
+<div class="modal-bg" id="mBg" onclick="if(event.target===this)closeModal()"><div class="modal" id="modal"></div></div>
+
+<script>
+(function(){
+'use strict';
+var SUPA='https://yhoiagabsftraufbinpa.supabase.co';
+var KEY='sb_publishable_ngi2NNLWbWH92hTD_kLLJA_lTJQC3d9';
+var H={'apikey':KEY,'Authorization':'Bearer '+KEY};
+var LVLC={'市':['#1677FF','#E8F3FF'],'区':['#0E8A6B','#E6F7F2'],'街道':['#D48806','#FFF7E8'],'社区':['#9c27b0','#F6E9FB'],'未分级':['#86909C','#F0F1F3']};
+var LVLORDER=['市','区','街道','社区','未分级'];
+var DISTRICTS=['福田区','罗湖区','南山区','盐田区','宝安区','龙岗区','龙华区','坪山区','光明区','大鹏新区','深汕特别合作区'];
+var wins=[],winById={};
+var curNode=null;
+
+function esc(s){if(s==null)return'';var d=document.createElement('div');d.textContent=String(s);return d.innerHTML;}
+
+function fetchAll(path){
+  // 先取总数
+  return fetch(SUPA+'/rest/v1/'+path+'&limit=1&offset=0',{headers:Object.assign({},H,{'Prefer':'count=exact','Range':'0-0'})})
+    .then(function(r){
+      var m=(r.headers.get('content-range')||'').match(/\/(\d+)$/);var total=m?parseInt(m[1],10):0;
+      var size=1000,pages=Math.max(1,Math.ceil(total/size)),reqs=[];
+      for(var p=0;p<pages;p++){(function(off){reqs.push(fetch(SUPA+'/rest/v1/'+path+'&limit='+size+'&offset='+off,{headers:H}).then(function(r){return r.ok?r.json():[];}));})(p*size);}
+      return Promise.all(reqs).then(function(arr){var out=[];arr.forEach(function(a){out=out.concat(a);});return out;});
+    });
+}
+
+function lvlColor(l){return LVLC[l]||LVLC['未分级'];}
+function badge(l){var c=lvlColor(l);return '<span class="wc-lvl" style="color:'+c[0]+';background:'+c[1]+';border-color:'+c[0]+'33">'+esc(l)+'级</span>';}
+
+/* ===== 建树 ===== */
+// 树：深圳市 -> [市本级窗口, 各区 -> [区级窗口, 街道 -> [街道窗口, 社区]], 未分级]
+function buildTree(){
+  var root={name:'深圳市',level:null,win:[],children:{}};
+  function ensureChild(parent,key,name,level){
+    if(!parent.children[key])parent.children[key]={name:name,level:level,win:[],children:{},parent:parent};
+    return parent.children[key];
+  }
+  wins.forEach(function(w){
+    var lv=w.level||'未分级', d=w.district||'', st=w.street||'', cm=w.community||'';
+    if(lv==='市'){ root.win.push(w); return; }
+    if(lv==='区'){ var dk=d||'未分区'; var dn=ensureChild(root,'D::'+dk,dk,'区'); dn.win.push(w); return; }
+    if(lv==='街道'||lv==='社区'){
+      var dk2=d||'未分区'; var dn2=ensureChild(root,'D::'+dk2,dk2,'区');
+      var sk=st||'未分街道'; var sn=ensureChild(dn2,'S::'+sk,sk,'街道');
+      if(lv==='街道'){ sn.win.push(w); }
+      else { var cn=ensureChild(sn,'C::'+(cm||'未分社区'),cm||'未分社区','社区'); cn.win.push(w); }
+      return;
+    }
+    // 未分级
+    var un=ensureChild(root,'D::未分级','未分级（待人工归类）','未分级');
+    var bucket=un.children['U::'+(d||'其他')];
+    if(!bucket){bucket={name:d||'区划缺失',level:'未分级',win:[],children:{},parent:un};un.children['U::'+(d||'其他')]=bucket;}
+    bucket.win.push(w);
+  });
+  return root;
+}
+function nodeWinCount(n){
+  var c=n.win.length;
+  Object.keys(n.children).forEach(function(k){c+=nodeWinCount(n.children[k]);});
+  return c;
+}
+function sortChildren(obj){
+  return Object.keys(obj).map(function(k){return obj[k];}).sort(function(a,b){
+    // 区按固定顺序
+    var ia=DISTRICTS.indexOf(a.name),ib=DISTRICTS.indexOf(b.name);
+    if(ia>=0&&ib>=0)return ia-ib; if(ia>=0)return -1; if(ib>=0)return 1;
+    return a.name.localeCompare(b.name,'zh');
+  });
+}
+
+var treeEl=document.getElementById('tree');
+function renderTree(root){
+  treeEl.innerHTML='';
+  var rootRow=makeRow(root,'🏙️',false);
+  rootRow.classList.add('active');
+  var rootWrap=document.createElement('div');rootWrap.className='tnode';
+  var rootChild=document.createElement('div');rootChild.className='tchildren open';
+  rootWrap.appendChild(rootRow);rootWrap.appendChild(rootChild);
+  sortChildren(root.children).forEach(function(n){rootChild.appendChild(renderNode(n,1));});
+  treeEl.appendChild(rootWrap);
+}
+function renderNode(n,depth){
+  var hasKids=Object.keys(n.children).length>0;
+  var wrap=document.createElement('div');wrap.className='tnode';
+  var row=makeRow(n, depth===1?(n.level==='未分级'?'❓':'🏢'):(depth===2?'🛣️':'🏘️'), hasKids);
+  wrap.appendChild(row);
+  if(hasKids){
+    var ch=document.createElement('div');ch.className='tchildren';
+    sortChildren(n.children).forEach(function(c){ch.appendChild(renderNode(c,depth+1));});
+    // 节点自身窗口作为一个虚拟项
+    if(n.win.length){
+      var self=document.createElement('div');
+      self.className='trow';self.style.paddingLeft=(8+depth*14)+'px';
+      self.innerHTML='<span class="tcaret leaf">·</span><span class="ticon">📌</span><span class="tlabel">本级窗口</span><span class="tcount">'+n.win.length+'</span>';
+      self.onclick=function(e){e.stopPropagation();selectNode({name:n.name+' · 本级窗口',level:n.level,win:n.win,parent:n.parent,_self:true},self);};
+      ch.insertBefore(self,ch.firstChild);
+    }
+    wrap.appendChild(ch);
+    row._childBox=ch;row._caret=row.querySelector('.tcaret');
+  }
+  return wrap;
+}
+function makeRow(n,icon,hasKids){
+  var row=document.createElement('div');row.className='trow';
+  var cnt=nodeWinCount(n);
+  row.innerHTML='<span class="tcaret'+(hasKids?'':' leaf')+'">▶</span><span class="ticon">'+icon+'</span><span class="tlabel">'+esc(n.name)+'</span><span class="tcount">'+cnt+'</span>';
+  row.onclick=function(e){
+    e.stopPropagation();
+    if(hasKids){var c=row._childBox;c.classList.toggle('open');row._caret.classList.toggle('open');}
+    selectNode(n,row);
+  };
+  return row;
+}
+function selectNode(n,rowEl){
+  var all=treeEl.querySelectorAll('.trow');for(var i=0;i<all.length;i++)all[i].classList.remove('active');
+  if(rowEl)rowEl.classList.add('active');
+  curNode=n;
+  renderMain(n);
+}
+
+/* ===== 右侧渲染 ===== */
+var mainEl=document.getElementById('main');
+function breadcrumb(n){
+  var parts=[];var p=n;
+  // 虚拟本级节点
+  while(p&&p.name!=='深圳市'){parts.unshift(p.name);p=p.parent;}
+  parts.unshift('深圳市');
+  var lv=n.level?(' <span class="lvl-badge" style="color:'+lvlColor(n.level)[0]+';background:'+lvlColor(n.level)[1]+'">'+esc(n.level)+'级</span>'):'';
+  return parts.map(function(x,i){return i?'<span>›</span><b style="font-size:13px;color:var(--t2)">'+esc(x)+'</b>':'<b>'+esc(x)+'</b>';}).join('')+lv;
+}
+function renderMain(n){
+  var list=n.win||[];
+  var h='<div class="crumb">'+breadcrumb(n)+'</div>';
+  h+='<div class="section-title">'+esc(n.name)+' · 窗口列表（'+list.length+' 个）</div>';
+  if(!list.length){
+    h+='<div class="empty"><div class="ei">🗂️</div><div>该节点下暂无直属窗口，可展开下级查看</div></div>';
+  }else{
+    h+='<div class="win-grid">';
+    list.forEach(function(w){h+=winCard(w);});
+    h+='</div>';
+  }
+  mainEl.innerHTML=h;
+  mainEl.querySelectorAll('.win-card').forEach(function(card){
+    card.onclick=function(){openWindow(card.getAttribute('data-id'));};
+  });
+}
+function winCard(w){
+  var c=lvlColor(w.level);
+  var locTxt=[w.district,w.street,w.community].filter(function(x){return x&&x!=='市本级';}).join(' / ');
+  var h='<div class="win-card" data-id="'+esc(w.id)+'" style="border-left-color:'+c[0]+'">';
+  h+='<div class="wc-head"><span class="wc-name">'+esc(w.name||'未命名窗口')+'</span>'+badge(w.level);
+  if(locTxt)h+='<span style="font-size:11px;color:var(--t3)">'+esc(locTxt)+'</span>';
+  h+='</div><div class="wc-body">';
+  if(w.address)h+='<div class="wc-row"><span class="k">📍</span><span>'+esc(w.address)+'</span></div>';
+  if(w.tel)h+='<div class="wc-row"><span class="k">📞</span><span>'+esc(w.tel)+'</span></div>';
+  if(w.office_time)h+='<div class="wc-row"><span class="k">🕘</span><span>'+esc(w.office_time)+'</span></div>';
+  h+='</div><div class="wc-foot"><span>🏢 可办事项 '+((w.item_count!=null)?w.item_count:'—')+' 项</span><span>点击查看 →</span></div>';
+  h+='</div>';
+  return h;
+}
+
+/* ===== 窗口可办事项弹窗（懒加载） ===== */
+function openWindow(id){
+  var w=winById[id];if(!w)return;
+  var c=lvlColor(w.level);
+  var m=document.getElementById('modal');
+  m.innerHTML='<div class="modal-hd"><div class="mt">'+esc(w.name)+' '+badge(w.level)+'</div><button class="modal-x" onclick="window._closeM&&window._closeM()">✕</button></div>'
+    +'<div class="modal-info">'
+    +(w.address?'<div>📍 '+esc(w.address)+'</div>':'')
+    +(w.tel?'<div>📞 '+esc(w.tel)+'</div>':'')
+    +(w.office_time?'<div>🕘 '+esc(w.office_time)+'</div>':'')
+    +(w.org_name?'<div>🏛️ 所属机构：'+esc(w.org_name)+'</div>':'')
+    +'</div><div class="modal-bd"><div class="status"><span class="spin"></span><div style="margin-top:8px">查询可办事项…</div></div></div>';
+  document.getElementById('mBg').classList.add('open');
+  fetch(SUPA+'/rest/v1/svc_item_windows?window_id=eq.'+encodeURIComponent(id)+'&select=item_code',{headers:H})
+    .then(function(r){return r.ok?r.json():[];}).then(function(rows){
+      var codes=rows.map(function(r){return r.item_code;});
+      if(!codes.length){m.querySelector('.modal-bd').innerHTML='<div class="empty">暂无关联事项</div>';return;}
+      // 取事项名（分批 in 查询，每批 100）
+      var batches=[];for(var i=0;i<codes.length;i+=100){batches.push(codes.slice(i,i+100));}
+      Promise.all(batches.map(function(b){
+        return fetch(SUPA+'/rest/v1/svc_items?code=in.('+b.map(encodeURIComponent).join(',')+')&select=code,name,dept_full_name',{headers:H})
+          .then(function(r){return r.ok?r.json():[];});
+      })).then(function(arr){
+        var map={};arr.forEach(function(a){a.forEach(function(it){map[it.code]=it;});});
+        var bd=m.querySelector('.modal-bd');
+        bd.innerHTML='<div class="ic">该窗口可办理以下 '+codes.length+' 个事项：</div>';
+        codes.forEach(function(code){
+          var it=map[code]||{name:code,dept_full_name:''};
+          var a=document.createElement('a');
+          a.href='index.html?code='+encodeURIComponent(code);
+          a.innerHTML='<div>'+esc(it.name||code)+'</div>'+(it.dept_full_name?'<div class="dept">'+esc(it.dept_full_name)+'</div>':'');
+          bd.appendChild(a);
+        });
+      });
+    });
+}
+function closeModal(){document.getElementById('mBg').classList.remove('open');}
+window._closeM=closeModal;
+
+/* ===== 概览统计 + 搜索 ===== */
+function renderSummary(root){
+  var lvCount={'市':0,'区':0,'街道':0,'社区':0,'未分级':0};
+  wins.forEach(function(w){lvCount[w.level||'未分级']++;});
+  var h='<div class="stat"><div class="num">'+wins.length+'</div><div class="lbl">唯一窗口总数</div></div>';
+  ['市','区','街道','社区'].forEach(function(l){h+='<div class="stat" data-l="'+l+'"><div class="num">'+lvCount[l]+'</div><div class="lbl">'+l+'级窗口</div></div>';});
+  if(lvCount['未分级'])h+='<div class="stat" data-l="未分级"><div class="num">'+lvCount['未分级']+'</div><div class="lbl">未分级（待核）</div></div>';
+  document.getElementById('summary').innerHTML=h;
+}
+document.getElementById('treeSearch').addEventListener('input',function(e){
+  var q=e.target.value.trim();
+  if(!q){renderTree(window._root);if(window._root)selectNode(window._root,treeEl.querySelector('.trow'));return;}
+  // 搜索：平铺匹配窗口
+  var hit=wins.filter(function(w){
+    return (w.name||'').indexOf(q)>=0||(w.district||'').indexOf(q)>=0||(w.street||'').indexOf(q)>=0||(w.community||'').indexOf(q)>=0||(w.address||'').indexOf(q)>=0;
+  });
+  var fake={name:'搜索：'+q,level:null,win:hit,parent:null};
+  mainEl.innerHTML='<div class="crumb"><b>搜索</b><span>›</span><b style="font-size:13px">'+esc(q)+'</b></div>'
+    +'<div class="section-title">匹配窗口（'+hit.length+' 个）</div>';
+  if(!hit.length){mainEl.innerHTML+='<div class="empty"><div class="ei">🔍</div><div>没有匹配的窗口</div></div>';}
+  else{var g='<div class="win-grid">';hit.forEach(function(w){g+=winCard(w);});g+='</div>';mainEl.innerHTML+=g;
+    mainEl.querySelectorAll('.win-card').forEach(function(card){card.onclick=function(){openWindow(card.getAttribute('data-id'));};});}
+});
+
+/* ===== 启动 ===== */
+fetchAll('svc_windows?select=id,name,address,tel,office_time,org_name,level,district,street,community,item_count')
+  .then(function(rows){
+    wins=rows;winById={};rows.forEach(function(w){winById[w.id]=w;});
+    if(!rows.length){
+      document.getElementById('summary').innerHTML='<div class="stat"><div class="num">0</div><div class="lbl">窗口数据尚未导入</div></div>';
+      mainEl.innerHTML='<div class="empty"><div class="ei">🗄️</div><div class="et">窗口表已建好但暂无数据，请先完成采集与灌库</div></div>';
+      treeEl.innerHTML='';return;
+    }
+    window._root=buildTree();
+    renderSummary(window._root);
+    renderTree(window._root);
+    selectNode(window._root,treeEl.querySelector('.trow'));
+  })
+  .catch(function(err){
+    document.getElementById('summary').innerHTML='';
+    mainEl.innerHTML='<div class="empty"><div class="ei">⚠️</div><div class="et">窗口数据加载失败：'+esc(err.message)+'<br>请确认 svc_windows 表已创建</div></div>';
+  });
+})();
+</script>
+</body>
+</html>
