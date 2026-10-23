@@ -371,6 +371,7 @@ table.ftbl{width:100%;border-collapse:collapse;font-size:12px;min-width:700px}
 <div id="dim-tip"></div>
 <header class="app-header">
 <h1><span class="logo">📋</span>事项数据管理系统</h1>
+<a href="windows.html" style="color:#fff;font-size:12px;background:rgba(255,255,255,.18);padding:5px 12px;border-radius:14px;white-space:nowrap">🧭 办理窗口</a>
 <a href="stats.html" style="color:#fff;font-size:12px;background:rgba(255,255,255,.18);padding:5px 12px;border-radius:14px;white-space:nowrap">📊 数据统计</a>
 <span class="stats" id="hStats">加载中…</span>
 </header>
@@ -616,8 +617,9 @@ var dbApi={
     var qSc=fetch(SUPA_URL+'/rest/v1/svc_item_scenarios?item_code=eq.'+encodeURIComponent(code)+'&select=*',{headers:h}).then(function(r){return r.ok?r.json():[];});
     var qIR=fetch(SUPA_URL+'/rest/v1/svc_item_regulations?item_code=eq.'+encodeURIComponent(code)+'&select=*',{headers:h}).then(function(r){return r.ok?r.json():[];});
     var qF=fetch(SUPA_URL+'/rest/v1/svc_item_forms?item_code=eq.'+encodeURIComponent(code)+'&select=*',{headers:h}).then(function(r){return r.ok?r.json():[];});
-    return Promise.all([qItem,qMats,qRes,qSc,qIR,qF]).then(function(results){
-      var row=results[0],mats=results[1],ress=results[2],scs=results[3],iregs=results[4],forms=results[5];
+    var qIW=fetch(SUPA_URL+'/rest/v1/svc_item_windows?item_code=eq.'+encodeURIComponent(code)+'&select=window_id,window_name,address,tel,office_time,time_delay_bus,level,district,street,community,org_name&order=level.asc,district.asc',{headers:h}).then(function(r){return r.ok?r.json():[];}).catch(function(){return [];});
+    return Promise.all([qItem,qMats,qRes,qSc,qIR,qF,qIW]).then(function(results){
+      var row=results[0],mats=results[1],ress=results[2],scs=results[3],iregs=results[4],forms=results[5],iwins=results[6]||[];
       if(!row)throw new Error('事项不存在');
       // 收集所有不重复法规名称，批量从 svc_regulations 取全文
       var regNames=[];var regNameSet={};
@@ -644,6 +646,8 @@ var dbApi={
         item.regs=[];for(var i=0;i<iregs.length;i++){var ir=iregs[i];var nm=ir.regulation_name||'';var full=regsLibMap[nm]||null;if(full){var enriched=JSON.parse(JSON.stringify(full));enriched.num=enriched.doc_number||'';if(ir.ref_clauses)enriched.ref_clauses=ir.ref_clauses;item.regs.push(enriched);}else if(ir.regulation_id&&artsMap[ir.regulation_id]){item.regs.push({name:nm,num:ir.doc_number||'',doc_number:ir.doc_number||'',articles:artsMap[ir.regulation_id],ref_clauses:ir.ref_clauses});}else{item.regs.push({name:nm,num:ir.doc_number||'',doc_number:ir.doc_number||'',ref_clauses:ir.ref_clauses});}}
         // 申请表(forms)
         if(forms.length>0){var fd=forms[0].fields;if(typeof fd==='string'){try{fd=JSON.parse(fd);}catch(e){fd=[];}}item.f=fd||[];item.fn=forms[0].form_name||'';item.fid=forms[0].id;}else{item.f=[];item.fn='';item.fid=null;}
+        // 办理窗口
+        item.windows=[];for(var wi=0;wi<iwins.length;wi++){var ww=iwins[wi];item.windows.push({id:ww.window_id,name:ww.window_name||'',address:ww.address||'',tel:ww.tel||'',office_time:ww.office_time||'',time_delay_bus:ww.time_delay_bus||'',level:ww.level||'',district:ww.district||'',street:ww.street||'',community:ww.community||'',org_name:ww.org_name||''});}
         return item;
       });
     });
@@ -1090,6 +1094,29 @@ function renderBasicInfo(){
           h+='<div class="info-card-row"><span class="info-card-label">'+esc(label)+'</span><span class="info-card-value">'+esc(displayVal)+'</span></div>';
         }
       }
+    }
+    h+='</div></div>';
+  }
+  // 办理窗口（独立卡片，查看模式）
+  if(!basicInfoEditMode && it.windows && it.windows.length){
+    var LVL_COLOR={'市':['#1677FF','#E8F3FF'],'区':['#0E8A6B','#E6F7F2'],'街道':['#D48806','#FFF7E8'],'社区':['#9c27b0','#F6E9FB'],'未分级':['#86909C','#F0F1F3']};
+    h+='<div style="margin-bottom:20px">';
+    h+='<div style="font-size:13px;font-weight:600;color:var(--t1);margin-bottom:10px;padding-bottom:6px;border-bottom:2px solid var(--pri)">🧭 办理窗口 <span style="color:var(--t3);font-weight:400;font-size:12px">（'+it.windows.length+' 个）</span></div>';
+    h+='<div style="display:flex;flex-direction:column;gap:10px">';
+    for(var wi=0;wi<it.windows.length;wi++){
+      var w=it.windows[wi];var lc=LVL_COLOR[w.level]||LVL_COLOR['未分级'];
+      h+='<div style="border:1px solid var(--border);border-left:3px solid '+lc[0]+';border-radius:var(--r);padding:12px 14px;background:#fcfdff">';
+      h+='<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px">';
+      h+='<span style="font-size:13px;font-weight:600;color:var(--t1)">'+esc(w.name||'未命名窗口')+'</span>';
+      if(w.level)h+='<span style="font-size:10px;font-weight:600;padding:1px 8px;border-radius:10px;color:'+lc[0]+';background:'+lc[1]+';border:1px solid '+lc[0]+'33">'+esc(w.level)+'级</span>';
+      var locTxt=[w.district,w.street,w.community].filter(Boolean).join(' / ');
+      if(locTxt)h+='<span style="font-size:11px;color:var(--t3)">'+esc(locTxt)+'</span>';
+      h+='</div>';
+      if(w.address)h+='<div style="font-size:12px;color:var(--t2);line-height:1.6;display:flex;gap:6px"><span style="flex-shrink:0">📍</span><span>'+esc(w.address)+'</span></div>';
+      if(w.tel)h+='<div style="font-size:12px;color:var(--t2);line-height:1.6;display:flex;gap:6px"><span style="flex-shrink:0">📞</span><span>'+esc(w.tel)+'</span></div>';
+      if(w.office_time)h+='<div style="font-size:12px;color:var(--t2);line-height:1.6;display:flex;gap:6px"><span style="flex-shrink:0">🕘</span><span>'+esc(w.office_time)+(w.time_delay_bus?'（'+esc(w.time_delay_bus)+'）':'')+'</span></div>';
+      if(w.org_name)h+='<div style="font-size:11px;color:var(--t3);line-height:1.6;margin-top:4px">所属机构：'+esc(w.org_name)+'</div>';
+      h+='</div>';
     }
     h+='</div></div>';
   }
