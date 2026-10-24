@@ -96,6 +96,23 @@ a{color:var(--pri);text-decoration:none}
 .modal-bd a{display:block;padding:8px 10px;border-radius:7px;font-size:13px;color:var(--t1)}
 .modal-bd a:hover{background:var(--pri-l)}
 .modal-bd a .dept{font-size:11px;color:var(--t3);margin-top:1px}
+/* 人工归类编辑区 */
+.edit-box{border:1px solid #FFD8A8;background:var(--accent-l);border-radius:var(--r-sm);padding:12px 13px;margin-bottom:12px}
+.edit-box .eb-title{font-size:13px;font-weight:600;color:#B25E00;margin-bottom:9px;display:flex;align-items:center;gap:6px}
+.edit-row{display:flex;align-items:center;gap:8px;margin-top:9px;flex-wrap:wrap}
+.edit-row label{font-size:12px;color:var(--t2);width:52px;flex-shrink:0}
+.edit-row select,.edit-row input{flex:1;min-width:120px;padding:6px 9px;border:1px solid var(--border);border-radius:7px;font-size:13px;outline:none;background:#fff;color:var(--t1)}
+.edit-row select:focus,.edit-row input:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(22,119,255,.1)}
+.edit-actions{display:flex;gap:9px;align-items:center;margin-top:12px}
+.btn{border:none;border-radius:7px;padding:7px 18px;font-size:13px;cursor:pointer;font-weight:500}
+.btn-pri{background:var(--pri);color:#fff}.btn-pri:hover{background:var(--pri-d)}
+.btn-ghost{background:#fff;color:var(--t2);border:1px solid var(--border)}.btn-ghost:hover{border-color:var(--pri);color:var(--pri)}
+.edit-msg{font-size:12px;color:var(--t3)}
+.edit-msg.ok{color:var(--ok)}.edit-msg.err{color:var(--err)}
+.edit-hint{font-size:11px;color:#B25E00;margin-top:8px;line-height:1.5}
+/* 未分级卡片上的快捷归类角标 */
+.wc-edit-tag{font-size:10px;color:#B25E00;background:var(--accent-l);border:1px solid #FFD8A8;border-radius:9px;padding:1px 7px;margin-left:auto;cursor:pointer;font-weight:600}
+.wc-edit-tag:hover{background:#FFE8C2}
 @media(max-width:768px){
   .layout{flex-direction:column;padding:12px}
   .tree-panel{width:100%;position:static;max-height:340px}
@@ -282,10 +299,97 @@ function winCard(w){
   if(w.address)h+='<div class="wc-row"><span class="k">📍</span><span>'+esc(w.address)+'</span></div>';
   if(w.tel)h+='<div class="wc-row"><span class="k">📞</span><span>'+esc(w.tel)+'</span></div>';
   if(w.office_time)h+='<div class="wc-row"><span class="k">🕘</span><span>'+esc(w.office_time)+'</span></div>';
-  h+='</div><div class="wc-foot"><span>🏢 可办事项 '+((w.item_count!=null)?w.item_count:'—')+' 项</span><span>点击查看 →</span></div>';
+  var tag=(w.level==='未分级')?'<span class="wc-edit-tag" data-edit="1">✏️ 待归类</span>':'<span>点击查看 →</span>';
+  h+='</div><div class="wc-foot"><span>🏢 可办事项 '+((w.item_count!=null)?w.item_count:'—')+' 项</span>'+tag+'</div>';
   h+='</div>';
   return h;
 }
+
+/* ===== 人工归类 ===== */
+var STREETS=['园岭','南园','福田','沙头','香蜜湖','梅林','莲花','华富','华强北','福保','南头','南山','招商','蛇口','沙河','桃源','西丽','南园','粤海','沙河',
+  '桂园','黄贝','东门','翠竹','南湖','笋岗','东湖','莲塘','东晓','清水河',
+  '新安','西乡','航城','福永','福海','沙井','新桥','松岗','燕罗','石岩','观澜','民治','龙华','大浪','观湖','大浪',
+  '龙城','龙岗','坂田','南湾','布吉','吉华','平湖','横岗','园山','宝龙','坪地',
+  '盐田','梅沙','沙头角','海山',
+  '光明','公明','新湖','凤凰','玉塘','马田',
+  '坪山','坑梓','龙田','石井','马峦','碧岭',
+  '大鹏','葵涌','南澳',
+  '新安街道','布吉街道','龙华街道'];
+function normStreet(s){
+  if(!s)return null;
+  s=String(s).trim();
+  s=s.replace(/^(深圳市)?/,'').replace(/(街道|办事处)$/,'').trim();
+  return s||null;
+}
+function editBoxHtml(w){
+  var lv=w.level||'未分级';
+  function opt(list,val){return list.map(function(x){return '<option value="'+esc(x)+'"'+(x===val?' selected':'')+'>'+esc(x)+'</option>';}).join('');}
+  var dO='<option value=""></option>'+opt(DISTRICTS,w.district||'');
+  var sVal=normStreet(w.street)||'';
+  var sList=STREETS.filter(function(v,i,a){return a.indexOf(v)===i;});
+  var cVal=w.community||'';
+  return '<div class="edit-box" id="editBox">'
+    +'<datalist id="ef-street-list">'+sList.map(function(x){return '<option value="'+esc(x)+'">';}).join('')+'</datalist>'
+    +'<div class="eb-title">✏️ 人工归类'+(lv==='未分级'?'<span style="font-weight:400;font-size:11px;color:#B25E00">（自动归类未命中，请人工确认）</span>':'')+'</div>'
+    +'<div class="edit-row"><label>层级</label><select id="ef-level">'
+    +['市','区','街道','社区','未分级'].map(function(x){return '<option'+(x===lv?' selected':'')+'>'+x+'</option>';}).join('')
+    +'</select></div>'
+    +'<div class="edit-row ef-zone" data-zone="区"><label>所属区</label><select id="ef-district">'+dO+'</select></div>'
+    +'<div class="edit-row ef-zone" data-zone="街道"><label>所属街道</label><input type="text" id="ef-street" list="ef-street-list" value="'+esc(sVal)+'" placeholder="可下拉选择或直接输入，如：粤海（不带街道二字）"></div>'
+    +'<div class="edit-row ef-zone" data-zone="社区"><label>所属社区</label><input type="text" id="ef-community" value="'+esc(cVal)+'" placeholder="如：XX社区 / XX居委会"></div>'
+    +'<div class="edit-actions"><button class="btn btn-pri" id="ef-save">💾 保存归类</button>'
+    +'<button class="btn btn-ghost" id="ef-cancel">取消</button>'
+    +'<span class="edit-msg" id="ef-msg"></span></div>'
+    +'<div class="edit-hint">保存后立即写库，并同步该窗口已关联事项的层级；窗口在左侧树中的位置会自动更新。</div>'
+    +'</div>';
+}
+function bindEdit(w){
+  var box=document.getElementById('editBox');if(!box)return;
+  function toggle(){
+    var lv=document.getElementById('ef-level').value;
+    box.querySelectorAll('.ef-zone').forEach(function(r){
+      var z=r.getAttribute('data-zone');
+      var show=(lv==='区')||(lv==='街道'&&(z==='区'||z==='街道'))||(lv==='社区');
+      r.style.display=show?'flex':'none';
+    });
+  }
+  document.getElementById('ef-level').onchange=toggle;toggle();
+  document.getElementById('ef-save').onclick=function(){saveClassify(w.id);};
+  document.getElementById('ef-cancel').onclick=function(){openWindow(w.id);};
+}
+function patchDB(path,body){
+  return fetch(SUPA+'/rest/v1/'+path,{method:'PATCH',headers:Object.assign({},H,{'Content-Type':'application/json','Prefer':'return=minimal'}),body:JSON.stringify(body)});
+}
+function saveClassify(id){
+  var w=winById[id];if(!w)return;
+  var lv=document.getElementById('ef-level').value;
+  var d=document.getElementById('ef-district').value||null;
+  var sRaw=(document.getElementById('ef-street').value||'').trim();
+  var c=(document.getElementById('ef-community').value||'').trim()||null;
+  var s=normStreet(sRaw);
+  if(lv==='区'&&!d){return efErr('区级窗口必须选择所属区');}
+  if(lv==='街道'&&(!d||!s)){return efErr('街道级窗口必须选择区和街道');}
+  if(lv==='社区'&&(!d||!s||!c)){return efErr('社区级窗口必须填写区、街道和社区');}
+  var payload={level:lv};
+  payload.district=(lv==='市')?null:d;
+  payload.street=(lv==='市'||lv==='区')?null:s;
+  payload.community=(lv==='社区')?c:null;
+  var msg=document.getElementById('ef-msg');
+  var btn=document.getElementById('ef-save');btn.disabled=true;msg.className='edit-msg';msg.textContent='保存中…';
+  patchDB('svc_windows?id=eq.'+encodeURIComponent(id),payload).then(function(r){
+    if(!r.ok)throw new Error('主表写入失败 '+r.status);
+    // 同步关联事项表（同 window_id 的冗余层级）
+    return patchDB('svc_item_windows?window_id=eq.'+encodeURIComponent(id),
+      {level:lv,district:payload.district,street:payload.street,community:payload.community})
+      .then(function(r2){if(!r2.ok)console.warn('关联表同步返回',r2.status);});
+  }).then(function(){
+    Object.assign(w,payload);
+    msg.className='edit-msg ok';msg.textContent='✓ 已保存，正在刷新…';
+    window._root=buildTree();renderSummary(window._root);renderTree(window._root);
+    setTimeout(function(){openWindow(id);},650);
+  }).catch(function(e){btn.disabled=false;efErr(e.message||String(e));});
+}
+function efErr(t){var m=document.getElementById('ef-msg');if(m){m.className='edit-msg err';m.textContent='⚠ '+t;}}
 
 /* ===== 窗口可办事项弹窗（懒加载） ===== */
 function openWindow(id){
@@ -298,12 +402,16 @@ function openWindow(id){
     +(w.tel?'<div>📞 '+esc(w.tel)+'</div>':'')
     +(w.office_time?'<div>🕘 '+esc(w.office_time)+'</div>':'')
     +(w.org_name?'<div>🏛️ 所属机构：'+esc(w.org_name)+'</div>':'')
-    +'</div><div class="modal-bd"><div class="status"><span class="spin"></span><div style="margin-top:8px">查询可办事项…</div></div></div>';
+    +'</div><div class="modal-bd">'
+    +editBoxHtml(w)
+    +'<div class="status" id="iwSpin"><span class="spin"></span><div style="margin-top:8px">查询可办事项…</div></div></div>';
   document.getElementById('mBg').classList.add('open');
+  bindEdit(w);
   fetch(SUPA+'/rest/v1/svc_item_windows?window_id=eq.'+encodeURIComponent(id)+'&select=item_code',{headers:H})
     .then(function(r){return r.ok?r.json():[];}).then(function(rows){
       var codes=rows.map(function(r){return r.item_code;});
-      if(!codes.length){m.querySelector('.modal-bd').innerHTML='<div class="empty">暂无关联事项</div>';return;}
+      var sp=m.querySelector('#iwSpin');
+      if(!codes.length){if(sp)sp.outerHTML='<div class="empty">暂无关联事项</div>';return;}
       // 取事项名（分批 in 查询，每批 100）
       var batches=[];for(var i=0;i<codes.length;i+=100){batches.push(codes.slice(i,i+100));}
       Promise.all(batches.map(function(b){
@@ -311,15 +419,12 @@ function openWindow(id){
           .then(function(r){return r.ok?r.json():[];});
       })).then(function(arr){
         var map={};arr.forEach(function(a){a.forEach(function(it){map[it.code]=it;});});
-        var bd=m.querySelector('.modal-bd');
-        bd.innerHTML='<div class="ic">该窗口可办理以下 '+codes.length+' 个事项：</div>';
+        var h='<div class="ic">该窗口可办理以下 '+codes.length+' 个事项：</div>';
         codes.forEach(function(code){
           var it=map[code]||{name:code,dept_full_name:''};
-          var a=document.createElement('a');
-          a.href='index.html?code='+encodeURIComponent(code);
-          a.innerHTML='<div>'+esc(it.name||code)+'</div>'+(it.dept_full_name?'<div class="dept">'+esc(it.dept_full_name)+'</div>':'');
-          bd.appendChild(a);
+          h+='<a href="index.html?code='+encodeURIComponent(code)+'"><div>'+esc(it.name||code)+'</div>'+(it.dept_full_name?'<div class="dept">'+esc(it.dept_full_name)+'</div>':'')+'</a>';
         });
+        if(sp)sp.outerHTML=h;
       });
     });
 }
