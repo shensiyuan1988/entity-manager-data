@@ -160,15 +160,24 @@ function fetchCount(path){
     .then(function(r){var m=(r.headers.get('content-range')||'').match(/\/(\d+)$/);return m?parseInt(m[1],10):0;});
 }
 function fetchAll(sel,path){
-  // 先取总数再分页
+  // 先取总数再分页；content-range 形如 "0-0/14379"，用字符串切片解析避免正则歧义
+  function parseTotal(cr){
+    cr=cr||'';
+    var i=cr.lastIndexOf('/');
+    var n=parseInt(i>=0?cr.substring(i+1):'',10);
+    return isFinite(n)?n:0;
+  }
+  function getPage(off,size){
+    return fetch(SUPA+'/rest/v1/'+path+'&select='+sel+'&limit='+size+'&offset='+off,{headers:H})
+      .then(function(rr){return rr.ok?rr.json():[];})
+      .catch(function(){return [];});
+  }
   return fetch(SUPA+'/rest/v1/'+path+'&select='+sel+'&limit=1&offset=0',{headers:Object.assign({},H,{'Prefer':'count=exact','Range':'0-0'})})
     .then(function(r){
-      var m=(r.headers.get('content-range')||'').match(/\/(\d+)$/);var total=m?parseInt(m[1],1):0;
+      var total=parseTotal(r.headers.get('content-range'));
       var size=1000,pages=Math.max(1,Math.ceil(total/size)),reqs=[];
-      for(var p=0;p<pages;p++){(function(off){
-        reqs.push(fetch(SUPA+'/rest/v1/'+path+'&select='+sel+'&limit='+size+'&offset='+off,{headers:H}).then(function(r){return r.ok?r.json():[];}));
-      })(p*size);}
-      return Promise.all(reqs).then(function(arr){var out=[];arr.forEach(function(a){out=out.concat(a);});return out;});
+      for(var p=0;p<pages;p++){reqs.push(getPage(p*size,size));}
+      return Promise.all(reqs).then(function(arr){var out=[];arr.forEach(function(a){if(a&&a.length)out=out.concat(a);});return out;});
     });
 }
 
