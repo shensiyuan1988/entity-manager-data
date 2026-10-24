@@ -371,6 +371,7 @@ table.ftbl{width:100%;border-collapse:collapse;font-size:12px;min-width:700px}
 <div id="dim-tip"></div>
 <header class="app-header">
 <h1><span class="logo">📋</span>事项数据管理系统</h1>
+<a href="search.html" style="color:#fff;font-size:12px;background:rgba(255,255,255,.18);padding:5px 12px;border-radius:14px;white-space:nowrap">🔎 按事项查点</a>
 <a href="windows.html" style="color:#fff;font-size:12px;background:rgba(255,255,255,.18);padding:5px 12px;border-radius:14px;white-space:nowrap">🧭 办理窗口</a>
 <a href="stats.html" style="color:#fff;font-size:12px;background:rgba(255,255,255,.18);padding:5px 12px;border-radius:14px;white-space:nowrap">📊 数据统计</a>
 <span class="stats" id="hStats">加载中…</span>
@@ -2214,6 +2215,25 @@ window.doSave=function(){
 })();
 
 loadData();
+/* URL code 参数直达详情：从 windows.html / search.html 跳回时自动打开对应事项 */
+(function(){
+  var m=location.search.match(/[?&]code=([^&]+)/);
+  if(!m)return;
+  var code=decodeURIComponent(m[1]);
+  var tries=0;
+  var t=setInterval(function(){
+    tries++;
+    var rows=document.querySelectorAll('.lrow[data-code]');
+    var found=false;
+    for(var i=0;i<rows.length;i++){
+      if(rows[i].getAttribute('data-code')===code){found=true;break;}
+    }
+    if(found||tries>120){
+      clearInterval(t);
+      if(typeof sel==='function')sel(code);
+    }
+  },200);
+})();
 })();
 </script>
 </body>

@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>按事项查办理点 · 事项数据管理系统</title>
+<style>
+:root{
+  --pri:#1677FF;--pri-l:#E8F3FF;--pri-d:#0E5FD8;
+  --accent:#FF7D00;--accent-l:#FFF7E8;
+  --bg:#F5F7FA;--card:#fff;--border:#E5E6EB;
+  --t1:#1D2129;--t2:#4E5969;--t3:#86909C;
+  --ok:#00B42A;--warn:#FF7D00;--err:#F53F3F;
+  --r:10px;--r-sm:8px;--r-lg:16px;
+  --shadow:0 2px 12px rgba(0,0,0,.06);
+  --shadow-h:0 4px 16px rgba(22,119,255,.14);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--t1);font-size:14px;line-height:1.5}
+a{color:var(--pri);text-decoration:none}
+/* 顶栏 */
+.app-header{height:56px;background:linear-gradient(135deg,#1677FF,#0E5FD8);color:#fff;display:flex;align-items:center;padding:0 22px;gap:14px;box-shadow:0 2px 10px rgba(22,119,255,.25);position:sticky;top:0;z-index:50}
+.app-header h1{font-size:16px;font-weight:600;display:flex;align-items:center;gap:9px}
+.app-header h1 .logo{width:30px;height:30px;background:rgba(255,255,255,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px}
+.app-header .nav{margin-left:auto;display:flex;gap:10px}
+.app-header .nav a{color:#fff;font-size:12px;background:rgba(255,255,255,.18);padding:5px 13px;border-radius:14px;white-space:nowrap;transition:background .15s}
+.app-header .nav a:hover{background:rgba(255,255,255,.32)}
+.app-header .nav a.cur{background:rgba(255,255,255,.42);font-weight:600}
+/* 搜索区 */
+.hero{background:linear-gradient(180deg,#EAF2FF 0%,var(--bg) 100%);padding:34px 22px 26px}
+.hero-inner{max-width:860px;margin:0 auto}
+.hero h2{font-size:22px;font-weight:700;color:var(--t1);text-align:center;margin-bottom:6px}
+.hero p.sub{text-align:center;color:var(--t2);font-size:13px;margin-bottom:20px}
+.search-box{display:flex;gap:10px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:8px;box-shadow:var(--shadow-h)}
+.search-box input{flex:1;border:none;outline:none;font-size:15px;padding:10px 12px;background:transparent;color:var(--t1)}
+.search-box button{border:none;background:var(--pri);color:#fff;border-radius:9px;padding:0 26px;font-size:14px;font-weight:600;cursor:pointer;white-space:nowrap}
+.search-box button:hover{background:var(--pri-d)}
+.search-box button:disabled{opacity:.6;cursor:default}
+.hot{margin-top:13px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
+.hot .hl{font-size:12px;color:var(--t3)}
+.hot button{font-size:12px;color:var(--pri);background:#fff;border:1px solid var(--border);border-radius:14px;padding:4px 13px;cursor:pointer;transition:all .12s}
+.hot button:hover{border-color:var(--pri);background:var(--pri-l)}
+/* 内容容器 */
+.wrap{max-width:1080px;margin:0 auto;padding:8px 22px 40px}
+/* 状态 */
+.status{padding:50px 20px;text-align:center;color:var(--t3)}
+.spin{display:inline-block;width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--pri);border-radius:50%;animation:sp .8s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+.empty{padding:50px 20px;text-align:center;color:var(--t3)}
+.empty .ei{font-size:42px;margin-bottom:10px}
+/* 事项结果列表 */
+.result-hd{font-size:13px;color:var(--t2);margin:18px 2px 10px}
+.result-hd b{color:var(--pri);font-size:15px}
+.item-list{display:flex;flex-direction:column;gap:10px}
+.item-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--pri);border-radius:var(--r);padding:13px 16px;box-shadow:var(--shadow);cursor:pointer;transition:box-shadow .15s,transform .12s}
+.item-card:hover{box-shadow:var(--shadow-h);transform:translateY(-1px)}
+.item-card .ic-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.item-card .ic-name{font-size:14px;font-weight:600;color:var(--t1)}
+.item-code{font-size:11px;color:var(--t3);background:var(--bg);border-radius:5px;padding:1px 7px;font-family:Menlo,Consolas,monospace}
+.item-card .ic-dept{font-size:12px;color:var(--t2);margin-top:5px}
+.item-card .ic-go{margin-left:auto;font-size:12px;color:var(--pri);font-weight:600;white-space:nowrap}
+.item-card .ic-go .cnt{display:inline-block;background:var(--pri-l);color:var(--pri-d);border-radius:10px;padding:1px 9px;margin-right:5px;font-weight:700}
+.item-card .ic-go.zero .cnt{background:#F0F1F3;color:var(--t3)}
+/* 选中事项后的办理点视图 */
+.back-row{margin:14px 2px}
+.back-row button{border:none;background:#fff;color:var(--pri);border:1px solid var(--border);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer}
+.back-row button:hover{border-color:var(--pri);background:var(--pri-l)}
+.item-banner{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:15px 18px;box-shadow:var(--shadow);margin-bottom:8px}
+.item-banner .ib-name{font-size:16px;font-weight:700;color:var(--t1)}
+.item-banner .ib-meta{font-size:12px;color:var(--t2);margin-top:6px;display:flex;gap:14px;flex-wrap:wrap}
+.item-banner .ib-meta b{color:var(--pri)}
+/* 筛选栏 */
+.filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 2px}
+.filter-bar .fl{font-size:12px;color:var(--t3)}
+.chip{font-size:12px;border:1px solid var(--border);background:#fff;color:var(--t2);border-radius:14px;padding:4px 13px;cursor:pointer;transition:all .12s}
+.chip:hover{border-color:var(--pri)}
+.chip.on{background:var(--pri);border-color:var(--pri);color:#fff;font-weight:600}
+/* 层级分组 */
+.lvl-group{margin-top:16px}
+.lvl-title{font-size:13px;font-weight:600;color:var(--t2);display:flex;align-items:center;gap:8px;margin:0 2px 10px}
+.lvl-title .lc{font-size:11px;font-weight:700;border-radius:10px;padding:1px 9px}
+.lvl-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.dist-sub{font-size:12px;font-weight:600;color:var(--t3);margin:12px 2px 7px;display:flex;align-items:center;gap:6px}
+.win-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.win-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--pri);border-radius:var(--r);padding:13px 15px;box-shadow:var(--shadow)}
+.wc-head{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:7px}
+.wc-name{font-size:13.5px;font-weight:600;color:var(--t1)}
+.wc-lvl{font-size:10px;font-weight:600;padding:1px 8px;border-radius:10px;border:1px solid transparent}
+.wc-tag-dist{font-size:11px;color:var(--t3)}
+.wc-body{font-size:12px;color:var(--t2);line-height:1.65}
+.wc-row{display:flex;gap:6px;margin-top:3px}
+.wc-row .k{flex-shrink:0}
+.wc-row span{word-break:break-all}
+/* 无办理点治理提示 */
+.no-win{background:var(--accent-l);border:1px solid #FFD8A8;border-radius:var(--r);padding:16px 18px;margin-top:14px;display:flex;gap:11px;align-items:flex-start}
+.no-win .ni{font-size:22px;line-height:1.2}
+.no-win .nt{font-size:13px;color:#B25E00;font-weight:600;margin-bottom:3px}
+.no-win .nd{font-size:12px;color:#B25E00;line-height:1.6;opacity:.9}
+@media(max-width:768px){
+  .app-header{padding:0 14px;height:52px}.app-header h1{font-size:14px}
+  .app-header .nav a{padding:5px 9px;font-size:11px}
+  .hero{padding:24px 14px 20px}.hero h2{font-size:19px}
+  .wrap{padding:6px 12px 30px}
+  .search-box{flex-direction:column}.search-box button{padding:11px}
+}
+</style>
+</head>
+<body>
+<header class="app-header">
+  <h1><span class="logo">🔎</span>按事项查办理点</h1>
+  <nav class="nav">
+    <a href="index.html">📋 事项管理</a>
+    <a href="search.html" class="cur">🔎 按事项查点</a>
+    <a href="windows.html">🧭 窗口聚合</a>
+    <a href="stats.html">📊 数据统计</a>
+  </nav>
+</header>
+
+<div class="hero">
+  <div class="hero-inner">
+    <h2>想办什么事，就查去哪办</h2>
+    <p class="sub">输入事项名称或事项编码，一键列出全市可办理该事项的全部窗口及地址、电话</p>
+    <div class="search-box">
+      <input type="search" id="q" placeholder="如：个体工商户设立登记、残疾人证、居民身份证…" autocomplete="off">
+      <button id="btn">🔍 查办理点</button>
+    </div>
+    <div class="hot" id="hot">
+      <span class="hl">热门：</span>
+      <button data-k="个体工商户设立">个体工商户设立</button>
+      <button data-k="残疾人证">残疾人证</button>
+      <button data-k="居民身份证">居民身份证</button>
+      <button data-k="社保补贴">社保补贴</button>
+      <button data-k="营业执照">营业执照</button>
+      <button data-k="食品经营许可">食品经营许可</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap" id="wrap">
+  <div class="status" id="boot"><span class="spin"></span><div style="margin-top:10px">正在载入事项与办理点索引…</div></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+var SUPA='https://yhoiagabsftraufbinpa.supabase.co';
+var KEY='sb_publishable_ngi2NNLWbWH92hTD_kLLJA_lTJQC3d9';
+var H={'apikey':KEY,'Authorization':'Bearer '+KEY};
+var LVLC={'市':['#1677FF','#E8F3FF'],'区':['#0E8A6B','#E6F7F2'],'街道':['#D48806','#FFF7E8'],'社区':['#9c27b0','#F6E9FB'],'未分级':['#86909C','#F0F1F3']};
+var LVLORDER=['市','区','街道','社区','未分级'];
+var DISTRICTS=['福田区','罗湖区','南山区','盐田区','宝安区','龙岗区','龙华区','坪山区','光明区','大鹏新区','深汕特别合作区'];
+
+function esc(s){if(s==null)return'';var d=document.createElement('div');d.textContent=String(s);return d.innerHTML;}
+function lvlColor(l){return LVLC[l]||LVLC['未分级'];}
+function lvlBadge(l){var c=lvlColor(l);return '<span class="wc-lvl" style="color:'+c[0]+';background:'+c[1]+';border-color:'+c[0]+'33">'+esc(l)+'级</span>';}
+
+function fetchCount(path){
+  return fetch(SUPA+'/rest/v1/'+path+'&limit=1&offset=0',{headers:Object.assign({},H,{'Prefer':'count=exact','Range':'0-0'})})
+    .then(function(r){var m=(r.headers.get('content-range')||'').match(/\/(\d+)$/);return m?parseInt(m[1],10):0;});
+}
+function fetchAll(sel,path){
+  // 先取总数再分页
+  return fetch(SUPA+'/rest/v1/'+path+'&select='+sel+'&limit=1&offset=0',{headers:Object.assign({},H,{'Prefer':'count=exact','Range':'0-0'})})
+    .then(function(r){
+      var m=(r.headers.get('content-range')||'').match(/\/(\d+)$/);var total=m?parseInt(m[1],1):0;
+      var size=1000,pages=Math.max(1,Math.ceil(total/size)),reqs=[];
+      for(var p=0;p<pages;p++){(function(off){
+        reqs.push(fetch(SUPA+'/rest/v1/'+path+'&select='+sel+'&limit='+size+'&offset='+off,{headers:H}).then(function(r){return r.ok?r.json():[];}));
+      })(p*size);}
+      return Promise.all(reqs).then(function(arr){var out=[];arr.forEach(function(a){out=out.concat(a);});return out;});
+    });
+}
+
+var items=[],codeToItem={},codeToWinIds={},winCache={};
+var curFilter='全部',curItem=null;
+
+/* ===== 启动：拉事项 + 挂接索引 ===== */
+function boot(){
+  Promise.all([
+    fetchAll('code,name,dept_full_name','svc_items?order=code.asc'),
+    fetchAll('item_code,window_id','svc_item_windows?')
+  ]).then(function(res){
+    items=res[0];
+    items.forEach(function(it){codeToItem[it.code]=it;});
+    res[1].forEach(function(r){
+      if(!r.item_code||!r.window_id)return;
+      (codeToWinIds[r.item_code]=codeToWinIds[r.item_code]||[]).push(r.window_id);
+    });
+    ready();
+  }).catch(function(e){
+    document.getElementById('wrap').innerHTML='<div class="empty"><div class="ei">⚠️</div><div>索引加载失败：'+esc(e.message||e)+'<br>请刷新重试</div></div>';
+  });
+}
+
+function ready(){
+  document.getElementById('boot')&&(document.getElementById('boot').outerHTML='');
+  var wrap=document.getElementById('wrap');
+  wrap.innerHTML='<div class="empty"><div class="ei">🧭</div><div style="font-size:15px;color:var(--t2);margin-bottom:6px">已载入 '+items.length.toLocaleString()+' 个事项、'+Object.keys(codeToWinIds).length.toLocaleString()+' 条办理点挂接</div><div>在上方输入框搜索你想办理的事项</div></div>';
+  bindSearch();
+  // 支持 ?q= 直达
+  var m=location.search.match(/[?&]q=([^&]+)/);
+  if(m){var q=decodeURIComponent(m[1]);document.getElementById('q').value=q;doSearch(q);}
+}
+
+function bindSearch(){
+  var input=document.getElementById('q'),btn=document.getElementById('btn');
+  function go(){var v=input.value.trim();if(v)doSearch(v);}
+  btn.onclick=go;
+  input.addEventListener('keydown',function(e){if(e.key==='Enter')go();});
+  document.getElementById('hot').querySelectorAll('button').forEach(function(b){
+    b.onclick=function(){input.value=b.getAttribute('data-k');doSearch(input.value);};
+  });
+}
+
+/* ===== 搜索事项 ===== */
+function norm(s){return String(s||'').toLowerCase().replace(/[\s（）()【】\[\]、，,。.·\/\\-]/g,'');}
+function doSearch(q){
+  curItem=null;
+  var wrap=document.getElementById('wrap');
+  wrap.innerHTML='<div class="status"><span class="spin"></span><div style="margin-top:10px">正在搜索事项…</div></div>';
+  var nq=norm(q),qLower=q.toLowerCase();
+  // 精确 code 优先
+  var exact=codeToItem[q.trim()]||codeToItem[q.trim().toUpperCase()];
+  if(exact){renderItemDetail(exact.code);return;}
+  var hits=[];
+  for(var i=0;i<items.length;i++){
+    var it=items[i];
+    var nm=it.name||'';
+    if(nm.indexOf(q)>=0||norm(nm).indexOf(nq)>=0||(it.code||'').toLowerCase().indexOf(qLower)>=0){
+      hits.push(it);
+      if(hits.length>=200)break;
+    }
+  }
+  if(!hits.length){
+    wrap.innerHTML='<div class="empty"><div class="ei">🔍</div><div style="font-size:15px">没有找到包含「'+esc(q)+'」的事项</div><div style="margin-top:8px;font-size:12px">试试更短的关键词，或换一个事项名称</div></div>';
+    return;
+  }
+  // 按窗口数降序，无窗口沉底
+  hits.sort(function(a,b){
+    var ca=(codeToWinIds[a.code]||[]).length,cb=(codeToWinIds[b.code]||[]).length;
+    if((ca===0)!==(cb===0))return ca===0?1:-1;
+    return cb-ca;
+  });
+  var limited=hits.length>=200;
+  var h='<div class="result-hd">匹配到 <b>'+hits.length+(limited?'+':'')+'</b> 个事项，点击查看可办办理点</div><div class="item-list">';
+  hits.forEach(function(it){
+    var ids=codeToWinIds[it.code]||[];
+    var zero=ids.length===0;
+    h+='<div class="item-card" data-code="'+esc(it.code)+'">'
+      +'<div class="ic-top"><span class="ic-name">'+esc(it.name)+'</span><span class="item-code">'+esc(it.code)+'</span>'
+      +'<span class="ic-go'+(zero?' zero':'')+'"><span class="cnt">'+ids.length+'</span>'+(zero?'暂未挂办理点':'个办理点 →')+'</span></div>'
+      +(it.dept_full_name?'<div class="ic-dept">🏛️ '+esc(it.dept_full_name)+'</div>':'')
+      +'</div>';
+  });
+  h+='</div>';
+  if(limited)h+='<div class="result-hd" style="text-align:center">结果较多，仅显示前 200 条，请用更精确的关键词</div>';
+  wrap.innerHTML=h;
+  wrap.querySelectorAll('.item-card').forEach(function(c){
+    c.onclick=function(){renderItemDetail(c.getAttribute('data-code'));};
+  });
+}
+
+/* ===== 事项详情：列出全部办理点 ===== */
+function renderItemDetail(code){
+  var it=codeToItem[code];if(!it)return;
+  curItem=code;curFilter='全部';
+  var wrap=document.getElementById('wrap');
+  var ids=codeToWinIds[code]||[];
+  var uniq={};ids.forEach(function(id){uniq[id]=1;});
+  var idList=Object.keys(uniq);
+  wrap.innerHTML='<div class="back-row"><button id="backBtn">← 返回搜索结果</button></div>'
+    +'<div class="item-banner"><div class="ib-name">'+esc(it.name)+'</div>'
+    +'<div class="ib-meta"><span class="item-code" style="font-size:12px">'+esc(it.code)+'</span>'
+    +(it.dept_full_name?'<span>🏛️ '+esc(it.dept_full_name)+'</span>':'')
+    +'<span>可办办理点 <b id="totalNum">'+idList.length+'</b> 个</span></div></div>'
+    +'<div id="resultBox"><div class="status"><span class="spin"></span><div style="margin-top:10px">查询办理点详情…</div></div></div>';
+  document.getElementById('backBtn').onclick=function(){var v=document.getElementById('q').value.trim();if(v)doSearch(v);};
+  var box=document.getElementById('resultBox');
+  if(!idList.length){
+    box.innerHTML='<div class="no-win"><span class="ni">⚠️</span><div>'
+      +'<div class="nt">该事项暂未挂接任何办理窗口</div>'
+      +'<div class="nd">事项「'+esc(it.name)+'」目前没有对应的可办窗口记录，可能是挂接缺失或数据未维护。建议在事项管理中核实该事项的办理渠道，或补充窗口挂接。</div></div></div>';
+    return;
+  }
+  loadWindows(idList).then(function(winList){
+    if(curItem!==code)return;
+    renderWins(winList);
+  });
+}
+
+function loadWindows(ids){
+  // 缓存命中
+  var missing=ids.filter(function(id){return !(id in winCache);});
+  if(!missing.length)return Promise.resolve(ids.map(function(id){return winCache[id];}).filter(Boolean));
+  var batches=[];
+  for(var i=0;i<missing.length;i+=100)batches.push(missing.slice(i,i+100));
+  return Promise.all(batches.map(function(b){
+    var q='svc_windows?id=in.('+b.map(encodeURIComponent).join(',')+')&select=id,name,address,tel,office_time,level,district,street,community,org_name';
+    return fetch(SUPA+'/rest/v1/'+q,{headers:H}).then(function(r){return r.ok?r.json():[];});
+  })).then(function(arr){
+    var found={};
+    arr.forEach(function(a){a.forEach(function(w){winCache[w.id]=w;found[w.id]=1;});});
+    // 主表缺失的窗口标记
+    missing.forEach(function(id){if(!found[id])winCache[id]=null;});
+    return ids.map(function(id){return winCache[id];}).filter(Boolean);
+  });
+}
+
+function renderWins(winList){
+  var wrap=document.getElementById('wrap');
+  // 出现的层级 & 区，做筛选
+  var lvls={},dists={};
+  winList.forEach(function(w){lvls[w.level||'未分级']=1;if(w.district)dists[w.district]=1;});
+  var presentLvls=LVLORDER.filter(function(l){return lvls[l];});
+  var distList=DISTRICTS.filter(function(d){return dists[d];}).concat(Object.keys(dists).filter(function(d){return DISTRICTS.indexOf(d)<0;}));
+
+  function filtered(){
+    if(curFilter==='全部')return winList;
+    if(presentLvls.indexOf(curFilter)>=0)return winList.filter(function(w){return (w.level||'未分级')===curFilter;});
+    return winList.filter(function(w){return w.district===curFilter;});
+  }
+  function bar(){
+    var h='<div class="filter-bar"><span class="fl">筛选：</span><button class="chip'+(curFilter==='全部'?' on':'')+'" data-f="全部">全部 '+winList.length+'</button>';
+    presentLvls.forEach(function(l){
+      var n=winList.filter(function(w){return (w.level||'未分级')===l;}).length;
+      h+='<button class="chip'+(curFilter===l?' on':'')+'" data-f="'+esc(l)+'">'+l+'级 '+n+'</button>';
+    });
+    distList.forEach(function(d){
+      var n=winList.filter(function(w){return w.district===d;}).length;
+      h+='<button class="chip'+(curFilter===d?' on':'')+'" data-f="'+esc(d)+'">'+esc(d)+' '+n+'</button>';
+    });
+    return h+'</div>';
+  }
+  function card(w){
+    var c=lvlColor(w.level);
+    var loc=[w.district,w.street,w.community].filter(function(x){return x&&x!=='市本级';}).join(' / ');
+    var h='<div class="win-card" style="border-left-color:'+c[0]+'">';
+    h+='<div class="wc-head"><span class="wc-name">'+esc(w.name||'未命名窗口')+'</span>'+lvlBadge(w.level);
+    if(loc)h+='<span class="wc-tag-dist">'+esc(loc)+'</span>';
+    h+='</div><div class="wc-body">';
+    if(w.address)h+='<div class="wc-row"><span class="k">📍</span><span>'+esc(w.address)+'</span></div>';
+    if(w.tel)h+='<div class="wc-row"><span class="k">📞</span><span>'+esc(w.tel)+'</span></div>';
+    if(w.office_time)h+='<div class="wc-row"><span class="k">🕘</span><span>'+esc(w.office_time)+'</span></div>';
+    if(w.org_name)h+='<div class="wc-row"><span class="k">🏛️</span><span>'+esc(w.org_name)+'</span></div>';
+    h+='</div></div>';
+    return h;
+  }
+  function body(){
+    var list=filtered();
+    if(!list.length)return '<div class="empty"><div class="ei">🗂️</div><div>该筛选下暂无窗口</div></div>';
+    var out='';
+    presentLvls.forEach(function(l){
+      var group=list.filter(function(w){return (w.level||'未分级')===l;});
+      if(!group.length)return;
+      var c=lvlColor(l);
+      out+='<div class="lvl-group"><div class="lvl-title">'+l+'级办理点<span class="lc" style="color:'+c[0]+';background:'+c[1]+'">'+group.length+'</span></div>';
+      // 层级内按区聚合（市本级不分）
+      var byDist={},order=[];
+      group.forEach(function(w){
+        var key=w.district||'市本级/未分区';
+        if(!(key in byDist)){byDist[key]=[];order.push(key);}
+        byDist[key].push(w);
+      });
+      order.sort(function(a,b){
+        if(a==='市本级/未分区')return -1;if(b==='市本级/未分区')return 1;
+        var ia=DISTRICTS.indexOf(a),ib=DISTRICTS.indexOf(b);
+        if(ia>=0&&ib>=0)return ia-ib;return a.localeCompare(b,'zh');
+      });
+      order.forEach(function(key){
+        var arr=byDist[key];
+        if(l!=='市'||order.length>1)out+='<div class="dist-sub">📍 '+esc(key)+'（'+arr.length+'）</div>';
+        out+='<div class="win-grid">'+arr.map(card).join('')+'</div>';
+      });
+      out+='</div>';
+    });
+    return out;
+  }
+  // 筛选 + 列表写入固定结果容器（保留 banner）
+  document.getElementById('resultBox').innerHTML=bar()+body();
+  wrap.querySelectorAll('.chip').forEach(function(ch){
+    ch.onclick=function(){curFilter=ch.getAttribute('data-f');renderWins(winList);};
+  });
+}
+
+boot();
+})();
+</script>
+</body>
+</html>
